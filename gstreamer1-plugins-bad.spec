@@ -1,7 +1,7 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.6.4
+Version:        1.8.1
 Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
@@ -30,10 +30,12 @@ BuildRequires:  gstreamer1-plugins-base-devel >= %{version}
 
 BuildRequires:  bzip2-devel
 BuildRequires:  check
+#BuildRequires:  cuda-devel
 BuildRequires:  dirac-devel
 BuildRequires:  exempi-devel
 BuildRequires:  faac-devel
 BuildRequires:  faad2-devel
+BuildRequires:  flite-devel
 BuildRequires:  game-music-emu-devel
 BuildRequires:  gettext-devel
 BuildRequires:  gobject-introspection-devel >= 1.31.1
@@ -44,10 +46,12 @@ BuildRequires:  ladspa-devel
 BuildRequires:  libcdaudio-devel
 BuildRequires:  libiptcdata-devel
 BuildRequires:  libmpcdec-devel
-BuildRequires:  libmusicbrainz-devel
+#BuildRequires:  libmusicbrainz-devel
 #BuildRequires:  libXt-devel
+#BuildRequires:  lv2-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  mesa-libGLU-devel
+#BuildRequires:  nvenc < 6.0
 BuildRequires:  orc-devel >= 0.4.17
 #BuildRequires:  wavpack-devel
 BuildRequires:  wildmidi-devel
@@ -77,6 +81,7 @@ BuildRequires:  pkgconfig(dvdnav) >= 4.1.2
 BuildRequires:  pkgconfig(fluidsynth) >= 1.0
 BuildRequires:  pkgconfig(gio-2.0)
 BuildRequires:  pkgconfig(gio-unix-2.0) >= 2.24
+BuildRequires:  pkgconfig(glesv2)
 #BuildRequires:  pkgconfig(glitz-glx)
 BuildRequires:  pkgconfig(gmodule-export-2.0)
 BuildRequires:  pkgconfig(gmodule-no-export-2.0)
@@ -97,10 +102,9 @@ BuildRequires:  pkgconfig(libexif) >= 0.6.16
 BuildRequires:  pkgconfig(libopenjpeg1)
 #BuildRequires:  pkgconfig(libopenni2) >= 0.26
 BuildRequires:  pkgconfig(libofa) >= 0.9.3
-BuildRequires:  pkgconfig(libmimic) >= 1.0
-BuildRequires:  pkgconfig(libmms) >= 0.4
+#BuildRequires:  pkgconfig(libmimic) >= 1.0
+#BuildRequires:  pkgconfig(libmms) >= 0.4
 BuildRequires:  pkgconfig(libmodplug)
-BuildRequires:  pkgconfig(libmpg123) >= 1.13
 BuildRequires:  pkgconfig(libpng) >= 1.0
 BuildRequires:  pkgconfig(librtmp)
 BuildRequires:  pkgconfig(libSoundTouch)
@@ -114,7 +118,7 @@ BuildRequires:  pkgconfig(libusb-1.0)
 BuildRequires:  pkgconfig(libwebp) >= 0.2.1
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.8
 BuildRequires:  pkgconfig(lrdf)
-BuildRequires:  pkgconfig(mjpegtools) >= 2.0.0
+#BuildRequires:  pkgconfig(mjpegtools) >= 2.0.0
 BuildRequires:  pkgconfig(neon) >= 0.27.0
 BuildRequires:  pkgconfig(neon) <= 0.30.99
 BuildRequires:  pkgconfig(nettle)
@@ -139,7 +143,7 @@ BuildRequires:  pkgconfig(x265)
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  pkgconfig(xcomposite)
 BuildRequires:  pkgconfig(zbar) >= 0.9
-#BuildRequires:  pkgconfig(zvbi-0.2)
+BuildRequires:  pkgconfig(zvbi-0.2)
 
 %description
 GStreamer is a streaming media framework, based on graphs of elements which
@@ -185,11 +189,14 @@ well enough, or the code is not of good enough quality.
 
 %build
 autoreconf -vif
+export CUDA_CFLAGS="$CUDA_CFLAGS -I%{_includedir}/cuda"
+export NVENCODE_CFLAGS="$NVENCODE_CFLAGS -I%{_includedir}/nvenc"
 %configure \
     --disable-rpath \
     --disable-silent-rules \
     --disable-fatal-warnings \
     --enable-experimental \
+    --with-cuda-prefix=%{_prefix} \
     --with-package-name="Fedora GStreamer-plugins-bad package" \
     --with-package-origin="http://negativo17.org"
 
@@ -221,19 +228,23 @@ find %{buildroot} -name '*.la' -delete
 %{_datadir}/gst-plugins-bad/%{majorminor}/opencv_haarcascades/fist.xml
 %{_datadir}/gst-plugins-bad/%{majorminor}/opencv_haarcascades/palm.xml
 
-%{_libdir}/girepository-1.0/GstGL-1.0.typelib
-%{_libdir}/girepository-1.0/GstInsertBin-1.0.typelib
-%{_libdir}/girepository-1.0/GstMpegts-1.0.typelib
+%{_datadir}/gir-%{majorminor}/GstPlayer-%{majorminor}.gir
+%{_libdir}/girepository-%{majorminor}/GstGL-%{majorminor}.typelib
+%{_libdir}/girepository-%{majorminor}/GstInsertBin-%{majorminor}.typelib
+%{_libdir}/girepository-%{majorminor}/GstMpegts-%{majorminor}.typelib
+%{_libdir}/girepository-%{majorminor}/GstPlayer-%{majorminor}.typelib
 
 %{_libdir}/libgstadaptivedemux-%{majorminor}.so.*
-%{_libdir}/libgstbasecamerabinsrc-%{majorminor}.so.*
+%{_libdir}/libgstbadaudio-%{majorminor}.so.*
 %{_libdir}/libgstbadbase-%{majorminor}.so.*
 %{_libdir}/libgstbadvideo-%{majorminor}.so.*
+%{_libdir}/libgstbasecamerabinsrc-%{majorminor}.so.*
 %{_libdir}/libgstcodecparsers-%{majorminor}.so.*
 %{_libdir}/libgstgl-%{majorminor}.so.*
 %{_libdir}/libgstinsertbin-%{majorminor}.so.*
 %{_libdir}/libgstmpegts-%{majorminor}.so.*
 %{_libdir}/libgstphotography-%{majorminor}.so.*
+%{_libdir}/libgstplayer-%{majorminor}.so.*
 %{_libdir}/libgsturidownloader-%{majorminor}.so.*
 %if 0%{?fedora}
 %{_libdir}/libgstwayland-%{majorminor}.so.*
@@ -272,7 +283,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstfbdevsink.so
 %{_libdir}/gstreamer-%{majorminor}/libgstfestival.so
 %{_libdir}/gstreamer-%{majorminor}/libgstfieldanalysis.so
-%{_libdir}/gstreamer-%{majorminor}/libgstfragmented.so
+%{_libdir}/gstreamer-%{majorminor}/libgstflite.so
 %{_libdir}/gstreamer-%{majorminor}/libgstfreeverb.so
 %{_libdir}/gstreamer-%{majorminor}/libgstfrei0r.so
 %{_libdir}/gstreamer-%{majorminor}/libgstgaudieffects.so
@@ -281,6 +292,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstgme.so
 %{_libdir}/gstreamer-%{majorminor}/libgstgsm.so
 %{_libdir}/gstreamer-%{majorminor}/libgstgtksink.so
+%{_libdir}/gstreamer-%{majorminor}/libgsthls.so
 %{_libdir}/gstreamer-%{majorminor}/libgstid3tag.so
 %{_libdir}/gstreamer-%{majorminor}/libgstinterlace.so
 %{_libdir}/gstreamer-%{majorminor}/libgstinter.so
@@ -290,19 +302,18 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstjpegformat.so
 %{_libdir}/gstreamer-%{majorminor}/libgstkate.so
 %{_libdir}/gstreamer-%{majorminor}/libgstladspa.so
-%{_libdir}/gstreamer-%{majorminor}/libgstliveadder.so
-%{_libdir}/gstreamer-%{majorminor}/libgstmimic.so
-%{_libdir}/gstreamer-%{majorminor}/libgstmms.so
+#%{_libdir}/gstreamer-%{majorminor}/libgstmimic.so
+#%{_libdir}/gstreamer-%{majorminor}/libgstmms.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmodplug.so
-%{_libdir}/gstreamer-%{majorminor}/libgstmpeg2enc.so
+#%{_libdir}/gstreamer-%{majorminor}/libgstmpeg2enc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmpegpsdemux.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmpegpsmux.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmpegtsdemux.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmpegtsmux.so
-%{_libdir}/gstreamer-%{majorminor}/libgstmpg123.so
-%{_libdir}/gstreamer-%{majorminor}/libgstmplex.so
+#%{_libdir}/gstreamer-%{majorminor}/libgstmplex.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmxf.so
 %{_libdir}/gstreamer-%{majorminor}/libgstneonhttpsrc.so
+%{_libdir}/gstreamer-%{majorminor}/libgstnetsim.so
 %{_libdir}/gstreamer-%{majorminor}/libgstofa.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenal.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopencv.so
@@ -310,16 +321,16 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstopengl.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenh264.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenjpeg.so
-%{_libdir}/gstreamer-%{majorminor}/libgstopus.so
+%{_libdir}/gstreamer-%{majorminor}/libgstopusparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstpcapparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstpnm.so
+%{_libdir}/gstreamer-%{majorminor}/libgstqtsink.so
 %{_libdir}/gstreamer-%{majorminor}/libgstrawparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstremovesilence.so
 %{_libdir}/gstreamer-%{majorminor}/libgstresindvd.so
 %{_libdir}/gstreamer-%{majorminor}/libgstrfbsrc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstrsvg.so
 %{_libdir}/gstreamer-%{majorminor}/libgstrtmp.so
-%{_libdir}/gstreamer-%{majorminor}/libgstrtpbad.so
 %{_libdir}/gstreamer-%{majorminor}/libgstrtponvif.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsbc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstschro.so
@@ -336,10 +347,12 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstsrtp.so
 %{_libdir}/gstreamer-%{majorminor}/libgststereo.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsubenc.so
+%{_libdir}/gstreamer-%{majorminor}/libgstteletextdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstuvch264.so
 %{_libdir}/gstreamer-%{majorminor}/libgstvcdsrc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstvdpau.so
 %{_libdir}/gstreamer-%{majorminor}/libgstvideofiltersbad.so
+%{_libdir}/gstreamer-%{majorminor}/libgstvideoframe_audiolevel.so
 %{_libdir}/gstreamer-%{majorminor}/libgstvideoparsersbad.so
 %{_libdir}/gstreamer-%{majorminor}/libgstvideosignal.so
 %{_libdir}/gstreamer-%{majorminor}/libgstvmnc.so
@@ -350,7 +363,6 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgsty4mdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstyadif.so
 %{_libdir}/gstreamer-%{majorminor}/libgstzbar.so
-%{_libdir}/gstreamer-%{majorminor}/libqtsink.so
 %if 0%{?fedora}
 %{_libdir}/gstreamer-%{majorminor}/libgstwaylandsink.so
 %endif
@@ -372,6 +384,11 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Sat Jun 04 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.1-1
+- Update to 1.8.1.
+- Enable flite, GLES.
+- Leave NVENC disabled as it requires NVENC 5.x for building.
+
 * Fri Apr 15 2016 Simone Caronni <negativo17@gmail.com> - 1:1.6.4-1
 - Update to 1.6.4.
 
