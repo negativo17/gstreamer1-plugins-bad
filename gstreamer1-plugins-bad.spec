@@ -2,7 +2,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.8.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -30,7 +30,6 @@ BuildRequires:  gstreamer1-plugins-base-devel >= %{version}
 
 BuildRequires:  bzip2-devel
 BuildRequires:  check
-#BuildRequires:  cuda-devel
 BuildRequires:  dirac-devel
 BuildRequires:  exempi-devel
 BuildRequires:  faac-devel
@@ -51,11 +50,17 @@ BuildRequires:  libmpcdec-devel
 #BuildRequires:  lv2-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  mesa-libGLU-devel
-#BuildRequires:  nvenc < 6.0
 BuildRequires:  orc-devel >= 0.4.17
 #BuildRequires:  wavpack-devel
 BuildRequires:  wildmidi-devel
 #BuildRequires:  xvidcore-devel
+
+%ifarch x86_64
+# Nvidia encoder plugin build requirements
+BuildRequires:  cuda-devel >= 6.5
+BuildRequires:  nvenc >= 5.0
+BuildRequires:  nvidia-driver-devel
+%endif
 
 %if 0%{?fedora}
 BuildRequires:  pkgconfig(gtk+-wayland-3.0)
@@ -97,7 +102,7 @@ BuildRequires:  pkgconfig(libchromaprint)
 BuildRequires:  pkgconfig(libcrypto)
 BuildRequires:  pkgconfig(libcurl) >= 7.35.0
 #BuildRequires:  pkgconfig(libdc1394-2) >= 2.0.0
-#BuildRequires:  pkgconfig(libde265) >= 0.9
+BuildRequires:  pkgconfig(libde265) >= 0.9
 BuildRequires:  pkgconfig(libexif) >= 0.6.16
 BuildRequires:  pkgconfig(libopenjpeg1)
 #BuildRequires:  pkgconfig(libopenni2) >= 0.26
@@ -167,7 +172,25 @@ operate on media data.
 gstreamer-plugins-bad contains plug-ins that aren't tested well enough, or the
 code is not of good enough quality.
 
-This package contains the fluidsynth plugin which allows playback of midi files.
+%ifarch x86_64
+%package nvidia
+Summary:        GStreamer "bad" plugins Nvidia plugins
+Requires:       %{name}%{?_isa} = %{?epoch}:%{version}-%{release}
+Requires:       soundfont2-default
+Obsoletes:      %{name}-free-fluidsynth < %{?epoch}:%{version}-%{release}
+Provides:       %{name}-free-fluidsynth = %{?epoch}:%{version}-%{release}
+Provides:       %{name}-free-fluidsynth%{?_isa} = %{?epoch}:%{version}-%{release}
+
+%description nvidia
+GStreamer is a streaming media framework, based on graphs of elements which
+operate on media data.
+
+gstreamer-plugins-bad contains plug-ins that aren't tested well enough, or the
+code is not of good enough quality.
+
+This package contains the Nvidia NVENC-based H.264 encoder for GPU-accelerated
+video encoding on Nvidia hardware.
+%endif
 
 %package devel
 Summary:        Development files for the GStreamer media framework "bad" plug-ins
@@ -302,6 +325,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstjpegformat.so
 %{_libdir}/gstreamer-%{majorminor}/libgstkate.so
 %{_libdir}/gstreamer-%{majorminor}/libgstladspa.so
+%{_libdir}/gstreamer-%{majorminor}/libgstlibde265.so
 #%{_libdir}/gstreamer-%{majorminor}/libgstmimic.so
 #%{_libdir}/gstreamer-%{majorminor}/libgstmms.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmodplug.so
@@ -372,6 +396,11 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstmidi.so
 %{_libdir}/gstreamer-%{majorminor}/libgstwildmidi.so
 
+%ifarch x86_64
+%files nvidia
+%{_libdir}/gstreamer-%{majorminor}/libgstnvenc.so
+%endif
+
 %files devel
 %doc %{_datadir}/gtk-doc/html/gst-plugins-bad-plugins-%{majorminor}
 %doc %{_datadir}/gtk-doc/html/gst-plugins-bad-libs-%{majorminor}
@@ -384,6 +413,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Thu Jun 09 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.1-2
+- Enable libde265 and NVENC (x86_64 only) plugin.
+
 * Sat Jun 04 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.1-1
 - Update to 1.8.1.
 - Enable flite, GLES.
