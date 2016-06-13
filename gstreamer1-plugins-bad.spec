@@ -2,7 +2,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.8.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -21,6 +21,9 @@ Provides:       %{name}-free-extras%{?_isa} = %{?epoch}:%{version}-%{release}
 Obsoletes:      %{name}-freeworld < %{?epoch}:%{version}-%{release}
 Provides:       %{name}-freeworld = %{?epoch}:%{version}-%{release}
 Provides:       %{name}-freeworld%{?_isa} = %{?epoch}:%{version}-%{release}
+Obsoletes:      gstreamer1-plugin-openh264 < %{?epoch}:%{version}-%{release}
+Provides:       gstreamer1-plugin-openh264 = %{?epoch}:%{version}-%{release}
+Provides:       gstreamer1-plugin-openh264%{?_isa} = %{?epoch}:%{version}-%{release}
 
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -56,7 +59,7 @@ BuildRequires:  wildmidi-devel
 #BuildRequires:  xvidcore-devel
 
 %ifarch x86_64
-# Nvidia encoder plugin build requirements
+# Nvidia encoder (NVENC) plugin build requirements
 BuildRequires:  cuda-devel >= 6.5
 BuildRequires:  nvenc >= 5.0
 BuildRequires:  nvidia-driver-devel
@@ -173,22 +176,18 @@ gstreamer-plugins-bad contains plug-ins that aren't tested well enough, or the
 code is not of good enough quality.
 
 %ifarch x86_64
-%package nvidia
-Summary:        GStreamer "bad" plugins Nvidia plugins
+%package nvenc
+Summary:        GStreamer "bad" plugins Nvidia Encoder (NVENC) plugin
 Requires:       %{name}%{?_isa} = %{?epoch}:%{version}-%{release}
-Requires:       soundfont2-default
-Obsoletes:      %{name}-free-fluidsynth < %{?epoch}:%{version}-%{release}
-Provides:       %{name}-free-fluidsynth = %{?epoch}:%{version}-%{release}
-Provides:       %{name}-free-fluidsynth%{?_isa} = %{?epoch}:%{version}-%{release}
 
-%description nvidia
+%description nvenc
 GStreamer is a streaming media framework, based on graphs of elements which
 operate on media data.
 
 gstreamer-plugins-bad contains plug-ins that aren't tested well enough, or the
 code is not of good enough quality.
 
-This package contains the Nvidia NVENC-based H.264 encoder for GPU-accelerated
+This package contains the Nvidia H.264/H.265 encoder (NVENC) for GPU-accelerated
 video encoding on Nvidia hardware.
 %endif
 
@@ -397,7 +396,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstwildmidi.so
 
 %ifarch x86_64
-%files nvidia
+%files nvenc
 %{_libdir}/gstreamer-%{majorminor}/libgstnvenc.so
 %endif
 
@@ -413,6 +412,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Mon Jun 13 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.1-3
+- Obsoletes gstreamer1-plugin-openh264 from fedora-cisco-openh264 repository.
+
 * Thu Jun 09 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.1-2
 - Enable libde265 and NVENC (x86_64 only) plugin.
 
