@@ -2,7 +2,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.8.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -110,8 +110,8 @@ BuildRequires:  pkgconfig(libexif) >= 0.6.16
 BuildRequires:  pkgconfig(libopenjpeg1)
 #BuildRequires:  pkgconfig(libopenni2) >= 0.26
 BuildRequires:  pkgconfig(libofa) >= 0.9.3
-#BuildRequires:  pkgconfig(libmimic) >= 1.0
-#BuildRequires:  pkgconfig(libmms) >= 0.4
+BuildRequires:  pkgconfig(libmimic) >= 1.0
+BuildRequires:  pkgconfig(libmms) >= 0.4
 BuildRequires:  pkgconfig(libmodplug)
 BuildRequires:  pkgconfig(libpng) >= 1.0
 BuildRequires:  pkgconfig(librtmp)
@@ -325,8 +325,8 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstkate.so
 %{_libdir}/gstreamer-%{majorminor}/libgstladspa.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlibde265.so
-#%{_libdir}/gstreamer-%{majorminor}/libgstmimic.so
-#%{_libdir}/gstreamer-%{majorminor}/libgstmms.so
+%{_libdir}/gstreamer-%{majorminor}/libgstmimic.so
+%{_libdir}/gstreamer-%{majorminor}/libgstmms.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmodplug.so
 #%{_libdir}/gstreamer-%{majorminor}/libgstmpeg2enc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmpegpsdemux.so
@@ -412,6 +412,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Tue Jun 14 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.1-4
+- Enable mms and mimic plugins.
+
 * Mon Jun 13 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.1-3
 - Obsoletes gstreamer1-plugin-openh264 from fedora-cisco-openh264 repository.
 
