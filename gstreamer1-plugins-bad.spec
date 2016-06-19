@@ -160,7 +160,7 @@ operate on media data.
 This package contains plug-ins that aren't tested well enough, or the code is
 not of good enough quality.
 
-%package fluidsynth
+%package        fluidsynth
 Summary:        GStreamer "bad" plugins fluidsynth plugin
 Requires:       %{name}%{?_isa} = %{?epoch}:%{version}-%{release}
 Requires:       soundfont2-default
@@ -168,7 +168,7 @@ Obsoletes:      %{name}-free-fluidsynth < %{?epoch}:%{version}-%{release}
 Provides:       %{name}-free-fluidsynth = %{?epoch}:%{version}-%{release}
 Provides:       %{name}-free-fluidsynth%{?_isa} = %{?epoch}:%{version}-%{release}
 
-%description fluidsynth
+%description    fluidsynth
 GStreamer is a streaming media framework, based on graphs of elements which
 operate on media data.
 
@@ -176,11 +176,11 @@ gstreamer-plugins-bad contains plug-ins that aren't tested well enough, or the
 code is not of good enough quality.
 
 %ifarch x86_64
-%package nvenc
+%package        nvenc
 Summary:        GStreamer "bad" plugins Nvidia Encoder (NVENC) plugin
 Requires:       %{name}%{?_isa} = %{?epoch}:%{version}-%{release}
 
-%description nvenc
+%description    nvenc
 GStreamer is a streaming media framework, based on graphs of elements which
 operate on media data.
 
@@ -191,7 +191,7 @@ This package contains the Nvidia H.264/H.265 encoder (NVENC) for GPU-accelerated
 video encoding on Nvidia hardware.
 %endif
 
-%package devel
+%package        devel
 Summary:        Development files for the GStreamer media framework "bad" plug-ins
 Requires:       %{name}%{?_isa} = %{?epoch}:%{version}-%{release}
 Requires:       gstreamer1-plugins-base-devel
@@ -199,7 +199,7 @@ Obsoletes:      %{name}-free-devel < %{?epoch}:%{version}-%{release}
 Provides:       %{name}-free-devel = %{?epoch}:%{version}-%{release}
 Provides:       %{name}-free-devel%{?_isa} = %{?epoch}:%{version}-%{release}
 
-%description devel
+%description    devel
 GStreamer is a streaming media framework, based on graphs of elements which
 operate on media data.
 
