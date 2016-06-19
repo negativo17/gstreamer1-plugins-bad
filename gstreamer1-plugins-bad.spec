@@ -1,8 +1,8 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.8.1
-Release:        5%{?dist}
+Version:        1.8.2
+Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -28,8 +28,8 @@ Provides:       gstreamer1-plugin-openh264%{?_isa} = %{?epoch}:%{version}-%{rele
 BuildRequires:  autoconf
 BuildRequires:  automake
 
-BuildRequires:  gstreamer1-devel >= %{version}
-BuildRequires:  gstreamer1-plugins-base-devel >= %{version}
+BuildRequires:  gstreamer1-devel >= 1.8.0
+BuildRequires:  gstreamer1-plugins-base-devel >= 1.8.0
 
 BuildRequires:  bzip2-devel
 BuildRequires:  check
@@ -39,7 +39,8 @@ BuildRequires:  faac-devel
 BuildRequires:  faad2-devel
 BuildRequires:  flite-devel
 BuildRequires:  game-music-emu-devel
-BuildRequires:  gettext-devel
+BuildRequires:  gettext-devel >= 0.17
+BuildRequires:  gtk-doc >= 1.12
 BuildRequires:  gobject-introspection-devel >= 1.31.1
 BuildRequires:  gsm-devel
 BuildRequires:  gtk-doc
@@ -172,8 +173,10 @@ Provides:       %{name}-free-fluidsynth%{?_isa} = %{?epoch}:%{version}-%{release
 GStreamer is a streaming media framework, based on graphs of elements which
 operate on media data.
 
-gstreamer-plugins-bad contains plug-ins that aren't tested well enough, or the
-code is not of good enough quality.
+This package contains plug-ins that aren't tested well enough, or the code is
+not of good enough quality.
+
+This package contains the fluidsynth plugin
 
 %ifarch x86_64
 %package        nvenc
@@ -184,8 +187,8 @@ Requires:       %{name}%{?_isa} = %{?epoch}:%{version}-%{release}
 GStreamer is a streaming media framework, based on graphs of elements which
 operate on media data.
 
-gstreamer-plugins-bad contains plug-ins that aren't tested well enough, or the
-code is not of good enough quality.
+This package contains plug-ins that aren't tested well enough, or the code is
+not of good enough quality.
 
 This package contains the Nvidia H.264/H.265 encoder (NVENC) for GPU-accelerated
 video encoding on Nvidia hardware.
@@ -218,6 +221,7 @@ export NVENCODE_CFLAGS="$NVENCODE_CFLAGS -I%{_includedir}/nvenc"
     --disable-silent-rules \
     --disable-fatal-warnings \
     --enable-experimental \
+    --enable-gtk-doc \
     --with-cuda-prefix=%{_prefix} \
     --with-package-name="Fedora GStreamer-plugins-bad package" \
     --with-package-origin="http://negativo17.org"
@@ -401,8 +405,7 @@ find %{buildroot} -name '*.la' -delete
 %endif
 
 %files devel
-%doc %{_datadir}/gtk-doc/html/gst-plugins-bad-plugins-%{majorminor}
-%doc %{_datadir}/gtk-doc/html/gst-plugins-bad-libs-%{majorminor}
+%doc %{_datadir}/gtk-doc/html/*
 %{_datadir}/gir-1.0/GstGL-1.0.gir
 %{_datadir}/gir-1.0/GstInsertBin-%{majorminor}.gir
 %{_datadir}/gir-1.0/GstMpegts-%{majorminor}.gir
@@ -412,6 +415,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Sun Jun 19 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.2-1
+- Update to 1.8.2.
+
 * Wed Jun 15 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.1-5
 - Enable mjpegtools plugin.
 
