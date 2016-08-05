@@ -2,7 +2,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.8.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -21,6 +21,9 @@ Provides:       %{name}-free-extras%{?_isa} = %{?epoch}:%{version}-%{release}
 Obsoletes:      %{name}-freeworld < %{?epoch}:%{version}-%{release}
 Provides:       %{name}-freeworld = %{?epoch}:%{version}-%{release}
 Provides:       %{name}-freeworld%{?_isa} = %{?epoch}:%{version}-%{release}
+Obsoletes:      %{name}-nonfree < %{?epoch}:%{version}-%{release}
+Provides:       %{name}-nonfree = %{?epoch}:%{version}-%{release}
+Provides:       %{name}-nonfree%{?_isa} = %{?epoch}:%{version}-%{release}
 Obsoletes:      gstreamer1-plugin-openh264 < %{?epoch}:%{version}-%{release}
 Provides:       gstreamer1-plugin-openh264 = %{?epoch}:%{version}-%{release}
 Provides:       gstreamer1-plugin-openh264%{?_isa} = %{?epoch}:%{version}-%{release}
@@ -415,6 +418,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Fri Aug 05 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.2-2
+- Obsoletes nonfree as well.
+
 * Sun Jun 19 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.2-1
 - Update to 1.8.2.
 
