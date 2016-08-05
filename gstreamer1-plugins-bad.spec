@@ -2,7 +2,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.6.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -21,6 +21,9 @@ Provides:       %{name}-free-extras%{?_isa} = %{?epoch}:%{version}-%{release}
 Obsoletes:      %{name}-freeworld < %{?epoch}:%{version}-%{release}
 Provides:       %{name}-freeworld = %{?epoch}:%{version}-%{release}
 Provides:       %{name}-freeworld%{?_isa} = %{?epoch}:%{version}-%{release}
+Obsoletes:      %{name}-nonfree < %{?epoch}:%{version}-%{release}
+Provides:       %{name}-nonfree = %{?epoch}:%{version}-%{release}
+Provides:       %{name}-nonfree%{?_isa} = %{?epoch}:%{version}-%{release}
 
 BuildRequires:  autoconf
 BuildRequires:  automake
@@ -372,6 +375,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Fri Aug 05 2016 Simone Caronni <negativo17@gmail.com> - 1:1.6.4-2
+- Obsoletes nonfree as well.
+
 * Fri Apr 15 2016 Simone Caronni <negativo17@gmail.com> - 1:1.6.4-1
 - Update to 1.6.4.
 
