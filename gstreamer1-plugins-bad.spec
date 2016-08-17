@@ -1,8 +1,8 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.8.2
-Release:        2%{?dist}
+Version:        1.9.1
+Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -31,8 +31,8 @@ Provides:       gstreamer1-plugin-openh264%{?_isa} = %{?epoch}:%{version}-%{rele
 BuildRequires:  autoconf
 BuildRequires:  automake
 
-BuildRequires:  gstreamer1-devel >= 1.8.0
-BuildRequires:  gstreamer1-plugins-base-devel >= 1.8.0
+BuildRequires:  gstreamer1-devel >= 1.9.1
+BuildRequires:  gstreamer1-plugins-base-devel >= 1.9.1
 
 BuildRequires:  bzip2-devel
 BuildRequires:  check
@@ -43,10 +43,9 @@ BuildRequires:  faad2-devel
 BuildRequires:  flite-devel
 BuildRequires:  game-music-emu-devel
 BuildRequires:  gettext-devel >= 0.17
-BuildRequires:  gtk-doc >= 1.12
 BuildRequires:  gobject-introspection-devel >= 1.31.1
 BuildRequires:  gsm-devel
-BuildRequires:  gtk-doc
+BuildRequires:  gtk-doc >= 1.12
 #BuildRequires:  jasper-devel
 BuildRequires:  ladspa-devel
 BuildRequires:  libcdaudio-devel
@@ -59,8 +58,9 @@ BuildRequires:  mesa-libGL-devel
 BuildRequires:  mesa-libGLU-devel
 BuildRequires:  orc-devel >= 0.4.17
 #BuildRequires:  wavpack-devel
+#BuildRequires:  spc-devel
 BuildRequires:  wildmidi-devel
-#BuildRequires:  xvidcore-devel
+BuildRequires:  xvidcore-devel
 
 %ifarch x86_64
 # Nvidia encoder (NVENC) plugin build requirements
@@ -137,7 +137,7 @@ BuildRequires:  pkgconfig(nettle)
 BuildRequires:  pkgconfig(OpenEXR)
 BuildRequires:  pkgconfig(openal)
 BuildRequires:  pkgconfig(opencv) >= 2.3.0
-BuildRequires:  pkgconfig(opencv) < 2.5.0
+BuildRequires:  pkgconfig(opencv) <= 3.1.0
 BuildRequires:  pkgconfig(openh264) >= 1.3.0
 BuildRequires:  pkgconfig(openssl) >= 1.0.1
 BuildRequires:  pkgconfig(opus) >= 0.9.4
@@ -151,6 +151,7 @@ BuildRequires:  pkgconfig(tiger) >= 0.3.2
 BuildRequires:  pkgconfig(vdpau)
 BuildRequires:  pkgconfig(vo-aacenc) >= 0.1.0
 BuildRequires:  pkgconfig(vo-amrwbenc) >= 0.1.0
+#BuildRequires:  pkgconfig(webrtcdsp) >= 0.2
 BuildRequires:  pkgconfig(x265)
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  pkgconfig(xcomposite)
@@ -330,6 +331,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstjp2kdecimator.so
 %{_libdir}/gstreamer-%{majorminor}/libgstjpegformat.so
 %{_libdir}/gstreamer-%{majorminor}/libgstkate.so
+%{_libdir}/gstreamer-%{majorminor}/libgstkmssink.so
 %{_libdir}/gstreamer-%{majorminor}/libgstladspa.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlibde265.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmimic.so
@@ -341,6 +343,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstmpegtsdemux.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmpegtsmux.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmplex.so
+%{_libdir}/gstreamer-%{majorminor}/libgstmusepack.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmxf.so
 %{_libdir}/gstreamer-%{majorminor}/libgstneonhttpsrc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstnetsim.so
@@ -418,6 +421,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Wed Aug 17 2016 Simone Caronni <negativo17@gmail.com> - 1:1.9.1-1
+- Update to 1.9.1.
+
 * Fri Aug 05 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.2-2
 - Obsoletes nonfree as well.
 
