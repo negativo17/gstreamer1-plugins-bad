@@ -62,7 +62,6 @@ BuildRequires:  pkgconfig(wayland-client) >= 1.4.0
 BuildRequires:  pkgconfig(wayland-cursor) >= 1.0
 %endif
 
-BuildRequires:  pkgconfig(bluez) < 5.0
 BuildRequires:  pkgconfig(clutter-1.0) >= 1.8
 BuildRequires:  pkgconfig(clutter-glx-1.0) >= 1.8
 BuildRequires:  pkgconfig(clutter-x11-1.0) >= 1.8
