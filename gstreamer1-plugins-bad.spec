@@ -2,7 +2,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.9.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -422,6 +422,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Sun Oct 02 2016 Simone Caronni <negativo17@gmail.com> - 1:1.9.1-3
+- Rebuild for x265 update.
+
 * Sat Aug 20 2016 Simone Caronni <negativo17@gmail.com> - 1:1.9.1-2
 - Enable dc1394 plugin, rebuild for NVENC 7.0.1.
 
