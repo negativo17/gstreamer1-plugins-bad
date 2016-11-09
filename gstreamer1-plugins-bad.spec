@@ -2,7 +2,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.9.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -59,6 +59,7 @@ BuildRequires:  mesa-libGLU-devel
 BuildRequires:  orc-devel >= 0.4.17
 #BuildRequires:  wavpack-devel
 #BuildRequires:  spc-devel
+#BuildRequires:  vulkan-devel
 BuildRequires:  wildmidi-devel
 BuildRequires:  xvidcore-devel
 
@@ -67,18 +68,6 @@ BuildRequires:  xvidcore-devel
 BuildRequires:  cuda-devel >= 6.5
 BuildRequires:  nvenc >= 5.0
 BuildRequires:  nvidia-driver-devel
-%endif
-
-%if 0%{?fedora}
-BuildRequires:  pkgconfig(gtk+-wayland-3.0)
-BuildRequires:  pkgconfig(Qt5Core)
-BuildRequires:  pkgconfig(Qt5Gui)
-BuildRequires:  pkgconfig(Qt5Quick)
-BuildRequires:  pkgconfig(Qt5WaylandClient)
-BuildRequires:  pkgconfig(Qt5X11Extras)
-BuildRequires:  pkgconfig(wayland-client) >= 1.4.0
-BuildRequires:  pkgconfig(wayland-cursor) >= 1.0
-#BuildRequires:  pkgconfig(wayland-cursor) >= 9.0
 %endif
 
 BuildRequires:  pkgconfig(bluez) >= 5.0
@@ -90,6 +79,7 @@ BuildRequires:  pkgconfig(clutter-x11-1.0) >= 1.8
 #BuildRequires:  pkgconfig(daaladec)
 BuildRequires:  pkgconfig(dvdread) >= 4.1.2
 BuildRequires:  pkgconfig(dvdnav) >= 4.1.2
+#BuildRequires:  pkgconfig(fdk-aac)
 BuildRequires:  pkgconfig(fluidsynth) >= 1.0
 BuildRequires:  pkgconfig(gio-2.0)
 BuildRequires:  pkgconfig(gio-unix-2.0) >= 2.24
@@ -100,6 +90,7 @@ BuildRequires:  pkgconfig(gmodule-no-export-2.0)
 #BuildRequires:  pkgconfig(graphene-1.0) >= 1.0.0
 BuildRequires:  pkgconfig(gtk+-3.0) >= 3.15
 #BuildRequires:  pkgconfig(gtk+-x11-2.0)
+BuildRequires:  pkgconfig(gtk+-wayland-3.0)
 BuildRequires:  pkgconfig(gtk+-x11-3.0)
 BuildRequires:  pkgconfig(gudev-1.0)
 BuildRequires:  pkgconfig(kate) >= 0.1.7
@@ -126,9 +117,10 @@ BuildRequires:  pkgconfig(libssh2) >= 1.4.3
 #BuildRequires:  pkgconfig(libtimemmgr)
 #BuildRequires:  pkgconfig(libtimidity)
 BuildRequires:  pkgconfig(libusb-1.0)
-#BuildRequires:  pkgconfig(libvisual-0.4) >= 0.4.0
+BuildRequires:  pkgconfig(libvisual-0.4) >= 0.4.0
 BuildRequires:  pkgconfig(libwebp) >= 0.2.1
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.8
+BuildRequires:  pkgconfig(lilv-0)
 BuildRequires:  pkgconfig(lrdf)
 BuildRequires:  pkgconfig(mjpegtools) >= 2.0.0
 BuildRequires:  pkgconfig(neon) >= 0.27.0
@@ -141,6 +133,11 @@ BuildRequires:  pkgconfig(opencv) <= 3.1.0
 BuildRequires:  pkgconfig(openh264) >= 1.3.0
 BuildRequires:  pkgconfig(openssl) >= 1.0.1
 BuildRequires:  pkgconfig(opus) >= 0.9.4
+BuildRequires:  pkgconfig(Qt5Core)
+BuildRequires:  pkgconfig(Qt5Gui)
+BuildRequires:  pkgconfig(Qt5Quick)
+BuildRequires:  pkgconfig(Qt5WaylandClient)
+BuildRequires:  pkgconfig(Qt5X11Extras)
 BuildRequires:  pkgconfig(sbc) >= 1.0
 BuildRequires:  pkgconfig(schroedinger-1.0) >= 1.0.10
 #BuildRequires:  pkgconfig(sdl) >= 1.2.0
@@ -151,6 +148,8 @@ BuildRequires:  pkgconfig(tiger) >= 0.3.2
 BuildRequires:  pkgconfig(vdpau)
 BuildRequires:  pkgconfig(vo-aacenc) >= 0.1.0
 BuildRequires:  pkgconfig(vo-amrwbenc) >= 0.1.0
+BuildRequires:  pkgconfig(wayland-client) >= 1.4.0
+BuildRequires:  pkgconfig(wayland-cursor) >= 1.0
 #BuildRequires:  pkgconfig(webrtcdsp) >= 0.2
 BuildRequires:  pkgconfig(x265)
 BuildRequires:  pkgconfig(x11)
@@ -243,7 +242,6 @@ find %{buildroot} -name '*.la' -delete
 %postun -p /sbin/ldconfig
 
 %files -f gst-plugins-bad-%{majorminor}.lang
-%{!?_licensedir:%global license %%doc}
 %license COPYING COPYING.LIB
 %doc AUTHORS README REQUIREMENTS
 %{_datadir}/appdata/*.xml
@@ -276,9 +274,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/libgstphotography-%{majorminor}.so.*
 %{_libdir}/libgstplayer-%{majorminor}.so.*
 %{_libdir}/libgsturidownloader-%{majorminor}.so.*
-%if 0%{?fedora}
 %{_libdir}/libgstwayland-%{majorminor}.so.*
-%endif
 
 # Plugins
 %{_libdir}/gstreamer-%{majorminor}/libgstaccurip.so
@@ -358,7 +354,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstopusparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstpcapparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstpnm.so
-%{_libdir}/gstreamer-%{majorminor}/libgstqtsink.so
+%{_libdir}/gstreamer-%{majorminor}/libgstqmlgl.so
 %{_libdir}/gstreamer-%{majorminor}/libgstrawparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstremovesilence.so
 %{_libdir}/gstreamer-%{majorminor}/libgstresindvd.so
@@ -380,8 +376,10 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstspeed.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsrtp.so
 %{_libdir}/gstreamer-%{majorminor}/libgststereo.so
+%{_libdir}/gstreamer-%{majorminor}/libgstlv2.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsubenc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstteletextdec.so
+%{_libdir}/gstreamer-%{majorminor}/libgsttimecode.so
 %{_libdir}/gstreamer-%{majorminor}/libgstuvch264.so
 %{_libdir}/gstreamer-%{majorminor}/libgstvcdsrc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstvdpau.so
@@ -397,9 +395,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgsty4mdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstyadif.so
 %{_libdir}/gstreamer-%{majorminor}/libgstzbar.so
-%if 0%{?fedora}
 %{_libdir}/gstreamer-%{majorminor}/libgstwaylandsink.so
-%endif
 
 %files fluidsynth
 %{_libdir}/gstreamer-%{majorminor}/libgstfluidsynthmidi.so
@@ -422,8 +418,12 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Wed Nov 09 2016 Simone Caronni <negativo17@gmail.com> - 1:1.9.2-2
+- Rebuild for OpenH264 update.
+
 * Thu Nov 03 2016 Simone Caronni <negativo17@gmail.com> - 1:1.9.2-1
 - Update to 1.9.2.
+- Enable libvisual, lilv plugins.
 
 * Sun Oct 02 2016 Simone Caronni <negativo17@gmail.com> - 1:1.9.1-3
 - Rebuild for x265 update.
