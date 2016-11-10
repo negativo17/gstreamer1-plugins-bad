@@ -1,8 +1,17 @@
+# Todo:
+# daala
+# dtsdec
+# musepack
+# openni2
+# pvr
+# spc
+# webrtc-audio-processing
+
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.9.2
-Release:        2%{?dist}
+Version:        1.10.0
+Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -418,6 +427,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Thu Nov 10 2016 Simone Caronni <negativo17@gmail.com> - 1:1.10.0-1
+- Update to 1.10.0.
+
 * Wed Nov 09 2016 Simone Caronni <negativo17@gmail.com> - 1:1.9.2-2
 - Rebuild for OpenH264 update.
 
