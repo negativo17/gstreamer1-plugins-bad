@@ -367,7 +367,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstopusparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstpcapparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstpnm.so
-%{_libdir}/gstreamer-%{majorminor}/libgstqtsink.so
+%{_libdir}/gstreamer-%{majorminor}/libgstqmlgl.so
 %{_libdir}/gstreamer-%{majorminor}/libgstrawparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstremovesilence.so
 %{_libdir}/gstreamer-%{majorminor}/libgstresindvd.so
@@ -390,6 +390,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstsrtp.so
 %{_libdir}/gstreamer-%{majorminor}/libgststereo.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsubenc.so
+%{_libdir}/gstreamer-%{majorminor}/libgsttimecode.so
 %{_libdir}/gstreamer-%{majorminor}/libgstteletextdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstuvch264.so
 %{_libdir}/gstreamer-%{majorminor}/libgstvcdsrc.so
