@@ -10,7 +10,7 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.10.0
+Version:        1.10.1
 Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
@@ -40,8 +40,8 @@ Provides:       gstreamer1-plugin-openh264%{?_isa} = %{?epoch}:%{version}-%{rele
 BuildRequires:  autoconf
 BuildRequires:  automake
 
-BuildRequires:  gstreamer1-devel >= 1.9.1
-BuildRequires:  gstreamer1-plugins-base-devel >= 1.9.1
+BuildRequires:  gstreamer1-devel >= 1.10.1
+BuildRequires:  gstreamer1-plugins-base-devel >= 1.10.1
 
 BuildRequires:  bzip2-devel
 BuildRequires:  check
@@ -428,6 +428,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Mon Nov 28 2016 Simone Caronni <negativo17@gmail.com> - 1:1.10.1-1
+- Update to 1.10.1.
+
 * Thu Nov 10 2016 Simone Caronni <negativo17@gmail.com> - 1:1.10.0-1
 - Update to 1.10.0.
 
