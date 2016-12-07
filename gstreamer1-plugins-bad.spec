@@ -2,7 +2,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.8.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -10,6 +10,7 @@ URL:            http://gstreamer.freedesktop.org/
 
 Source0:        http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Source1:        gstreamer-bad.appdata.xml
+Patch0:         0001-vmncdec-Sanity-check-width-height-before-using-it.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -214,6 +215,7 @@ well enough, or the code is not of good enough quality.
 
 %prep
 %setup -q -n gst-plugins-bad-%{version}
+%patch0 -p1
 
 %build
 autoreconf -vif
@@ -418,6 +420,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Wed Dec 07 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.3-4
+- Fix Integer overflow when allocating render buffer in vmnc decoder.
+
 * Wed Nov 09 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.3-3
 - Rebuild for OpenH264 update.
 
