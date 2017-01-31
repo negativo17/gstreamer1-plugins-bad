@@ -46,8 +46,8 @@ Provides:       gstreamer1-plugin-openh264%{?_isa} = %{?epoch}:%{version}-%{rele
 BuildRequires:  autoconf
 BuildRequires:  automake
 
-BuildRequires:  gstreamer1-devel >= 1.10.1
-BuildRequires:  gstreamer1-plugins-base-devel >= 1.10.1
+BuildRequires:  gstreamer1-devel >= %{version}
+BuildRequires:  gstreamer1-plugins-base-devel >= %{version}
 
 BuildRequires:  bzip2-devel
 BuildRequires:  check
