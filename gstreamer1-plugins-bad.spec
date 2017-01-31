@@ -10,8 +10,8 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.10.2
-Release:        2%{?dist}
+Version:        1.10.3
+Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -30,9 +30,15 @@ Provides:       %{name}-free-extras%{?_isa} = %{?epoch}:%{version}-%{release}
 Obsoletes:      %{name}-freeworld < %{?epoch}:%{version}-%{release}
 Provides:       %{name}-freeworld = %{?epoch}:%{version}-%{release}
 Provides:       %{name}-freeworld%{?_isa} = %{?epoch}:%{version}-%{release}
+Obsoletes:      %{name}-gtk < %{?epoch}:%{version}-%{release}
+Provides:       %{name}-gtk = %{?epoch}:%{version}-%{release}
+Provides:       %{name}-gtk%{?_isa} = %{?epoch}:%{version}-%{release}
 Obsoletes:      %{name}-nonfree < %{?epoch}:%{version}-%{release}
 Provides:       %{name}-nonfree = %{?epoch}:%{version}-%{release}
 Provides:       %{name}-nonfree%{?_isa} = %{?epoch}:%{version}-%{release}
+Obsoletes:      %{name}-wildmidi < %{?epoch}:%{version}-%{release}
+Provides:       %{name}-wildmidi = %{?epoch}:%{version}-%{release}
+Provides:       %{name}-wildmidi%{?_isa} = %{?epoch}:%{version}-%{release}
 Obsoletes:      gstreamer1-plugin-openh264 < %{?epoch}:%{version}-%{release}
 Provides:       gstreamer1-plugin-openh264 = %{?epoch}:%{version}-%{release}
 Provides:       gstreamer1-plugin-openh264%{?_isa} = %{?epoch}:%{version}-%{release}
@@ -428,6 +434,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Tue Jan 31 2017 Simone Caronni <negativo17@gmail.com> - 1:1.10.3-1
+- Update to 1.10.3.
+
 * Tue Jan 03 2017 Simone Caronni <negativo17@gmail.com> - 1:1.10.2-2
 - Rebuild for x265 2.2 update.
 
