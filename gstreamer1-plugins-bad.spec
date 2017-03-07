@@ -11,7 +11,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.10.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -45,6 +45,7 @@ Provides:       gstreamer1-plugin-openh264%{?_isa} = %{?epoch}:%{version}-%{rele
 
 BuildRequires:  autoconf
 BuildRequires:  automake
+BuildRequires:  gcc-c++
 
 BuildRequires:  gstreamer1-devel >= %{version}
 BuildRequires:  gstreamer1-plugins-base-devel >= %{version}
@@ -166,7 +167,7 @@ BuildRequires:  pkgconfig(tiger) >= 0.3.2
 BuildRequires:  pkgconfig(vdpau)
 BuildRequires:  pkgconfig(vo-aacenc) >= 0.1.0
 BuildRequires:  pkgconfig(vo-amrwbenc) >= 0.1.0
-#BuildRequires:  pkgconfig(webrtcdsp) >= 0.2
+BuildRequires:  pkgconfig(webrtc-audio-processing) >= 0.3
 BuildRequires:  pkgconfig(x265)
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  pkgconfig(xcomposite)
@@ -409,6 +410,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstvoaacenc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstvoamrwbenc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstwebp.so
+%{_libdir}/gstreamer-%{majorminor}/libgstwebrtcdsp.so
 %{_libdir}/gstreamer-%{majorminor}/libgstx265.so
 %{_libdir}/gstreamer-%{majorminor}/libgsty4mdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstyadif.so
@@ -438,6 +440,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Tue Mar 07 2017 Simo Sorce <simo@ssimo.org> - 1:1.10.4-2
+- Rebuild with webrtc-echo support
+
 * Mon Feb 27 2017 Simone Caronni <negativo17@gmail.com> - 1:1.10.4-1
 - Update to 1.10.4.
 
