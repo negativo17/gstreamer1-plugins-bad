@@ -11,7 +11,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.10.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -27,12 +27,12 @@ Provides:       %{name}-free%{?_isa} = %{?epoch}:%{version}-%{release}
 Obsoletes:      %{name}-free-extras < %{?epoch}:%{version}-%{release}
 Provides:       %{name}-free-extras = %{?epoch}:%{version}-%{release}
 Provides:       %{name}-free-extras%{?_isa} = %{?epoch}:%{version}-%{release}
+Obsoletes:      %{name}-free-gtk < %{?epoch}:%{version}-%{release}
+Provides:       %{name}-free-gtk = %{?epoch}:%{version}-%{release}
+Provides:       %{name}-free-gtk%{?_isa} = %{?epoch}:%{version}-%{release}
 Obsoletes:      %{name}-freeworld < %{?epoch}:%{version}-%{release}
 Provides:       %{name}-freeworld = %{?epoch}:%{version}-%{release}
 Provides:       %{name}-freeworld%{?_isa} = %{?epoch}:%{version}-%{release}
-Obsoletes:      %{name}-gtk < %{?epoch}:%{version}-%{release}
-Provides:       %{name}-gtk = %{?epoch}:%{version}-%{release}
-Provides:       %{name}-gtk%{?_isa} = %{?epoch}:%{version}-%{release}
 Obsoletes:      %{name}-nonfree < %{?epoch}:%{version}-%{release}
 Provides:       %{name}-nonfree = %{?epoch}:%{version}-%{release}
 Provides:       %{name}-nonfree%{?_isa} = %{?epoch}:%{version}-%{release}
@@ -440,6 +440,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Wed Apr 19 2017 Simone Caronni <negativo17@gmail.com> - 1:1.10.4-3
+- Gtk plugin is free-gtk and not bad-gtk.
+
 * Tue Mar 07 2017 Simo Sorce <simo@ssimo.org> - 1:1.10.4-2
 - Rebuild with webrtc-echo support
 
