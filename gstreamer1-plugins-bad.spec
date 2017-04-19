@@ -120,7 +120,7 @@ BuildRequires:  pkgconfig(gtk+-wayland-3.0)
 BuildRequires:  pkgconfig(gtk+-x11-3.0)
 BuildRequires:  pkgconfig(gudev-1.0)
 BuildRequires:  pkgconfig(kate) >= 0.1.7
-BuildRequires:  pkgconfig(libass) >= 0.9.4
+BuildRequires:  pkgconfig(libass) >= 0.10.2
 BuildRequires:  pkgconfig(libbs2b) >= 3.1.0
 BuildRequires:  pkgconfig(libchromaprint)
 BuildRequires:  pkgconfig(libcrypto)
@@ -168,6 +168,7 @@ BuildRequires:  pkgconfig(sbc) >= 1.0
 BuildRequires:  pkgconfig(schroedinger-1.0) >= 1.0.10
 #BuildRequires:  pkgconfig(sdl) >= 1.2.0
 BuildRequires:  pkgconfig(slv2) >= 0.6.6
+BuildRequires:  pkgconfig(soundtouch) >= 1.4
 BuildRequires:  pkgconfig(sndfile) >= 1.0.16
 BuildRequires:  pkgconfig(spandsp) >= 0.0.6
 BuildRequires:  pkgconfig(tiger) >= 0.3.2
@@ -176,7 +177,9 @@ BuildRequires:  pkgconfig(vo-aacenc) >= 0.1.0
 BuildRequires:  pkgconfig(vo-amrwbenc) >= 0.1.0
 BuildRequires:  pkgconfig(wayland-client) >= 1.4.0
 BuildRequires:  pkgconfig(wayland-cursor) >= 1.0
-BuildRequires:  pkgconfig(webrtc-audio-processing) >= 0.3
+BuildRequires:  pkgconfig(wayland-egl) >= 9.0
+BuildRequires:  pkgconfig(webrtc-audio-processing) >= 0.2
+BuildRequires:  pkgconfig(webrtc-audio-processing) < 0.4
 BuildRequires:  pkgconfig(x265)
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  pkgconfig(xcomposite)
@@ -267,18 +270,18 @@ find %{buildroot} -name '*.la' -delete
 %dir %{_datadir}/gst-plugins-bad/%{majorminor}/opencv_haarcascades/
 %{_datadir}/gst-plugins-bad/%{majorminor}/opencv_haarcascades/fist.xml
 %{_datadir}/gst-plugins-bad/%{majorminor}/opencv_haarcascades/palm.xml
-
-%{_datadir}/gir-%{majorminor}/GstPlayer-%{majorminor}.gir
 %{_libdir}/girepository-%{majorminor}/GstGL-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstInsertBin-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstMpegts-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstPlayer-%{majorminor}.typelib
+%{_libdir}/girepository-%{majorminor}/GstBadAllocators-%{majorminor}.typelib
 
 %{_libdir}/libgstadaptivedemux-%{majorminor}.so.*
 %{_libdir}/libgstbadaudio-%{majorminor}.so.*
 %{_libdir}/libgstbadbase-%{majorminor}.so.*
 %{_libdir}/libgstbadvideo-%{majorminor}.so.*
 %{_libdir}/libgstbasecamerabinsrc-%{majorminor}.so.*
+%{_libdir}/libgstbadallocators-%{majorminor}.so.*
 %{_libdir}/libgstcodecparsers-%{majorminor}.so.*
 %{_libdir}/libgstgl-%{majorminor}.so.*
 %{_libdir}/libgstinsertbin-%{majorminor}.so.*
@@ -306,7 +309,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstbluez.so
 %{_libdir}/gstreamer-%{majorminor}/libgstbs2b.so
 %{_libdir}/gstreamer-%{majorminor}/libgstbz2.so
-%{_libdir}/gstreamer-%{majorminor}/libgstcamerabin2.so
+%{_libdir}/gstreamer-%{majorminor}/libgstcamerabin.so
 %{_libdir}/gstreamer-%{majorminor}/libgstchromaprint.so
 %{_libdir}/gstreamer-%{majorminor}/libgstcoloreffects.so
 %{_libdir}/gstreamer-%{majorminor}/libgstcompositor.so
@@ -334,7 +337,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstgeometrictransform.so
 %{_libdir}/gstreamer-%{majorminor}/libgstgme.so
 %{_libdir}/gstreamer-%{majorminor}/libgstgsm.so
-%{_libdir}/gstreamer-%{majorminor}/libgstgtksink.so
+%{_libdir}/gstreamer-%{majorminor}/libgstgtk.so
 %{_libdir}/gstreamer-%{majorminor}/libgsthls.so
 %{_libdir}/gstreamer-%{majorminor}/libgstid3tag.so
 %{_libdir}/gstreamer-%{majorminor}/libgstinterlace.so
@@ -344,12 +347,13 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstjp2kdecimator.so
 %{_libdir}/gstreamer-%{majorminor}/libgstjpegformat.so
 %{_libdir}/gstreamer-%{majorminor}/libgstkate.so
-%{_libdir}/gstreamer-%{majorminor}/libgstkmssink.so
+%{_libdir}/gstreamer-%{majorminor}/libgstkms.so
 %{_libdir}/gstreamer-%{majorminor}/libgstladspa.so
+%{_libdir}/gstreamer-%{majorminor}/libgstlegacyrawparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlibde265.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlv2.so
 #%{_libdir}/gstreamer-%{majorminor}/libgstmimic.so
-#%{_libdir}/gstreamer-%{majorminor}/libgstmms.so
+%{_libdir}/gstreamer-%{majorminor}/libgstmms.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmodplug.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmpeg2enc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmpegpsdemux.so
@@ -373,7 +377,6 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstpcapparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstpnm.so
 %{_libdir}/gstreamer-%{majorminor}/libgstqmlgl.so
-%{_libdir}/gstreamer-%{majorminor}/libgstrawparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstremovesilence.so
 %{_libdir}/gstreamer-%{majorminor}/libgstresindvd.so
 %{_libdir}/gstreamer-%{majorminor}/libgstrfbsrc.so
@@ -394,9 +397,8 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstspeed.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsrtp.so
 %{_libdir}/gstreamer-%{majorminor}/libgststereo.so
-%{_libdir}/gstreamer-%{majorminor}/libgstlv2.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsubenc.so
-%{_libdir}/gstreamer-%{majorminor}/libgstteletextdec.so
+%{_libdir}/gstreamer-%{majorminor}/libgstteletext.so
 %{_libdir}/gstreamer-%{majorminor}/libgsttimecode.so
 %{_libdir}/gstreamer-%{majorminor}/libgstttmlsubs.so
 %{_libdir}/gstreamer-%{majorminor}/libgstuvch264.so
@@ -425,9 +427,11 @@ find %{buildroot} -name '*.la' -delete
 
 %files devel
 %doc %{_datadir}/gtk-doc/html/*
-%{_datadir}/gir-1.0/GstGL-1.0.gir
-%{_datadir}/gir-1.0/GstInsertBin-%{majorminor}.gir
-%{_datadir}/gir-1.0/GstMpegts-%{majorminor}.gir
+%{_datadir}/gir-%{majorminor}/GstBadAllocators-%{majorminor}.gir
+%{_datadir}/gir-%{majorminor}/GstGL-%{majorminor}.gir
+%{_datadir}/gir-%{majorminor}/GstInsertBin-%{majorminor}.gir
+%{_datadir}/gir-%{majorminor}/GstMpegts-%{majorminor}.gir
+%{_datadir}/gir-%{majorminor}/GstPlayer-%{majorminor}.gir
 %{_includedir}/gstreamer-%{majorminor}/gst/*
 %{_libdir}/lib*-%{majorminor}.so
 %{_libdir}/gstreamer-%{majorminor}/include/gst/gl/gstglconfig.h
