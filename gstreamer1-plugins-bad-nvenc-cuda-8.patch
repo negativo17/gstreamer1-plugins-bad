@@ -1,0 +1,49 @@
+diff -Naur gst-plugins-bad-1.11.90.old/configure.ac gst-plugins-bad-1.11.90/configure.ac
+--- gst-plugins-bad-1.11.90.old/configure.ac	2017-04-20 10:14:31.233541014 +0200
++++ gst-plugins-bad-1.11.90/configure.ac	2017-04-20 10:14:38.468671473 +0200
+@@ -1938,10 +1938,11 @@
+       CUDA_LIBS="-L$CUDA_PREFIX/lib -L$CUDA_PREFIX/lib64 -L$CUDA_PREFIX/lib/stubs -L$CUDA_PREFIX/lib64/stubs -lcuda -lcudart"
+     fi
+   else
+-    PKG_CHECK_MODULES([CUDA], [cuda-7.5 cudart-7.5],, [
+-      PKG_CHECK_MODULES([CUDA], [cuda-7.0 cudart-7.0],, [
+-        PKG_CHECK_MODULES([CUDA], [cuda-6.5 cudart-6.5],, [
+-          AC_MSG_WARN([Could not find cuda headers/libraries])])])])
++    PKG_CHECK_MODULES([CUDA], [cuda-8.0 cudart-8.0],, [
++      PKG_CHECK_MODULES([CUDA], [cuda-7.5 cudart-7.5],, [
++        PKG_CHECK_MODULES([CUDA], [cuda-7.0 cudart-7.0],, [
++          PKG_CHECK_MODULES([CUDA], [cuda-6.5 cudart-6.5],, [
++            AC_MSG_WARN([Could not find cuda headers/libraries])])])])])
+   fi
+ 
+   HAVE_CUDA_H=no
+diff -Naur gst-plugins-bad-1.11.90.old/sys/nvenc/gstnvbaseenc.c gst-plugins-bad-1.11.90/sys/nvenc/gstnvbaseenc.c
+--- gst-plugins-bad-1.11.90.old/sys/nvenc/gstnvbaseenc.c	2017-04-20 10:14:31.265541591 +0200
++++ gst-plugins-bad-1.11.90/sys/nvenc/gstnvbaseenc.c	2017-04-20 10:14:45.747802726 +0200
+@@ -222,6 +222,7 @@
+ static void gst_nv_base_enc_finalize (GObject * obj);
+ static GstCaps *gst_nv_base_enc_getcaps (GstVideoEncoder * enc,
+     GstCaps * filter);
++static gboolean gst_nv_base_enc_stop_bitstream_thread (GstNvBaseEnc * nvenc);
+ 
+ static void
+ gst_nv_base_enc_class_init (GstNvBaseEncClass * klass)
+@@ -458,8 +459,7 @@
+       gboolean ret;
+ 
+       ret = gst_gl_handle_context_query ((GstElement *) nvenc, query,
+-          (GstGLDisplay **) & nvenc->display,
+-          (GstGLContext **) & nvenc->other_context);
++          nvenc->display, NULL, nvenc->other_context);
+       if (nvenc->display)
+         gst_gl_display_filter_gl_api (GST_GL_DISPLAY (nvenc->display),
+             SUPPORTED_GL_APIS);
+@@ -506,6 +506,8 @@
+ {
+   GstNvBaseEnc *nvenc = GST_NV_BASE_ENC (enc);
+ 
++  gst_nv_base_enc_stop_bitstream_thread (nvenc);
++
+   gst_nv_base_enc_free_buffers (nvenc);
+ 
+   if (nvenc->bitstream_pool) {
