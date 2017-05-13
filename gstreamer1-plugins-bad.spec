@@ -1,15 +1,3 @@
-# Todo:
-#
-# daala
-# dtsdec
-# iqa
-# libmms
-# msdk
-# openni2
-# opensl
-# spc
-# tinyalsa
-
 %ifarch x86_64
 %global         _with_cuda 1
 %endif
@@ -17,8 +5,8 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.11.90
-Release:        3%{?dist}
+Version:        1.12.0
+Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -26,8 +14,6 @@ URL:            http://gstreamer.freedesktop.org/
 
 Source0:        http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Source1:        gstreamer-bad.appdata.xml
-
-Patch0:         %{name}-nvenc-cuda-8.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -229,7 +215,6 @@ well enough, or the code is not of good enough quality.
 
 %prep
 %setup -q -n gst-plugins-bad-%{version}
-%patch0 -p1
 
 %build
 autoreconf -vif
@@ -328,6 +313,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstdvdspu.so
 %{_libdir}/gstreamer-%{majorminor}/libgstfaac.so
 %{_libdir}/gstreamer-%{majorminor}/libgstfaad.so
+%{_libdir}/gstreamer-%{majorminor}/libgstfaceoverlay.so
 %{_libdir}/gstreamer-%{majorminor}/libgstfbdevsink.so
 %{_libdir}/gstreamer-%{majorminor}/libgstfdkaac.so
 %{_libdir}/gstreamer-%{majorminor}/libgstfestival.so
@@ -441,6 +427,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Sat May 13 2017 Simone Caronni <negativo17@gmail.com> - 1:1.12.0-1
+- Update to 1.12.0.
+
 * Thu Apr 20 2017 Simone Caronni <negativo17@gmail.com> - 1:1.11.90-3
 - Enable NVENC plugin with CUDA 8 patches.
 
