@@ -6,7 +6,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.12.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -31,9 +31,9 @@ Provides:       %{name}-freeworld%{?_isa} = %{?epoch}:%{version}-%{release}
 Obsoletes:      %{name}-nonfree < %{?epoch}:%{version}-%{release}
 Provides:       %{name}-nonfree = %{?epoch}:%{version}-%{release}
 Provides:       %{name}-nonfree%{?_isa} = %{?epoch}:%{version}-%{release}
-Obsoletes:      %{name}-nvc < %{?epoch}:%{version}-%{release}
-Provides:       %{name}-nvc = %{?epoch}:%{version}-%{release}
-Provides:       %{name}-nvc%{?_isa} = %{?epoch}:%{version}-%{release}
+Obsoletes:      %{name}-nvenc < %{?epoch}:%{version}-%{release}
+Provides:       %{name}-nvenc = %{?epoch}:%{version}-%{release}
+Provides:       %{name}-nvenc%{?_isa} = %{?epoch}:%{version}-%{release}
 Obsoletes:      %{name}-wildmidi < %{?epoch}:%{version}-%{release}
 Provides:       %{name}-wildmidi = %{?epoch}:%{version}-%{release}
 Provides:       %{name}-wildmidi%{?_isa} = %{?epoch}:%{version}-%{release}
@@ -427,6 +427,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Tue Jun 27 2017 Simone Caronni <negativo17@gmail.com> - 1:1.12.1-2
+- Fix typos in Obsoletes/Provides.
+
 * Sat Jun 24 2017 Simone Caronni <negativo17@gmail.com> - 1:1.12.1-1
 - Update to 1.12.1.
 
