@@ -2,7 +2,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.4.5
-Release:        4%{?dist}
+Release:        5%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -336,6 +336,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Mon Aug 14 2017 Simone Caronni <negativo17@gmail.com> - 1:1.4.5-5
+- Rebuild for libwebp change.
+
 * Tue Jan 03 2017 Simone Caronni <negativo17@gmail.com> - 1:1.4.5-4
 - Rebuild for x265 2.2 update.
 
