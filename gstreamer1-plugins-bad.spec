@@ -11,7 +11,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.10.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -105,6 +105,7 @@ BuildRequires:  pkgconfig(clutter-x11-1.0) >= 1.8
 #BuildRequires:  pkgconfig(daaladec)
 BuildRequires:  pkgconfig(dvdread) >= 4.1.2
 BuildRequires:  pkgconfig(dvdnav) >= 4.1.2
+BuildRequires:  pkgconfig(fdk-aac) >= 0.1.4
 BuildRequires:  pkgconfig(fluidsynth) >= 1.0
 BuildRequires:  pkgconfig(gio-2.0)
 BuildRequires:  pkgconfig(gio-unix-2.0) >= 2.24
@@ -309,6 +310,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstfaac.so
 %{_libdir}/gstreamer-%{majorminor}/libgstfaad.so
 %{_libdir}/gstreamer-%{majorminor}/libgstfbdevsink.so
+%{_libdir}/gstreamer-%{majorminor}/libgstfdkaac.so
 %{_libdir}/gstreamer-%{majorminor}/libgstfestival.so
 %{_libdir}/gstreamer-%{majorminor}/libgstfieldanalysis.so
 %{_libdir}/gstreamer-%{majorminor}/libgstflite.so
@@ -419,6 +421,10 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Wed Aug 23 2017 Simone Caronni <negativo17@gmail.com> - 1:1.10.4-2
+- Rebuild for x265 update.
+- Add FDK-AAC plugin.
+
 * Wed Aug 16 2017 Simone Caronni <negativo17@gmail.com> - 1:1.10.4-1
 - Update to 1.10.4 for RHEL 7.4.
 
