@@ -6,7 +6,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.12.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -116,9 +116,9 @@ BuildRequires:  pkgconfig(libcurl) >= 7.35.0
 BuildRequires:  pkgconfig(libdc1394-2) >= 2.0.0
 BuildRequires:  pkgconfig(libde265) >= 0.9
 BuildRequires:  pkgconfig(libexif) >= 0.6.16
-BuildRequires:  pkgconfig(libopenjpeg1)
-#BuildRequires:  pkgconfig(libopenni2) >= 0.26
 BuildRequires:  pkgconfig(libofa) >= 0.9.3
+BuildRequires:  pkgconfig(libopenjp2)
+#BuildRequires:  pkgconfig(libopenni2) >= 0.26
 BuildRequires:  pkgconfig(libmimic) >= 1.0
 BuildRequires:  pkgconfig(libmms) >= 0.4
 BuildRequires:  pkgconfig(libmodplug)
@@ -427,6 +427,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Thu Jan 18 2018 Simone Caronni <negativo17@gmail.com> - 1:1.12.4-2
+- Require OpenJpeg 2.
+
 * Tue Jan 09 2018 Simone Caronni <negativo17@gmail.com> - 1:1.12.4-1
 - Update to 1.12.4.
 
