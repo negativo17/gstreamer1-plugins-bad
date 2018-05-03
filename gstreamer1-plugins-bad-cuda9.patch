@@ -1,0 +1,411 @@
+From 73cd1aa9dc1d9c56caaa8bf60198afdd26a58f06 Mon Sep 17 00:00:00 2001
+From: Snir Sheriber <ssheribe@redhat.com>
+Date: Thu, 22 Mar 2018 10:18:57 +0200
+Subject: nvdec/nvenc: Support CUDA Toolkit 9
+
+Since cuda-tools 9.0, nvcuvid.h is replaced by dynlink_nvcuvid.h.
+This patch changes nvdec to use run-time dynamic linking if
+cuda-tools version >= 9.
+nvenc does not require any change since its necessary headers are
+still available.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=791724
+---
+ configure.ac                |  26 +++++++---
+ sys/nvdec/Makefile.am       |  12 ++++-
+ sys/nvdec/dynlink_cuda.c    | 122 ++++++++++++++++++++++++++++++++++++++++++++
+ sys/nvdec/dynlink_nvcuvid.c | 105 ++++++++++++++++++++++++++++++++++++++
+ sys/nvdec/gstnvdec.c        |  11 ++--
+ sys/nvdec/gstnvdec.h        |  13 +++++
+ 6 files changed, 278 insertions(+), 11 deletions(-)
+ create mode 100644 sys/nvdec/dynlink_cuda.c
+ create mode 100644 sys/nvdec/dynlink_nvcuvid.c
+
+diff --git a/configure.ac b/configure.ac
+index 23254ae..0a04dcd 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -941,17 +941,22 @@ AG_GST_CHECK_FEATURE(CUDA, [NVIDIA CUDA API],, [
+       CUDA_LIBS="-L$CUDA_PREFIX/lib -L$CUDA_PREFIX/lib64 -L$CUDA_PREFIX/lib/stubs -L$CUDA_PREFIX/lib64/stubs -lcuda -lcudart"
+     fi
+   else
+-    PKG_CHECK_MODULES([CUDA], [cuda-8.0 cudart-8.0],, [
+-      PKG_CHECK_MODULES([CUDA], [cuda-7.5 cudart-7.5],, [
+-        PKG_CHECK_MODULES([CUDA], [cuda-7.0 cudart-7.0],, [
+-          PKG_CHECK_MODULES([CUDA], [cuda-6.5 cudart-6.5],, [
+-            AC_MSG_WARN([Could not find cuda headers/libraries])])])])])
++    PKG_CHECK_MODULES([CUDA], [cuda-9.1 cudart-9.1],, [
++      PKG_CHECK_MODULES([CUDA], [cuda-9.0 cudart-9.0],, [
++        PKG_CHECK_MODULES([CUDA], [cuda-8.0 cudart-8.0],, [
++          PKG_CHECK_MODULES([CUDA], [cuda-7.5 cudart-7.5],, [
++            PKG_CHECK_MODULES([CUDA], [cuda-7.0 cudart-7.0],, [
++              PKG_CHECK_MODULES([CUDA], [cuda-6.5 cudart-6.5],, [
++                AC_MSG_WARN([Could not find cuda headers/libraries])])])])])])])
+   fi
+ 
+   HAVE_CUDA_H=no
+   HAVE_CUDART_H=no
++  HAVE_CUDA_DYN_H=no
+   save_CPPFLAGS="$CPPFLAGS"
+   CPPFLAGS="$CUDA_CFLAGS $save_CPPFLAGS "
++  AC_CHECK_HEADER([dynlink_cuda.h], [HAVE_CUDA_DYN_H=yes],
++      AC_MSG_WARN([Could not find dynlink_cuda.h]))
+   AC_CHECK_HEADER([cuda.h], [HAVE_CUDA_H=yes],
+       AC_MSG_WARN([Could not find cuda.h]))
+   AC_CHECK_HEADER([cuda_runtime_api.h], [HAVE_CUDART_H=yes],
+@@ -974,10 +979,14 @@ dnl *** NVDEC ***
+ translit(dnm, m, l) AM_CONDITIONAL(USE_NVDEC, true)
+ AG_GST_CHECK_FEATURE(NVDEC, [nvdec], nvdec, [
+   HAVE_NVCUVID_H=no
++  HAVE_NCUVID_DYN_H=no
+   save_CPPFLAGS="$CPPFLAGS"
+   CPPFLAGS="$CUDA_CFLAGS $save_CPPFLAGS"
+   AC_CHECK_HEADER([nvcuvid.h], [HAVE_NVCUVID_H=yes],
+       AC_MSG_WARN([Could not find nvcuvid.h]))
++  AC_CHECK_HEADER([dynlink_nvcuvid.h], [HAVE_NVCUVID_DYN_H=yes],
++      AC_MSG_WARN([Could not find dynlink_nvcuvid.h]))
++
+   CPPFLAGS=$save_CPPFLAGS
+ 
+   HAVE_NVCUVID=no
+@@ -987,7 +996,12 @@ AG_GST_CHECK_FEATURE(NVDEC, [nvdec], nvdec, [
+       AC_MSG_WARN([Could not find library nvcuvid]))
+   LIBS="$save_LIBS"
+ 
+-  if test "x$HAVE_NVCUVID_H" = "xyes" -a "x$HAVE_NVCUVID" = "xyes"; then
++  AM_CONDITIONAL(USE_DYNLINK_NVDEC, false)
++  if test "x$HAVE_NVCUVID_DYN_H" = "xyes" -a "x$HAVE_NVCUVID" = "xyes"; then
++    HAVE_NVDEC=yes
++    AM_CONDITIONAL(USE_DYNLINK_NVDEC, true)
++    AC_DEFINE(HAVE_DYNLINK_HEADERS_NVDEC, 1, [Define if dynlink headers for nvdec are available])
++  elif test "x$HAVE_NVCUVID_H" = "xyes" -a "x$HAVE_NVCUVID" = "xyes"; then
+     HAVE_NVDEC=yes
+   else
+     HAVE_NVDEC=no
+diff --git a/sys/nvdec/Makefile.am b/sys/nvdec/Makefile.am
+index 5539dd2..1fd7efa 100644
+--- a/sys/nvdec/Makefile.am
++++ b/sys/nvdec/Makefile.am
+@@ -4,6 +4,11 @@ libgstnvdec_la_SOURCES = \
+ 	gstnvdec.c \
+ 	plugin.c
+ 
++if USE_DYNLINK_NVDEC
++libgstnvdec_la_SOURCES += dynlink_nvcuvid.c
++libgstnvdec_la_SOURCES += dynlink_cuda.c
++endif
++
+ noinst_HEADERS = \
+ 	gstnvdec.h
+ 
+@@ -19,7 +24,10 @@ libgstnvdec_la_LIBADD = \
+ 	$(GST_GL_LIBS) \
+ 	$(GST_PBUTILS_LIBS) \
+ 	$(GST_VIDEO_LIBS) \
+-	$(GST_LIBS) \
+-	$(CUDA_LIBS) -lnvcuvid
++	$(GST_LIBS)
++
++if !USE_DYNLINK_NVDEC
++libgstnvdec_la_LIBADD += $(CUDA_LIBS) -lnvcuvid
++endif
+ 
+ libgstnvdec_la_LDFLAGS = $(GST_PLUGIN_LDFLAGS)
+diff --git a/sys/nvdec/dynlink_cuda.c b/sys/nvdec/dynlink_cuda.c
+new file mode 100644
+index 0000000..995481b
+--- /dev/null
++++ b/sys/nvdec/dynlink_cuda.c
+@@ -0,0 +1,122 @@
++/*
++ * Copyright 2018 Red Hat, Inc. and/or its affiliates.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions
++ * are met:
++ *
++ * 1. Redistributions of source code must retain the above copyright
++ *    notice, this list of conditions and the following disclaimer.
++ * 2. Redistributions in binary form must reproduce the above copyright
++ *    notice, this list of conditions and the following disclaimer
++ *    in the documentation and/or other materials provided with the
++ *    distribution.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
++ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
++ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
++ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
++ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
++ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
++ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
++ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++#include <gst/gst.h>
++#include <gst/gl/gstglfuncs.h>
++#include <dynlink_cuda.h>
++#include <gmodule.h>
++
++/* Types that are missing from included headers */
++typedef CUresult CUDAAPI tcuGetErrorName (CUresult error, const char **pStr);
++typedef CUresult CUDAAPI tcuGetErrorString (CUresult error, const char **pStr);
++typedef CUresult CUDAAPI tcuGraphicsGLRegisterImage (CUgraphicsResource *
++    pCudaResource, GLuint image, GLenum target, unsigned int Flags);
++
++tcuInit *_cuInit;
++tcuDriverGetVersion *cuDriverGetVersion;
++tcuCtxCreate *cuCtxCreate;
++tcuCtxDestroy *cuCtxDestroy;
++tcuCtxPopCurrent *cuCtxPopCurrent;
++tcuMemcpy2D *cuMemcpy2D;
++tcuGraphicsUnregisterResource *cuGraphicsUnregisterResource;
++tcuGraphicsSubResourceGetMappedArray *cuGraphicsSubResourceGetMappedArray;
++tcuGraphicsMapResources *cuGraphicsMapResources;
++tcuGraphicsUnmapResources *cuGraphicsUnmapResources;
++
++tcuGetErrorName *cuGetErrorName;
++tcuGetErrorString *cuGetErrorString;
++tcuGraphicsGLRegisterImage *cuGraphicsGLRegisterImage;
++
++#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64)
++static char CudaLibName[] = "nvcuda.dll";
++#elif defined(__unix__)
++static char CudaLibName[] = "libcuda.so";
++#endif
++
++#define STRINGIFY(X) #X
++#define GET_PROC(name)                                                     \
++  if (!g_module_symbol (module, #name, (gpointer *)&name)) {               \
++    GST_ERROR("%s", g_module_error());                                     \
++    g_module_close(module);                                                \
++    return CUDA_ERROR_UNKNOWN;                                             \
++   }
++
++#define GET_PROC_V2(name)                                                  \
++  if(!g_module_symbol (module, STRINGIFY(name##_v2), (gpointer *)&name)) { \
++    GST_ERROR("%s", g_module_error());                                     \
++    g_module_close(module);                                                \
++    return CUDA_ERROR_UNKNOWN;                                             \
++  }
++
++CUresult CUDAAPI
++cuInit (unsigned int Flags, int cudaVersion, void *pHandleDriver)
++{
++  GModule *module;
++  int driverVer = 1000;
++
++  module = g_module_open (CudaLibName, G_MODULE_BIND_LAZY);
++  if (module == NULL) {
++    GST_ERROR ("%s", g_module_error ());
++    return CUDA_ERROR_UNKNOWN;
++  }
++  //Init
++  g_module_symbol (module, "cuInit", (gpointer *) & _cuInit);
++  if (_cuInit == NULL || _cuInit (Flags) != CUDA_SUCCESS) {
++    GST_ERROR ("Failed to init cuda\n");
++    return CUDA_ERROR_UNKNOWN;
++  }
++
++  GET_PROC (cuDriverGetVersion);
++  if (cuDriverGetVersion == NULL
++      || cuDriverGetVersion (&driverVer) != CUDA_SUCCESS) {
++    GST_ERROR ("Failed to get cuda version\n");
++    return CUDA_ERROR_UNKNOWN;
++  }
++
++  if (cudaVersion < 4000 || __CUDA_API_VERSION < 4000) {
++    GST_ERROR ("cuda version or cuda api version is too old\n");
++    return CUDA_ERROR_UNKNOWN;
++  }
++
++  GET_PROC (cuCtxDestroy);
++  GET_PROC (cuCtxPopCurrent);
++  GET_PROC (cuGetErrorName);
++  GET_PROC (cuGetErrorString);
++
++  GET_PROC_V2 (cuCtxDestroy);
++  GET_PROC_V2 (cuCtxPopCurrent);
++  GET_PROC_V2 (cuCtxCreate);
++  GET_PROC_V2 (cuMemcpy2D);
++  GET_PROC (cuGraphicsGLRegisterImage);
++  GET_PROC (cuGraphicsGLRegisterImage);
++  GET_PROC (cuGraphicsUnregisterResource);
++  GET_PROC (cuGraphicsSubResourceGetMappedArray);
++  GET_PROC (cuGraphicsMapResources);
++  GET_PROC (cuGraphicsUnmapResources);
++
++  return CUDA_SUCCESS;
++}
+diff --git a/sys/nvdec/dynlink_nvcuvid.c b/sys/nvdec/dynlink_nvcuvid.c
+new file mode 100644
+index 0000000..35a1a07
+--- /dev/null
++++ b/sys/nvdec/dynlink_nvcuvid.c
+@@ -0,0 +1,105 @@
++/*
++ * Copyright 2018 Red Hat, Inc. and/or its affiliates.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions
++ * are met:
++ *
++ * 1. Redistributions of source code must retain the above copyright
++ *    notice, this list of conditions and the following disclaimer.
++ * 2. Redistributions in binary form must reproduce the above copyright
++ *    notice, this list of conditions and the following disclaimer
++ *    in the documentation and/or other materials provided with the
++ *    distribution.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
++ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
++ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
++ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
++ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
++ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
++ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
++ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++#include <gst/gst.h>
++#include "dynlink_nvcuvid.h"
++#include <gmodule.h>
++
++tcuvidCreateVideoParser *cuvidCreateVideoParser;
++tcuvidParseVideoData *cuvidParseVideoData;
++tcuvidDestroyVideoParser *cuvidDestroyVideoParser;
++tcuvidCreateDecoder *cuvidCreateDecoder;
++tcuvidDestroyDecoder *cuvidDestroyDecoder;
++tcuvidDecodePicture *cuvidDecodePicture;
++tcuvidMapVideoFrame *cuvidMapVideoFrame;
++tcuvidUnmapVideoFrame *cuvidUnmapVideoFrame;
++#if defined(__x86_64) || defined(AMD64) || defined(_M_AMD64)
++tcuvidMapVideoFrame64 *cuvidMapVideoFrame64;
++tcuvidUnmapVideoFrame64 *cuvidUnmapVideoFrame64;
++#endif
++tcuvidCtxLockCreate *cuvidCtxLockCreate;
++tcuvidCtxLockDestroy *cuvidCtxLockDestroy;
++tcuvidCtxLock *cuvidCtxLock;
++tcuvidCtxUnlock *cuvidCtxUnlock;
++
++#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64)
++static char CudaLibName[] = "nvcuvid.dll";
++#elif defined(__unix__)
++static char CudaLibName[] = "libnvcuvid.so";
++#endif
++
++#define STRINGIFY(X) #X
++#define GET_PROC(name)                                                     \
++  if (!g_module_symbol (module, #name, (gpointer *)&name)) {               \
++    GST_ERROR("%s", g_module_error());                                     \
++    g_module_close(module);                                                \
++    return CUDA_ERROR_UNKNOWN;                                             \
++   }
++
++#define GET_PROC_V2(name)                                                  \
++  if(!g_module_symbol (module, STRINGIFY(name##_v2), (gpointer *)&name)) { \
++    GST_ERROR("%s", g_module_error());                                     \
++    g_module_close(module);                                                \
++    return CUDA_ERROR_UNKNOWN;                                             \
++  }
++
++CUresult CUDAAPI
++cuvidInit (unsigned int Flags)
++{
++  GModule *module;
++
++  module = g_module_open (CudaLibName, G_MODULE_BIND_LAZY);
++  if (module == NULL) {
++    GST_ERROR ("%s", g_module_error ());
++    return CUDA_ERROR_UNKNOWN;
++  }
++
++  GET_PROC (cuvidCreateVideoParser);
++  GET_PROC (cuvidParseVideoData);
++  GET_PROC (cuvidDestroyVideoParser);
++
++  GET_PROC (cuvidCreateDecoder);
++  GET_PROC (cuvidDestroyDecoder);
++  GET_PROC (cuvidDecodePicture);
++
++#if defined(__x86_64) || defined(AMD64) || defined(_M_AMD64)
++  GET_PROC (cuvidMapVideoFrame64);
++  GET_PROC (cuvidUnmapVideoFrame64);
++  cuvidMapVideoFrame = cuvidMapVideoFrame64;
++  cuvidUnmapVideoFrame = cuvidUnmapVideoFrame64;
++#else
++  GET_PROC (cuvidMapVideoFrame);
++  GET_PROC (cuvidUnmapVideoFrame);
++#endif
++
++  GET_PROC (cuvidCtxLockCreate);
++  GET_PROC (cuvidCtxLockDestroy);
++  GET_PROC (cuvidCtxLock);
++  GET_PROC (cuvidCtxUnlock);
++
++  return CUDA_SUCCESS;
++}
+diff --git a/sys/nvdec/gstnvdec.c b/sys/nvdec/gstnvdec.c
+index 841a701..acba721 100644
+--- a/sys/nvdec/gstnvdec.c
++++ b/sys/nvdec/gstnvdec.c
+@@ -31,9 +31,6 @@
+ 
+ #include "gstnvdec.h"
+ 
+-#include <gst/gl/gstglfuncs.h>
+-#include <cudaGL.h>
+-
+ typedef enum
+ {
+   GST_NVDEC_QUEUE_ITEM_TYPE_SEQUENCE,
+@@ -100,8 +97,16 @@ gst_nvdec_cuda_context_class_init (GstNvDecCudaContextClass * klass)
+ static void
+ gst_nvdec_cuda_context_init (GstNvDecCudaContext * self)
+ {
++#ifdef HAVE_DYNLINK_HEADERS_NVDEC
++  if (!cuda_OK (cuInit (0, __CUDA_API_VERSION, NULL)))
++    GST_ERROR ("failed to init CUDA");
++
++  if (!cuda_OK (cuvidInit (0)))
++    GST_ERROR ("failed to init cuvid");
++#else
+   if (!cuda_OK (cuInit (0)))
+     GST_ERROR ("failed to init CUDA");
++#endif
+ 
+   if (!cuda_OK (cuCtxCreate (&self->context, CU_CTX_SCHED_AUTO, 0)))
+     GST_ERROR ("failed to create CUDA context");
+diff --git a/sys/nvdec/gstnvdec.h b/sys/nvdec/gstnvdec.h
+index 7bc6e81..335c713 100644
+--- a/sys/nvdec/gstnvdec.h
++++ b/sys/nvdec/gstnvdec.h
+@@ -29,7 +29,20 @@
+ #define __GST_NVDEC_H__
+ 
+ #include <gst/gl/gl.h>
++#include <gst/gl/gstglfuncs.h>
++#ifdef HAVE_DYNLINK_HEADERS_NVDEC
++#include <dynlink_nvcuvid.h>
++#else
+ #include <nvcuvid.h>
++#include <cudaGL.h>
++#endif
++
++#ifdef HAVE_DYNLINK_HEADERS_NVDEC
++/* missing from dynlink headers */
++CUresult CUDAAPI (*cuGetErrorName)(CUresult error, const char **pStr);
++CUresult CUDAAPI (*cuGetErrorString)(CUresult error, const char **pStr);
++CUresult CUDAAPI (*cuGraphicsGLRegisterImage)(CUgraphicsResource *pCudaResource, GLuint image, GLenum target, unsigned int Flags);
++#endif
+ 
+ G_BEGIN_DECLS
+ 
+-- 
+cgit v1.1
+
