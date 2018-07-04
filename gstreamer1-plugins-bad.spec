@@ -112,7 +112,6 @@ BuildRequires:  pkgconfig(libexif) >= 0.6.16
 BuildRequires:  pkgconfig(libofa) >= 0.9.3
 BuildRequires:  pkgconfig(libopenjp2)
 #BuildRequires:  pkgconfig(libopenni2) >= 0.26
-BuildRequires:  pkgconfig(libmimic) >= 1.0
 BuildRequires:  pkgconfig(libmms) >= 0.4
 BuildRequires:  pkgconfig(libmodplug)
 BuildRequires:  pkgconfig(libpng) >= 1.0
@@ -307,7 +306,6 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstcompositor.so
 %{_libdir}/gstreamer-%{majorminor}/libgstcurl.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdashdemux.so
-#%{_libdir}/gstreamer-%{majorminor}/libgstdataurisrc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdc1394.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdebugutilsbad.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdecklink.so
@@ -345,7 +343,6 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstlegacyrawparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlibde265.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlv2.so
-#%{_libdir}/gstreamer-%{majorminor}/libgstmimic.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmms.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmodplug.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmpeg2enc.so
