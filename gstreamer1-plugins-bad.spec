@@ -6,7 +6,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.12.4
-Release:        3%{?dist}
+Release:        4%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -76,13 +76,6 @@ BuildRequires:  orc-devel >= 0.4.17
 BuildRequires:  vulkan-devel
 BuildRequires:  wildmidi-devel
 BuildRequires:  xvidcore-devel
-
-%{?_with_cuda:
-# Nvidia encoder (NVENC) plugin build requirements
-BuildRequires:  cuda-devel >= 6.5
-BuildRequires:  nvenc >= 5.0
-BuildRequires:  nvidia-driver-devel
-}
 
 BuildRequires:  pkgconfig(bluez) >= 5.0
 BuildRequires:  pkgconfig(cairo) >= 1.0
@@ -174,6 +167,16 @@ BuildRequires:  pkgconfig(xcomposite)
 BuildRequires:  pkgconfig(zbar) >= 0.9
 BuildRequires:  pkgconfig(zvbi-0.2)
 
+%{?_with_cuda:
+# Nvidia encoder/decoder (nvenc/nvdec) plugin build requirements
+BuildRequires:  pkgconfig(cuda)
+BuildRequires:  pkgconfig(cudart)
+BuildRequires:  nv-codec-headers
+BuildRequires:  nvidia-driver-devel
+# Dynamically loads libraries
+Requires:       nvidia-driver-cuda-libs
+}
+
 %description
 GStreamer is a streaming media framework, based on graphs of elements which
 operate on media data.
@@ -218,9 +221,10 @@ well enough, or the code is not of good enough quality.
 
 %build
 autoreconf -vif
-export CUDA_CFLAGS="$CUDA_CFLAGS -I%{_includedir}/cuda"
+export CUDA_CFLAGS="-I%{_includedir}/cuda"
+export CUDA_LIBS="-L%{_libdir} -lcuda -lcudart"
+export NVENCODE_CFLAGS="-I%{_includedir}/ffnvcodec"
 export MSDK_CFLAGS="$MSDK_CFLAGS -I%{_includedir}/mfx"
-export NVENCODE_CFLAGS="$NVENCODE_CFLAGS -I%{_includedir}/nvenc"
 %configure \
     --disable-rpath \
     --disable-silent-rules \
@@ -427,6 +431,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Wed Jul 04 2018 Simone Caronni <negativo17@gmail.com> - 1:1.12.4-4
+- Update CUDA/NVENC plugin build.
+
 * Tue May 01 2018 Simone Caronni <negativo17@gmail.com> - 1:1.12.4-3
 - Rebuild for updated dependencies.
 
