@@ -11,7 +11,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.10.4
-Release:        5%{?dist}
+Release:        6%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -72,8 +72,9 @@ BuildRequires:  libmpcdec-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  mesa-libGLU-devel
 BuildRequires:  orc-devel >= 0.4.17
-#BuildRequires:  wavpack-devel
 #BuildRequires:  spc-devel
+BuildRequires:  vulkan-devel
+#BuildRequires:  wavpack-devel
 BuildRequires:  wildmidi-devel
 BuildRequires:  xvidcore-devel
 
@@ -91,9 +92,6 @@ BuildRequires:  pkgconfig(Qt5Gui)
 BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  pkgconfig(Qt5WaylandClient)
 BuildRequires:  pkgconfig(Qt5X11Extras)
-BuildRequires:  pkgconfig(wayland-client) >= 1.4.0
-BuildRequires:  pkgconfig(wayland-cursor) >= 1.0
-#BuildRequires:  pkgconfig(wayland-cursor) >= 9.0
 %endif
 
 BuildRequires:  pkgconfig(bluez) >= 5.0
@@ -167,6 +165,9 @@ BuildRequires:  pkgconfig(tiger) >= 0.3.2
 BuildRequires:  pkgconfig(vdpau)
 BuildRequires:  pkgconfig(vo-aacenc) >= 0.1.0
 BuildRequires:  pkgconfig(vo-amrwbenc) >= 0.1.0
+BuildRequires:  pkgconfig(wayland-client) >= 1.4.0
+BuildRequires:  pkgconfig(wayland-cursor) >= 1.0
+BuildRequires:  pkgconfig(wayland-egl) >= 9.0
 BuildRequires:  pkgconfig(webrtc-audio-processing) >= 0.3
 BuildRequires:  pkgconfig(x265)
 BuildRequires:  pkgconfig(x11)
@@ -274,9 +275,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/libgstphotography-%{majorminor}.so.*
 %{_libdir}/libgstplayer-%{majorminor}.so.*
 %{_libdir}/libgsturidownloader-%{majorminor}.so.*
-%if 0%{?fedora}
 %{_libdir}/libgstwayland-%{majorminor}.so.*
-%endif
 
 # Plugins
 %{_libdir}/gstreamer-%{majorminor}/libgstaccurip.so
@@ -395,15 +394,14 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstvmnc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstvoaacenc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstvoamrwbenc.so
+%{_libdir}/gstreamer-%{majorminor}/libgstvulkan.so
+%{_libdir}/gstreamer-%{majorminor}/libgstwaylandsink.so
 %{_libdir}/gstreamer-%{majorminor}/libgstwebp.so
 %{_libdir}/gstreamer-%{majorminor}/libgstwebrtcdsp.so
 %{_libdir}/gstreamer-%{majorminor}/libgstx265.so
 %{_libdir}/gstreamer-%{majorminor}/libgsty4mdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstyadif.so
 %{_libdir}/gstreamer-%{majorminor}/libgstzbar.so
-%if 0%{?fedora}
-%{_libdir}/gstreamer-%{majorminor}/libgstwaylandsink.so
-%endif
 
 %files fluidsynth
 %{_libdir}/gstreamer-%{majorminor}/libgstfluidsynthmidi.so
@@ -421,6 +419,10 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Mon Jul 16 2018 Simone Caronni <negativo17@gmail.com> - 1:1.10.4-6
+- Rebuild for updated dependencies.
+- Add Wayland and Vulkan plugin.
+
 * Thu Apr 26 2018 Simone Caronni <negativo17@gmail.com> - 1:1.10.4-5
 - Rebuild for updated dependencies.
 
