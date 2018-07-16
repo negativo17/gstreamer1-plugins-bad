@@ -6,7 +6,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.14.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -511,6 +511,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Mon Jul 16 2018 Simone Caronni <negativo17@gmail.com> - 1:1.14.1-4
+- Rebuild for updated dependencies.
+
 * Wed Jul 04 2018 Simone Caronni <negativo17@gmail.com> - 1:1.14.1-3
 - Update CUDA/NVENC plugin build.
 
