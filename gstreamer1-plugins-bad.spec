@@ -6,7 +6,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.14.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -15,7 +15,7 @@ URL:            http://gstreamer.freedesktop.org/
 Source0:        http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Source1:        gstreamer-bad.appdata.xml
 
-Patch0:         https://cgit.freedesktop.org/gstreamer/gst-plugins-bad/patch/?id=73cd1aa9dc1d9c56caaa8bf60198afdd26a58f06#/%{name}-cuda9.patch
+Patch0:         %{name}-cuda9.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -512,6 +512,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Tue Aug 28 2018 Simone Caronni <negativo17@gmail.com> - 1:1.14.1-5
+- Add support for CUDA 9.2.
+
 * Mon Jul 16 2018 Simone Caronni <negativo17@gmail.com> - 1:1.14.1-4
 - Rebuild for updated dependencies.
 
