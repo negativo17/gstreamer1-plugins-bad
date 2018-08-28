@@ -1,31 +1,8 @@
-From 73cd1aa9dc1d9c56caaa8bf60198afdd26a58f06 Mon Sep 17 00:00:00 2001
-From: Snir Sheriber <ssheribe@redhat.com>
-Date: Thu, 22 Mar 2018 10:18:57 +0200
-Subject: nvdec/nvenc: Support CUDA Toolkit 9
-
-Since cuda-tools 9.0, nvcuvid.h is replaced by dynlink_nvcuvid.h.
-This patch changes nvdec to use run-time dynamic linking if
-cuda-tools version >= 9.
-nvenc does not require any change since its necessary headers are
-still available.
-
-https://bugzilla.gnome.org/show_bug.cgi?id=791724
----
- configure.ac                |  26 +++++++---
- sys/nvdec/Makefile.am       |  12 ++++-
- sys/nvdec/dynlink_cuda.c    | 122 ++++++++++++++++++++++++++++++++++++++++++++
- sys/nvdec/dynlink_nvcuvid.c | 105 ++++++++++++++++++++++++++++++++++++++
- sys/nvdec/gstnvdec.c        |  11 ++--
- sys/nvdec/gstnvdec.h        |  13 +++++
- 6 files changed, 278 insertions(+), 11 deletions(-)
- create mode 100644 sys/nvdec/dynlink_cuda.c
- create mode 100644 sys/nvdec/dynlink_nvcuvid.c
-
 diff --git a/configure.ac b/configure.ac
-index 23254ae..0a04dcd 100644
+index 184b4dc0b..26a4f79b5 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -941,17 +941,22 @@ AG_GST_CHECK_FEATURE(CUDA, [NVIDIA CUDA API],, [
+@@ -945,17 +945,23 @@ AG_GST_CHECK_FEATURE(CUDA, [NVIDIA CUDA API],, [
        CUDA_LIBS="-L$CUDA_PREFIX/lib -L$CUDA_PREFIX/lib64 -L$CUDA_PREFIX/lib/stubs -L$CUDA_PREFIX/lib64/stubs -lcuda -lcudart"
      fi
    else
@@ -34,13 +11,14 @@ index 23254ae..0a04dcd 100644
 -        PKG_CHECK_MODULES([CUDA], [cuda-7.0 cudart-7.0],, [
 -          PKG_CHECK_MODULES([CUDA], [cuda-6.5 cudart-6.5],, [
 -            AC_MSG_WARN([Could not find cuda headers/libraries])])])])])
-+    PKG_CHECK_MODULES([CUDA], [cuda-9.1 cudart-9.1],, [
-+      PKG_CHECK_MODULES([CUDA], [cuda-9.0 cudart-9.0],, [
-+        PKG_CHECK_MODULES([CUDA], [cuda-8.0 cudart-8.0],, [
-+          PKG_CHECK_MODULES([CUDA], [cuda-7.5 cudart-7.5],, [
-+            PKG_CHECK_MODULES([CUDA], [cuda-7.0 cudart-7.0],, [
-+              PKG_CHECK_MODULES([CUDA], [cuda-6.5 cudart-6.5],, [
-+                AC_MSG_WARN([Could not find cuda headers/libraries])])])])])])])
++    PKG_CHECK_MODULES([CUDA], [cuda-9.2 cudart-9.2],, [
++      PKG_CHECK_MODULES([CUDA], [cuda-9.1 cudart-9.1],, [
++        PKG_CHECK_MODULES([CUDA], [cuda-9.0 cudart-9.0],, [
++          PKG_CHECK_MODULES([CUDA], [cuda-8.0 cudart-8.0],, [
++            PKG_CHECK_MODULES([CUDA], [cuda-7.5 cudart-7.5],, [
++              PKG_CHECK_MODULES([CUDA], [cuda-7.0 cudart-7.0],, [
++                PKG_CHECK_MODULES([CUDA], [cuda-6.5 cudart-6.5],, [
++                  AC_MSG_WARN([Could not find cuda headers/libraries])])])])])])])])
    fi
  
    HAVE_CUDA_H=no
@@ -53,7 +31,7 @@ index 23254ae..0a04dcd 100644
    AC_CHECK_HEADER([cuda.h], [HAVE_CUDA_H=yes],
        AC_MSG_WARN([Could not find cuda.h]))
    AC_CHECK_HEADER([cuda_runtime_api.h], [HAVE_CUDART_H=yes],
-@@ -974,10 +979,14 @@ dnl *** NVDEC ***
+@@ -978,10 +984,14 @@ dnl *** NVDEC ***
  translit(dnm, m, l) AM_CONDITIONAL(USE_NVDEC, true)
  AG_GST_CHECK_FEATURE(NVDEC, [nvdec], nvdec, [
    HAVE_NVCUVID_H=no
@@ -68,7 +46,7 @@ index 23254ae..0a04dcd 100644
    CPPFLAGS=$save_CPPFLAGS
  
    HAVE_NVCUVID=no
-@@ -987,7 +996,12 @@ AG_GST_CHECK_FEATURE(NVDEC, [nvdec], nvdec, [
+@@ -991,7 +1001,12 @@ AG_GST_CHECK_FEATURE(NVDEC, [nvdec], nvdec, [
        AC_MSG_WARN([Could not find library nvcuvid]))
    LIBS="$save_LIBS"
  
@@ -83,7 +61,7 @@ index 23254ae..0a04dcd 100644
    else
      HAVE_NVDEC=no
 diff --git a/sys/nvdec/Makefile.am b/sys/nvdec/Makefile.am
-index 5539dd2..1fd7efa 100644
+index 5539dd25c..1fd7efa24 100644
 --- a/sys/nvdec/Makefile.am
 +++ b/sys/nvdec/Makefile.am
 @@ -4,6 +4,11 @@ libgstnvdec_la_SOURCES = \
@@ -113,7 +91,7 @@ index 5539dd2..1fd7efa 100644
  libgstnvdec_la_LDFLAGS = $(GST_PLUGIN_LDFLAGS)
 diff --git a/sys/nvdec/dynlink_cuda.c b/sys/nvdec/dynlink_cuda.c
 new file mode 100644
-index 0000000..995481b
+index 000000000..995481b64
 --- /dev/null
 +++ b/sys/nvdec/dynlink_cuda.c
 @@ -0,0 +1,122 @@
@@ -241,7 +219,7 @@ index 0000000..995481b
 +}
 diff --git a/sys/nvdec/dynlink_nvcuvid.c b/sys/nvdec/dynlink_nvcuvid.c
 new file mode 100644
-index 0000000..35a1a07
+index 000000000..35a1a07c9
 --- /dev/null
 +++ b/sys/nvdec/dynlink_nvcuvid.c
 @@ -0,0 +1,105 @@
@@ -351,7 +329,7 @@ index 0000000..35a1a07
 +  return CUDA_SUCCESS;
 +}
 diff --git a/sys/nvdec/gstnvdec.c b/sys/nvdec/gstnvdec.c
-index 841a701..acba721 100644
+index 0ec83a8e9..cfb6f8247 100644
 --- a/sys/nvdec/gstnvdec.c
 +++ b/sys/nvdec/gstnvdec.c
 @@ -31,9 +31,6 @@
@@ -382,7 +360,7 @@ index 841a701..acba721 100644
    if (!cuda_OK (cuCtxCreate (&self->context, CU_CTX_SCHED_AUTO, 0)))
      GST_ERROR ("failed to create CUDA context");
 diff --git a/sys/nvdec/gstnvdec.h b/sys/nvdec/gstnvdec.h
-index 7bc6e81..335c713 100644
+index 7bc6e8100..335c71371 100644
 --- a/sys/nvdec/gstnvdec.h
 +++ b/sys/nvdec/gstnvdec.h
 @@ -29,7 +29,20 @@
@@ -406,6 +384,3 @@ index 7bc6e81..335c713 100644
  
  G_BEGIN_DECLS
  
--- 
-cgit v1.1
-
