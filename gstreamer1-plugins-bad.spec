@@ -121,6 +121,7 @@ BuildRequires:  pkgconfig(libsrtp)
 #BuildRequires:  pkgconfig(libsrtp2) >= 2.1.0
 BuildRequires:  pkgconfig(libssh2) >= 1.4.3
 BuildRequires:  pkgconfig(libusb-1.0)
+BuildRequires:  pkgconfig(libva-drm)
 BuildRequires:  pkgconfig(libvisual-0.4) >= 0.4.0
 BuildRequires:  pkgconfig(libwebp) >= 0.2.1
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.9.2
