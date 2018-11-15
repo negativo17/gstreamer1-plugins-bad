@@ -6,7 +6,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.14.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -513,6 +513,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Thu Nov 15 2018 Simone Caronni <negativo17@gmail.com> - 1:1.14.1-6
+- Rebuild for updated x265.
+
 * Tue Aug 28 2018 Simone Caronni <negativo17@gmail.com> - 1:1.14.1-5
 - Add support for CUDA 9.2.
 
