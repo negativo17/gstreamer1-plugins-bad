@@ -6,7 +6,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.14.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -15,7 +15,7 @@ URL:            http://gstreamer.freedesktop.org/
 Source0:        http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Source1:        gstreamer-bad.appdata.xml
 
-Patch0:         %{name}-cuda9.patch
+Patch0:         %{name}-cuda.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -30,9 +30,6 @@ Provides:       %{name}-freeworld%{?_isa} = %{?epoch}:%{version}-%{release}
 Obsoletes:      %{name}-nonfree < %{?epoch}:%{version}-%{release}
 Provides:       %{name}-nonfree = %{?epoch}:%{version}-%{release}
 Provides:       %{name}-nonfree%{?_isa} = %{?epoch}:%{version}-%{release}
-Obsoletes:      %{name}-nvenc < %{?epoch}:%{version}-%{release}
-Provides:       %{name}-nvenc = %{?epoch}:%{version}-%{release}
-Provides:       %{name}-nvenc%{?_isa} = %{?epoch}:%{version}-%{release}
 Obsoletes:      %{name}-wildmidi < %{?epoch}:%{version}-%{release}
 Provides:       %{name}-wildmidi = %{?epoch}:%{version}-%{release}
 Provides:       %{name}-wildmidi%{?_isa} = %{?epoch}:%{version}-%{release}
@@ -171,10 +168,7 @@ BuildRequires:  pkgconfig(zvbi-0.2)
 # Nvidia encoder/decoder (nvenc/nvdec) plugin build requirements
 BuildRequires:  pkgconfig(cuda)
 BuildRequires:  pkgconfig(cudart)
-BuildRequires:  nv-codec-headers
-BuildRequires:  nvidia-driver-devel
-# Dynamically loads libraries
-Requires:       nvidia-driver-cuda-libs
+BuildRequires:  nvenc >= 1:8.2.16
 }
 
 %description
@@ -185,7 +179,7 @@ This package contains plug-ins that aren't tested well enough, or the code is
 not of good enough quality.
 
 %package        fluidsynth
-Summary:        GStreamer "bad" plugins fluidsynth plugin
+Summary:        GStreamer "bad" fluidsynth plugin
 Requires:       %{name}%{?_isa} = %{?epoch}:%{version}-%{release}
 Requires:       soundfont2-default
 Obsoletes:      %{name}-free-fluidsynth < %{?epoch}:%{version}-%{release}
@@ -200,6 +194,24 @@ This package contains plug-ins that aren't tested well enough, or the code is
 not of good enough quality.
 
 This package contains the fluidsynth plugin
+
+%{?_with_cuda:
+%package        nvidia
+Summary:        GStreamer "bad" nvdec/nvenc plugins
+Requires:       %{name}%{?_isa} = %{?epoch}:%{version}-%{release}
+Obsoletes:      %{name}-nvenc < %{?epoch}:%{version}-%{release}
+Provides:       %{name}-nvenc = %{?epoch}:%{version}-%{release}
+Provides:       %{name}-nvenc%{?_isa} = %{?epoch}:%{version}-%{release}
+
+%description    nvidia
+GStreamer is a streaming media framework, based on graphs of elements which
+operate on media data.
+
+This package contains plug-ins that aren't tested well enough, or the code is
+not of good enough quality.
+
+This package contains the Nvidia NVENCODE/NVDECODE(CUVID) plugins.
+}
 
 %package        devel
 Summary:        Development files for the GStreamer media framework "bad" plug-ins
@@ -221,9 +233,9 @@ well enough, or the code is not of good enough quality.
 
 %build
 autoreconf -vif
-export CUDA_CFLAGS="-I%{_includedir}/cuda"
+export CUDA_CFLAGS="-I%{_includedir}/cuda -I%{_includedir}/nvenc"
 export CUDA_LIBS="-L%{_libdir} -lcuda -lcudart"
-export NVENCODE_CFLAGS="-I%{_includedir}/ffnvcodec"
+export NVENCODE_CFLAGS="-I%{_includedir}/nvenc"
 export MSDK_CFLAGS="$MSDK_CFLAGS -I%{_includedir}/mfx"
 %configure \
     --disable-rpath \
@@ -438,10 +450,6 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstmxf.so
 %{_libdir}/gstreamer-%{majorminor}/libgstneonhttpsrc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstnetsim.so
-%{?_with_cuda:
-%{_libdir}/gstreamer-%{majorminor}/libgstnvdec.so
-%{_libdir}/gstreamer-%{majorminor}/libgstnvenc.so
-}
 %{_libdir}/gstreamer-%{majorminor}/libgstofa.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenal.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopencv.so
@@ -502,6 +510,12 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstmidi.so
 %{_libdir}/gstreamer-%{majorminor}/libgstwildmidi.so
 
+%{?_with_cuda:
+%files nvidia
+%{_libdir}/gstreamer-%{majorminor}/libgstnvdec.so
+%{_libdir}/gstreamer-%{majorminor}/libgstnvenc.so
+}
+
 %files devel
 %doc %{_datadir}/gtk-doc/html/*
 %{_datadir}/gir-%{majorminor}/GstInsertBin-%{majorminor}.gir
@@ -513,6 +527,11 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Thu Jan 03 2019 Simone Caronni <negativo17@gmail.com> - 1:1.14.1-7
+- Backport support for CUDA 10.0.
+- Backport switch to Video Codec SDK headers for nvenc/nvdec plugins. This links
+  the libraries, so split out the plugins into its own subpackage.
+
 * Thu Nov 15 2018 Simone Caronni <negativo17@gmail.com> - 1:1.14.1-6
 - Rebuild for updated x265.
 
