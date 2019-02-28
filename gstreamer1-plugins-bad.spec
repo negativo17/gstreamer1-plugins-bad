@@ -6,7 +6,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.14.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -16,6 +16,7 @@ Source0:        http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins
 Source1:        gstreamer-bad.appdata.xml
 
 Patch0:         %{name}-cuda.patch
+Patch1:         %{name}-fdk-aac-v2.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -527,6 +528,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Thu Feb 28 2019 Simone Caronni <negativo17@gmail.com> - 1:1.14.1-8
+- Rebuild for updated dependencies.
+
 * Thu Jan 03 2019 Simone Caronni <negativo17@gmail.com> - 1:1.14.1-7
 - Backport support for CUDA 10.0.
 - Backport switch to Video Codec SDK headers for nvenc/nvdec plugins. This links
