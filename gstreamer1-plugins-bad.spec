@@ -1,23 +1,17 @@
-# Todo:
-# daala
-# dtsdec
-# musepack
-# openni2
-# pvr
-# spc
-# webrtc-audio-processing
-
 %global         majorminor 1.0
+#global         _with_docs 1
 
 Name:           gstreamer1-plugins-bad
 Version:        1.10.4
-Release:        8%{?dist}
+Release:        9%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
 URL:            http://gstreamer.freedesktop.org/
 
 Source0:        http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
+Patch0:         %{name}-fdk-aac-v2.patch
+Patch1:         %{name}-qt5.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -60,7 +54,9 @@ BuildRequires:  game-music-emu-devel
 BuildRequires:  gettext-devel >= 0.17
 BuildRequires:  gobject-introspection-devel >= 1.31.1
 BuildRequires:  gsm-devel
+%{?_with_docs:
 BuildRequires:  gtk-doc >= 1.12
+}
 #BuildRequires:  jasper-devel
 BuildRequires:  ladspa-devel
 BuildRequires:  libcdaudio-devel
@@ -85,15 +81,6 @@ BuildRequires:  nvenc >= 5.0
 BuildRequires:  nvidia-driver-devel
 %endif
 
-%if 0%{?fedora}
-BuildRequires:  pkgconfig(gtk+-wayland-3.0)
-BuildRequires:  pkgconfig(Qt5Core)
-BuildRequires:  pkgconfig(Qt5Gui)
-BuildRequires:  pkgconfig(Qt5Quick)
-BuildRequires:  pkgconfig(Qt5WaylandClient)
-BuildRequires:  pkgconfig(Qt5X11Extras)
-%endif
-
 BuildRequires:  pkgconfig(bluez) >= 5.0
 BuildRequires:  pkgconfig(cairo) >= 1.0
 BuildRequires:  pkgconfig(clutter-1.0) >= 1.8
@@ -113,6 +100,7 @@ BuildRequires:  pkgconfig(gmodule-export-2.0)
 BuildRequires:  pkgconfig(gmodule-no-export-2.0)
 #BuildRequires:  pkgconfig(graphene-1.0) >= 1.0.0
 BuildRequires:  pkgconfig(gtk+-3.0) >= 3.15
+BuildRequires:  pkgconfig(gtk+-wayland-3.0)
 #BuildRequires:  pkgconfig(gtk+-x11-2.0)
 BuildRequires:  pkgconfig(gtk+-x11-3.0)
 BuildRequires:  pkgconfig(gudev-1.0)
@@ -155,6 +143,11 @@ BuildRequires:  pkgconfig(opencv) <= 3.1.0
 BuildRequires:  pkgconfig(openh264) >= 1.3.0
 BuildRequires:  pkgconfig(openssl) >= 1.0.1
 BuildRequires:  pkgconfig(opus) >= 0.9.4
+BuildRequires:  pkgconfig(Qt5Core)
+BuildRequires:  pkgconfig(Qt5Gui)
+BuildRequires:  pkgconfig(Qt5Quick)
+BuildRequires:  pkgconfig(Qt5WaylandClient)
+BuildRequires:  pkgconfig(Qt5X11Extras)
 BuildRequires:  pkgconfig(sbc) >= 1.0
 BuildRequires:  pkgconfig(schroedinger-1.0) >= 1.0.10
 #BuildRequires:  pkgconfig(sdl) >= 1.2.0
@@ -215,7 +208,7 @@ This package contains the development files for the plug-ins that aren't tested
 well enough, or the code is not of good enough quality.
 
 %prep
-%setup -q -n gst-plugins-bad-%{version}
+%autosetup -p1 -n gst-plugins-bad-%{version}
 sed -i -e 's/-Wno-portability 1.14/-Wno-portability 1.13/g' configure.ac
 
 %build
@@ -227,7 +220,7 @@ export NVENCODE_CFLAGS="$NVENCODE_CFLAGS -I%{_includedir}/nvenc"
     --disable-silent-rules \
     --disable-fatal-warnings \
     --enable-experimental \
-    --enable-gtk-doc \
+%{?_with_docs:--enable-gtk-doc} \
     --with-cuda-prefix=%{_prefix} \
     --with-package-name="Fedora GStreamer-plugins-bad package" \
     --with-package-origin="http://negativo17.org"
@@ -359,7 +352,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstopusparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstpcapparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstpnm.so
-#%{_libdir}/gstreamer-%{majorminor}/libgstqmlgl.so
+%{_libdir}/gstreamer-%{majorminor}/libgstqmlgl.so
 %{_libdir}/gstreamer-%{majorminor}/libgstrawparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstremovesilence.so
 %{_libdir}/gstreamer-%{majorminor}/libgstresindvd.so
@@ -419,6 +412,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Thu Feb 28 2019 Simone Caronni <negativo17@gmail.com> - 1:1.10.4-9
+- Rebuild for updated dependencies.
+
 * Thu Nov 15 2018 Simone Caronni <negativo17@gmail.com> - 1:1.10.4-8
 - Rebuild for updated x265.
 
