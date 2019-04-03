@@ -5,8 +5,8 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.14.4
-Release:        3%{?dist}
+Version:        1.15.2
+Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -15,7 +15,7 @@ URL:            http://gstreamer.freedesktop.org/
 Source0:        http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Source1:        gstreamer-bad.appdata.xml
 
-Patch0:         %{name}-cuda.patch
+Patch0:         https://cgit.freedesktop.org/gstreamer/gst-plugins-bad/patch/?id=ebe01995ff23d195bfe3157312f512bd805cf045#/%{name}-cuda-10.1.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -58,7 +58,6 @@ BuildRequires:  gtk-doc >= 1.12
 #BuildRequires:  jasper-devel
 BuildRequires:  ladspa-devel
 BuildRequires:  libcdaudio-devel
-BuildRequires:  libiptcdata-devel
 BuildRequires:  libmpcdec-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  mesa-libGLU-devel
@@ -363,7 +362,6 @@ find %{buildroot} -name '*.la' -delete
 
 %{_libdir}/libgstadaptivedemux-%{majorminor}.so.*
 %{_libdir}/libgstbadaudio-%{majorminor}.so.*
-%{_libdir}/libgstbadvideo-%{majorminor}.so.*
 %{_libdir}/libgstbasecamerabinsrc-%{majorminor}.so.*
 %{_libdir}/libgstcodecparsers-%{majorminor}.so.*
 %{_libdir}/libgstinsertbin-%{majorminor}.so.*
@@ -372,6 +370,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/libgstopencv-%{majorminor}.so.*
 %{_libdir}/libgstphotography-%{majorminor}.so.*
 %{_libdir}/libgstplayer-%{majorminor}.so.*
+%{_libdir}/libgstsctp-%{majorminor}.so.*
 %{_libdir}/libgsturidownloader-%{majorminor}.so.*
 %{_libdir}/libgstwayland-%{majorminor}.so.*
 %{_libdir}/libgstwebrtc-%{majorminor}.so.*
@@ -393,11 +392,11 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstbluez.so
 %{_libdir}/gstreamer-%{majorminor}/libgstbs2b.so
 %{_libdir}/gstreamer-%{majorminor}/libgstbz2.so
+%{_libdir}/gstreamer-%{majorminor}/libgstclosedcaption.so
 %{_libdir}/gstreamer-%{majorminor}/libgstcamerabin.so
 %{_libdir}/gstreamer-%{majorminor}/libgstchromaprint.so
 %{_libdir}/gstreamer-%{majorminor}/libgstcoloreffects.so
 %{_libdir}/gstreamer-%{majorminor}/libgstcolormanagement.so
-%{_libdir}/gstreamer-%{majorminor}/libgstcompositor.so
 %{_libdir}/gstreamer-%{majorminor}/libgstcurl.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdashdemux.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdc1394.so
@@ -445,7 +444,6 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstmpegtsmux.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmplex.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmsdk.so
-%{_libdir}/gstreamer-%{majorminor}/libgstmusepack.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmxf.so
 %{_libdir}/gstreamer-%{majorminor}/libgstneonhttpsrc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstnetsim.so
@@ -453,7 +451,6 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstopenal.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopencv.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenexr.so
-%{_libdir}/gstreamer-%{majorminor}/libgstopenglmixers.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenh264.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenjpeg.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopusparse.so
@@ -479,13 +476,11 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstspandsp.so
 %{_libdir}/gstreamer-%{majorminor}/libgstspeed.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsrtp.so
-%{_libdir}/gstreamer-%{majorminor}/libgststereo.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsubenc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstteletext.so
 %{_libdir}/gstreamer-%{majorminor}/libgsttimecode.so
 %{_libdir}/gstreamer-%{majorminor}/libgstttmlsubs.so
 %{_libdir}/gstreamer-%{majorminor}/libgstuvch264.so
-%{_libdir}/gstreamer-%{majorminor}/libgstvcdsrc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstvdpau.so
 %{_libdir}/gstreamer-%{majorminor}/libgstvideofiltersbad.so
 %{_libdir}/gstreamer-%{majorminor}/libgstvideoframe_audiolevel.so
@@ -526,6 +521,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Wed Apr 03 2019 Simone Caronni <negativo17@gmail.com> - 1:1.15.2-1
+- Update to 1.15.2.
+
 * Thu Jan 03 2019 Simone Caronni <negativo17@gmail.com> - 1:1.14.4-3
 - Backport support for CUDA 10.0.
 - Backport switch to Video Codec SDK headers for nvenc/nvdec plugins. This links
