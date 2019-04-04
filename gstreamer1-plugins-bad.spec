@@ -6,7 +6,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.15.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -58,7 +58,6 @@ BuildRequires:  gtk-doc >= 1.12
 #BuildRequires:  jasper-devel
 BuildRequires:  ladspa-devel
 BuildRequires:  libcdaudio-devel
-BuildRequires:  libmpcdec-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  mesa-libGLU-devel
 BuildRequires:  orc-devel >= 0.4.17
@@ -68,6 +67,7 @@ BuildRequires:  wildmidi-devel
 BuildRequires:  xvidcore-devel
 
 
+BuildRequires:  pkgconfig(aom)
 BuildRequires:  pkgconfig(bluez) >= 5.0
 BuildRequires:  pkgconfig(cairo) >= 1.0
 BuildRequires:  pkgconfig(clutter-1.0) >= 1.8
@@ -78,6 +78,7 @@ BuildRequires:  pkgconfig(clutter-x11-1.0) >= 1.8
 #BuildRequires:  pkgconfig(dssim)
 BuildRequires:  pkgconfig(dvdnav) >= 4.1.2
 BuildRequires:  pkgconfig(dvdread) >= 4.1.2
+BuildRequires:  pkgconfig(egl)
 BuildRequires:  pkgconfig(fdk-aac) >= 0.1.4
 BuildRequires:  pkgconfig(fluidsynth) >= 1.0
 BuildRequires:  pkgconfig(gio-2.0)
@@ -155,10 +156,13 @@ BuildRequires:  pkgconfig(wayland-egl) >= 9.0
 BuildRequires:  pkgconfig(wayland-protocols) >= 1.4
 BuildRequires:  pkgconfig(webrtc-audio-processing) >= 0.2
 BuildRequires:  pkgconfig(webrtc-audio-processing) < 0.4
+BuildRequires:  pkgconfig(wpe-webkit-0.1) >= 2.22
+BuildRequires:  pkgconfig(wpebackend-fdo-0.1)
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  pkgconfig(x265)
 BuildRequires:  pkgconfig(xcb) >= 1.10
 BuildRequires:  pkgconfig(xcomposite)
+BuildRequires:  pkgconfig(xkbcommon)
 BuildRequires:  pkgconfig(zbar) >= 0.9
 BuildRequires:  pkgconfig(zvbi-0.2)
 
@@ -324,6 +328,7 @@ export MSDK_CFLAGS="$MSDK_CFLAGS -I%{_includedir}/mfx"
     --enable-webrtcdsp \
     --enable-wildmidi \
     --enable-winks \
+    --enable-wpe \
     --enable-x265 \
     --enable-zbar \
     --with-cuda-prefix=%{_prefix} \
@@ -380,6 +385,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstadpcmdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstadpcmenc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstaiff.so
+%{_libdir}/gstreamer-%{majorminor}/libgstaom.so
 %{_libdir}/gstreamer-%{majorminor}/libgstasfmux.so
 %{_libdir}/gstreamer-%{majorminor}/libgstassrender.so
 %{_libdir}/gstreamer-%{majorminor}/libgstaudiobuffersplit.so
@@ -493,6 +499,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstwebp.so
 %{_libdir}/gstreamer-%{majorminor}/libgstwebrtc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstwebrtcdsp.so
+%{_libdir}/gstreamer-%{majorminor}/libgstwpe.so
 %{_libdir}/gstreamer-%{majorminor}/libgstx265.so
 %{_libdir}/gstreamer-%{majorminor}/libgsty4mdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstyadif.so
@@ -521,6 +528,10 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Thu Apr 04 2019 Simone Caronni <negativo17@gmail.com> - 1:1.15.2-2
+- Enable additional plugins.
+- Trim changelog.
+
 * Wed Apr 03 2019 Simone Caronni <negativo17@gmail.com> - 1:1.15.2-1
 - Update to 1.15.2.
 
@@ -611,75 +622,3 @@ find %{buildroot} -name '*.la' -delete
 
 * Tue Jan 03 2017 Simone Caronni <negativo17@gmail.com> - 1:1.10.2-2
 - Rebuild for x265 2.2 update.
-
-* Mon Dec 05 2016 Simone Caronni <negativo17@gmail.com> - 1:1.10.2-1
-- Update to 1.10.2.
-
-* Mon Nov 28 2016 Simone Caronni <negativo17@gmail.com> - 1:1.10.1-1
-- Update to 1.10.1.
-
-* Thu Nov 10 2016 Simone Caronni <negativo17@gmail.com> - 1:1.10.0-1
-- Update to 1.10.0.
-
-* Wed Nov 09 2016 Simone Caronni <negativo17@gmail.com> - 1:1.9.2-2
-- Rebuild for OpenH264 update.
-
-* Thu Nov 03 2016 Simone Caronni <negativo17@gmail.com> - 1:1.9.2-1
-- Update to 1.9.2.
-- Enable libvisual, lilv plugins.
-
-* Sun Oct 02 2016 Simone Caronni <negativo17@gmail.com> - 1:1.9.1-3
-- Rebuild for x265 update.
-
-* Sat Aug 20 2016 Simone Caronni <negativo17@gmail.com> - 1:1.9.1-2
-- Enable dc1394 plugin, rebuild for NVENC 7.0.1.
-
-* Wed Aug 17 2016 Simone Caronni <negativo17@gmail.com> - 1:1.9.1-1
-- Update to 1.9.1.
-
-* Fri Aug 05 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.2-2
-- Obsoletes nonfree as well.
-
-* Sun Jun 19 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.2-1
-- Update to 1.8.2.
-
-* Wed Jun 15 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.1-5
-- Enable mjpegtools plugin.
-
-* Tue Jun 14 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.1-4
-- Enable mms and mimic plugins.
-
-* Mon Jun 13 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.1-3
-- Obsoletes gstreamer1-plugin-openh264 from fedora-cisco-openh264 repository.
-
-* Thu Jun 09 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.1-2
-- Enable libde265 and NVENC (x86_64 only) plugin.
-
-* Sat Jun 04 2016 Simone Caronni <negativo17@gmail.com> - 1:1.8.1-1
-- Update to 1.8.1.
-- Enable flite, GLES.
-- Leave NVENC disabled as it requires NVENC 5.x for building.
-
-* Fri Apr 15 2016 Simone Caronni <negativo17@gmail.com> - 1:1.6.4-1
-- Update to 1.6.4.
-
-* Wed Mar 16 2016 Simone Caronni <negativo17@gmail.com> - 1:1.6.3-2
-- Rebuild for FFMPeg bump.
-
-* Tue Mar 15 2016 Simone Caronni <negativo17@gmail.com> - 1:1.6.3-1
-- First build based on bad-free package.
-- Enable every possible codec, obsolete/provide every Fedora and RPMFusion
-  package (bad-free, bad-free-extras, bad-freeworld).
-- Bump Epoch.
-- Clean up SPEC file.
-- Add license macro.
-- Remove chrpath hacks.
-- Add all midi plugins to fluidsynth subpackage to avoid pulling 200mb of
-  midi sounds.
-
-* Thu Feb 04 2016 Ralf Corsépius <corsepiu@fedoraproject.org> - 1.7.1-4
-- Append --disable-fatal-warnings to %%configure to prevent
-  building from aborting for negligible warnings (Fix F24FTBFS)
-- Append --disable-silent-rules to %%configure to make
-  building verbose.
-- Don't remove buildroot before installing.
