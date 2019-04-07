@@ -1,7 +1,7 @@
-diff -Naur gst-plugins-bad-1.14.1.old/configure.ac gst-plugins-bad-1.14.1/configure.ac
---- gst-plugins-bad-1.14.1.old/configure.ac	2019-03-03 14:22:42.855535770 +0100
-+++ gst-plugins-bad-1.14.1/configure.ac	2019-03-03 14:22:57.876805180 +0100
-@@ -1422,12 +1422,14 @@
+diff -Naur gst-plugins-bad-1.14.4.old/configure.ac gst-plugins-bad-1.14.4/configure.ac
+--- gst-plugins-bad-1.14.4.old/configure.ac	2019-04-07 18:47:24.188249516 +0200
++++ gst-plugins-bad-1.14.4/configure.ac	2019-04-07 18:47:31.563388619 +0200
+@@ -1423,12 +1423,14 @@
  dnl *** fdkaac ***
  translit(dnm, m, l) AM_CONDITIONAL(USE_FDK_AAC, true)
  AG_GST_CHECK_FEATURE(FDK_AAC, [fdkaac plugin], fdkaac, [
@@ -21,9 +21,9 @@ diff -Naur gst-plugins-bad-1.14.1.old/configure.ac gst-plugins-bad-1.14.1/config
    ])
  ])
  
-diff -Naur gst-plugins-bad-1.14.1.old/ext/fdkaac/gstfdkaacdec.c gst-plugins-bad-1.14.1/ext/fdkaac/gstfdkaacdec.c
---- gst-plugins-bad-1.14.1.old/ext/fdkaac/gstfdkaacdec.c	2019-03-03 14:22:42.852535716 +0100
-+++ gst-plugins-bad-1.14.1/ext/fdkaac/gstfdkaacdec.c	2019-03-03 16:54:38.320267698 +0100
+diff -Naur gst-plugins-bad-1.14.4.old/ext/fdkaac/gstfdkaacdec.c gst-plugins-bad-1.14.4/ext/fdkaac/gstfdkaacdec.c
+--- gst-plugins-bad-1.14.4.old/ext/fdkaac/gstfdkaacdec.c	2018-03-23 21:45:15.000000000 +0100
++++ gst-plugins-bad-1.14.4/ext/fdkaac/gstfdkaacdec.c	2019-04-07 18:47:31.564388638 +0200
 @@ -151,17 +151,13 @@
      gst_buffer_unref (codec_data);
    }
@@ -46,9 +46,9 @@ diff -Naur gst-plugins-bad-1.14.1.old/ext/fdkaac/gstfdkaacdec.c gst-plugins-bad-
      return FALSE;
    }
  
-diff -Naur gst-plugins-bad-1.14.1.old/ext/fdkaac/gstfdkaacenc.c gst-plugins-bad-1.14.1/ext/fdkaac/gstfdkaacenc.c
---- gst-plugins-bad-1.14.1.old/ext/fdkaac/gstfdkaacenc.c	2019-03-03 14:22:42.852535716 +0100
-+++ gst-plugins-bad-1.14.1/ext/fdkaac/gstfdkaacenc.c	2019-03-03 14:23:21.561229962 +0100
+diff -Naur gst-plugins-bad-1.14.4.old/ext/fdkaac/gstfdkaacenc.c gst-plugins-bad-1.14.4/ext/fdkaac/gstfdkaacenc.c
+--- gst-plugins-bad-1.14.4.old/ext/fdkaac/gstfdkaacenc.c	2018-03-23 21:45:15.000000000 +0100
++++ gst-plugins-bad-1.14.4/ext/fdkaac/gstfdkaacenc.c	2019-04-07 18:47:31.565388657 +0200
 @@ -71,10 +71,6 @@
    GST_AUDIO_CHANNEL_POSITION_FRONT_CENTER,
            GST_AUDIO_CHANNEL_POSITION_FRONT_LEFT,
@@ -102,9 +102,9 @@ diff -Naur gst-plugins-bad-1.14.1.old/ext/fdkaac/gstfdkaacenc.c gst-plugins-bad-
  #ifdef HAVE_FDK_AAC_0_1_4
    , {
      8, MODE_7_1_REAR_SURROUND, {
-diff -Naur gst-plugins-bad-1.14.1.old/ext/fdkaac/meson.build gst-plugins-bad-1.14.1/ext/fdkaac/meson.build
---- gst-plugins-bad-1.14.1.old/ext/fdkaac/meson.build	2019-03-03 14:22:42.852535716 +0100
-+++ gst-plugins-bad-1.14.1/ext/fdkaac/meson.build	2019-03-03 14:22:57.878805215 +0100
+diff -Naur gst-plugins-bad-1.14.4.old/ext/fdkaac/meson.build gst-plugins-bad-1.14.4/ext/fdkaac/meson.build
+--- gst-plugins-bad-1.14.4.old/ext/fdkaac/meson.build	2018-03-23 21:45:15.000000000 +0100
++++ gst-plugins-bad-1.14.4/ext/fdkaac/meson.build	2019-04-07 18:47:31.565388657 +0200
 @@ -8,6 +8,11 @@
      fdkaac_defines += ['-DHAVE_FDK_AAC_0_1_4']
    endif
