@@ -6,7 +6,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.14.4
-Release:        4%{?dist}
+Release:        5%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -69,7 +69,7 @@ BuildRequires:  vulkan-devel
 BuildRequires:  wildmidi-devel
 BuildRequires:  xvidcore-devel
 
-
+BuildRequires:  pkgconfig(aom)
 BuildRequires:  pkgconfig(bluez) >= 5.0
 BuildRequires:  pkgconfig(cairo) >= 1.0
 BuildRequires:  pkgconfig(clutter-1.0) >= 1.8
@@ -382,6 +382,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstadpcmdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstadpcmenc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstaiff.so
+%{_libdir}/gstreamer-%{majorminor}/libgstaom.so
 %{_libdir}/gstreamer-%{majorminor}/libgstasfmux.so
 %{_libdir}/gstreamer-%{majorminor}/libgstassrender.so
 %{_libdir}/gstreamer-%{majorminor}/libgstaudiobuffersplit.so
@@ -527,6 +528,10 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Sun Apr 07 2019 Simone Caronni <negativo17@gmail.com> - 1:1.14.4-5
+- Update patches for CUDA 10.1.
+- Enable aom plugin.
+
 * Thu Feb 28 2019 Simone Caronni <negativo17@gmail.com> - 1:1.14.4-4
 - Rebuild for updated dependencies.
 
