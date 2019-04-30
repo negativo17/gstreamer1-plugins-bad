@@ -5,8 +5,8 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.15.2
-Release:        2%{?dist}
+Version:        1.16.0
+Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -14,8 +14,6 @@ URL:            http://gstreamer.freedesktop.org/
 
 Source0:        http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Source1:        gstreamer-bad.appdata.xml
-
-Patch0:         https://cgit.freedesktop.org/gstreamer/gst-plugins-bad/patch/?id=ebe01995ff23d195bfe3157312f512bd805cf045#/%{name}-cuda-10.1.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -156,8 +154,6 @@ BuildRequires:  pkgconfig(wayland-egl) >= 9.0
 BuildRequires:  pkgconfig(wayland-protocols) >= 1.4
 BuildRequires:  pkgconfig(webrtc-audio-processing) >= 0.2
 BuildRequires:  pkgconfig(webrtc-audio-processing) < 0.4
-BuildRequires:  pkgconfig(wpe-webkit-0.1) >= 2.22
-BuildRequires:  pkgconfig(wpebackend-fdo-0.1)
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  pkgconfig(x265)
 BuildRequires:  pkgconfig(xcb) >= 1.10
@@ -328,7 +324,6 @@ export MSDK_CFLAGS="$MSDK_CFLAGS -I%{_includedir}/mfx"
     --enable-webrtcdsp \
     --enable-wildmidi \
     --enable-winks \
-    --enable-wpe \
     --enable-x265 \
     --enable-zbar \
     --with-cuda-prefix=%{_prefix} \
@@ -499,7 +494,6 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstwebp.so
 %{_libdir}/gstreamer-%{majorminor}/libgstwebrtc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstwebrtcdsp.so
-%{_libdir}/gstreamer-%{majorminor}/libgstwpe.so
 %{_libdir}/gstreamer-%{majorminor}/libgstx265.so
 %{_libdir}/gstreamer-%{majorminor}/libgsty4mdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstyadif.so
@@ -528,6 +522,10 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Tue Apr 30 2019 Simone Caronni <negativo17@gmail.com> - 1:1.16.0-1
+- Update to 1.16.0.
+- Disable webkit backend.
+
 * Thu Apr 04 2019 Simone Caronni <negativo17@gmail.com> - 1:1.15.2-2
 - Enable additional plugins.
 - Trim changelog.
