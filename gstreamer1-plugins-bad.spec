@@ -6,7 +6,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.14.4
-Release:        5%{?dist}
+Release:        6%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -17,6 +17,7 @@ Source1:        gstreamer-bad.appdata.xml
 
 Patch0:         %{name}-cuda.patch
 Patch1:         %{name}-fdk-aac-v2.patch
+Patch2:         %{name}-openh264-v2.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -528,6 +529,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Sun Jul 07 2019 Simone Caronni <negativo17@gmail.com> - 1:1.14.4-6
+- Rebuild for updated dependencies.
+
 * Sun Apr 07 2019 Simone Caronni <negativo17@gmail.com> - 1:1.14.4-5
 - Update patches for CUDA 10.1.
 - Enable aom plugin.
