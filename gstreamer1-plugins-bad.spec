@@ -3,7 +3,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.10.4
-Release:        9%{?dist}
+Release:        10%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -12,6 +12,7 @@ URL:            http://gstreamer.freedesktop.org/
 Source0:        http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Patch0:         %{name}-fdk-aac-v2.patch
 Patch1:         %{name}-qt5.patch
+Patch2:         %{name}-openh264-v2.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -412,6 +413,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Sun Jul 07 2019 Simone Caronni <negativo17@gmail.com> - 1:1.10.4-10
+- Rebuild for updated dependencies.
+
 * Thu Feb 28 2019 Simone Caronni <negativo17@gmail.com> - 1:1.10.4-9
 - Rebuild for updated dependencies.
 
