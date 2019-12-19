@@ -6,7 +6,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.16.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -85,6 +85,7 @@ BuildRequires:  pkgconfig(glesv2)
 BuildRequires:  pkgconfig(gmodule-export-2.0)
 BuildRequires:  pkgconfig(gmodule-no-export-2.0)
 #BuildRequires:  pkgconfig(gnustl)
+BuildRequires:  pkgconfig(gstreamer-allocators-1.0)
 BuildRequires:  pkgconfig(gtk+-3.0) >= 3.15
 BuildRequires:  pkgconfig(gtk+-wayland-3.0)
 BuildRequires:  pkgconfig(gtk+-x11-3.0)
@@ -522,6 +523,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Thu Dec 19 2019 Simone Caronni <negativo17@gmail.com> - 1:1.16.1-3
+- Add missing BR.
+
 * Mon Oct 21 2019 Simone Caronni <negativo17@gmail.com> - 1:1.16.1-2
 - Rebuild for updated dependencies.
 
