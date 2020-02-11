@@ -1,12 +1,10 @@
-%ifarch x86_64
-%global         _with_cuda 1
-%endif
+%define _legacy_common_support 1
 
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
 Version:        1.16.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -14,6 +12,12 @@ URL:            http://gstreamer.freedesktop.org/
 
 Source0:        http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Source1:        gstreamer-bad.appdata.xml
+
+# Based on https://cgit.freedesktop.org/gstreamer/gst-plugins-bad/commit/?h=1.16&id=2c67d0d2f05a1dd6f3c9b6c0c7a387d738117052
+Patch0:         %{name}-opencv-43.patch
+# https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/commit/e6225482f65a12d1f2355f893b8527f24d393c23
+Patch1:         %{name}-neon.patch
+Patch2:         https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/commit/17850d7e87af93c6bd181d7c25903478c2254fa6.diff#/%{name}-vulkan.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -38,6 +42,7 @@ Provides:       gstreamer1-plugin-openh264%{?_isa} = %{?epoch}:%{version}-%{rele
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  gcc-c++
+BuildRequires:  python3
 
 BuildRequires:  gstreamer1-devel >= %{version}
 BuildRequires:  gstreamer1-plugins-base-devel >= %{version}
@@ -45,8 +50,6 @@ BuildRequires:  gstreamer1-plugins-base-devel >= %{version}
 BuildRequires:  bzip2-devel
 BuildRequires:  check
 BuildRequires:  exempi-devel
-BuildRequires:  faac-devel
-BuildRequires:  faad2-devel
 BuildRequires:  flite-devel
 BuildRequires:  game-music-emu-devel
 BuildRequires:  gettext-devel >= 0.17
@@ -55,11 +58,9 @@ BuildRequires:  gsm-devel
 BuildRequires:  gtk-doc >= 1.12
 #BuildRequires:  jasper-devel
 BuildRequires:  ladspa-devel
-BuildRequires:  libcdaudio-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  mesa-libGLU-devel
 BuildRequires:  orc-devel >= 0.4.17
-#BuildRequires:  spc-devel
 BuildRequires:  vulkan-devel
 BuildRequires:  wildmidi-devel
 BuildRequires:  xvidcore-devel
@@ -97,39 +98,35 @@ BuildRequires:  pkgconfig(libbs2b) >= 3.1.0
 BuildRequires:  pkgconfig(libchromaprint)
 BuildRequires:  pkgconfig(libcrypto)
 BuildRequires:  pkgconfig(libcurl) >= 7.35.0
+BuildRequires:  pkgconfig(libdca)
 BuildRequires:  pkgconfig(libdc1394-2) >= 2.0.0
 BuildRequires:  pkgconfig(libde265) >= 0.9
 BuildRequires:  pkgconfig(libdrm) >= 2.4.55
 BuildRequires:  pkgconfig(libexif) >= 0.6.16
-BuildRequires:  pkgconfig(libmfx)
 BuildRequires:  pkgconfig(libmms) >= 0.4
 BuildRequires:  pkgconfig(libmodplug)
 BuildRequires:  pkgconfig(libofa) >= 0.9.3
 BuildRequires:  pkgconfig(libopenjp2)
-#BuildRequires:  pkgconfig(libopenmpt)
+BuildRequires:  pkgconfig(libopenmpt)
 #BuildRequires:  pkgconfig(libopenni2) >= 0.26
 BuildRequires:  pkgconfig(libpng) >= 1.0
 BuildRequires:  pkgconfig(librsvg-2.0) >= 2.36.2
 BuildRequires:  pkgconfig(librtmp)
 BuildRequires:  pkgconfig(libSoundTouch)
-BuildRequires:  pkgconfig(libsrtp)
-#BuildRequires:  pkgconfig(libsrtp2) >= 2.1.0
 BuildRequires:  pkgconfig(libssh2) >= 1.4.3
 BuildRequires:  pkgconfig(libusb-1.0)
 BuildRequires:  pkgconfig(libva-drm)
 BuildRequires:  pkgconfig(libvisual-0.4) >= 0.4.0
 BuildRequires:  pkgconfig(libwebp) >= 0.2.1
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.9.2
-BuildRequires:  pkgconfig(lilv-0) >= 0.22
-BuildRequires:  pkgconfig(lrdf)
+#BuildRequires:  pkgconfig(lilv-0) >= 0.22
+#BuildRequires:  pkgconfig(lrdf)
 BuildRequires:  pkgconfig(mjpegtools) >= 2.0.0
 BuildRequires:  pkgconfig(neon) >= 0.27.0
-BuildRequires:  pkgconfig(neon) <= 0.30.99
+BuildRequires:  pkgconfig(neon) <= 0.31.99
 BuildRequires:  pkgconfig(nettle)
 BuildRequires:  pkgconfig(nice) >= 0.1.14
 BuildRequires:  pkgconfig(openal) >= 1.14
-BuildRequires:  pkgconfig(opencv) >= 2.3.0
-BuildRequires:  pkgconfig(opencv) <= 3.5.0
 BuildRequires:  pkgconfig(OpenEXR)
 BuildRequires:  pkgconfig(openh264) >= 1.3.0
 BuildRequires:  pkgconfig(openssl) >= 1.0.1
@@ -141,7 +138,6 @@ BuildRequires:  pkgconfig(Qt5WaylandClient)
 BuildRequires:  pkgconfig(Qt5X11Extras)
 BuildRequires:  pkgconfig(sbc) >= 1.0
 BuildRequires:  pkgconfig(schroedinger-1.0) >= 1.0.10
-BuildRequires:  pkgconfig(slv2) >= 0.6.6
 BuildRequires:  pkgconfig(sndfile) >= 1.0.16
 BuildRequires:  pkgconfig(soundtouch) >= 1.4
 BuildRequires:  pkgconfig(spandsp) >= 0.0.6
@@ -163,12 +159,23 @@ BuildRequires:  pkgconfig(xkbcommon)
 BuildRequires:  pkgconfig(zbar) >= 0.9
 BuildRequires:  pkgconfig(zvbi-0.2)
 
-%{?_with_cuda:
-# Nvidia encoder/decoder (nvenc/nvdec) plugin build requirements
+%if 0%{?fedora} >= 32
+BuildRequires:  pkgconfig(libsrtp2) >= 2.1.0
+# >= 4.0.0, < 4.3.0, opencv4 pkg-config since 4.2:
+BuildRequires:  pkgconfig(opencv4)
+%else
+BuildRequires:  pkgconfig(libsrtp)
+# >= 3.0.0, < 3.5.0:
+BuildRequires:  pkgconfig(opencv)
+%endif
+
+%ifarch x86_64
+# Nvidia encoder/decoder + Intel QuickSync plugin build requirements
 BuildRequires:  pkgconfig(cuda)
 BuildRequires:  pkgconfig(cudart)
+BuildRequires:  pkgconfig(libmfx)
 BuildRequires:  nvenc >= 1:8.2.16
-}
+%endif
 
 %description
 GStreamer is a streaming media framework, based on graphs of elements which
@@ -194,7 +201,7 @@ not of good enough quality.
 
 This package contains the fluidsynth plugin
 
-%{?_with_cuda:
+%ifarch x86_64
 %package        nvidia
 Summary:        GStreamer "bad" nvdec/nvenc plugins
 Requires:       %{name}%{?_isa} = %{?epoch}:%{version}-%{release}
@@ -210,7 +217,7 @@ This package contains plug-ins that aren't tested well enough, or the code is
 not of good enough quality.
 
 This package contains the Nvidia NVENCODE/NVDECODE(CUVID) plugins.
-}
+%endif
 
 %package        devel
 Summary:        Development files for the GStreamer media framework "bad" plug-ins
@@ -232,15 +239,20 @@ well enough, or the code is not of good enough quality.
 
 %build
 autoreconf -vif
+
+%ifarch x86_64
 export CUDA_CFLAGS="-I%{_includedir}/cuda -I%{_includedir}/nvenc"
 export CUDA_LIBS="-L%{_libdir} -lcuda -lcudart"
 export NVENCODE_CFLAGS="-I%{_includedir}/nvenc"
 export MSDK_CFLAGS="$MSDK_CFLAGS -I%{_includedir}/mfx"
+%endif
+
 %configure \
     --disable-rpath \
     --disable-silent-rules \
     --disable-fatal-warnings \
-    --enable-acm \
+    --disable-faac \
+    --disable-faad \
     --enable-android_media \
     --enable-aom \
     --enable-apple_media \
@@ -250,7 +262,6 @@ export MSDK_CFLAGS="$MSDK_CFLAGS -I%{_includedir}/mfx"
     --enable-bs2b \
     --enable-bz2 \
     --enable-chromaprint \
-    --enable-cuda \
     --enable-curl \
     --enable-dash \
     --enable-dc1394 \
@@ -260,8 +271,6 @@ export MSDK_CFLAGS="$MSDK_CFLAGS -I%{_includedir}/mfx"
     --enable-dts \
     --enable-dvb \
     --enable-experimental \
-    --enable-faac \
-    --enable-faad \
     --enable-fbdev \
     --enable-fdk_aac \
     --enable-flite \
@@ -278,15 +287,11 @@ export MSDK_CFLAGS="$MSDK_CFLAGS -I%{_includedir}/mfx"
     --enable-lcms2 \
     --enable-libde265 \
     --enable-libmms \
-    --enable-lv2 \
     --enable-modplug \
     --enable-mpeg2enc \
     --enable-mplex \
-    --enable-msdk \
     --enable-musepack \
     --enable-neon \
-    --enable-nvdec \
-    --enable-nvenc \
     --enable-ofa \
     --enable-openal \
     --enable-opencv \
@@ -306,14 +311,12 @@ export MSDK_CFLAGS="$MSDK_CFLAGS -I%{_includedir}/mfx"
     --enable-sndfile \
     --enable-soundtouch \
     --enable-spandsp \
-    --enable-spc \
     --enable-srt \
     --enable-srtp \
     --enable-teletextdec \
     --enable-tinyalsa \
     --enable-ttml \
     --enable-uvch264 \
-    --enable-vcd \
     --enable-vdpau \
     --enable-voaacenc \
     --enable-voamrwbenc \
@@ -327,40 +330,33 @@ export MSDK_CFLAGS="$MSDK_CFLAGS -I%{_includedir}/mfx"
     --enable-winks \
     --enable-x265 \
     --enable-zbar \
+    --with-package-name="Fedora GStreamer-plugins-bad package" \
+    --with-package-origin="https://negativo17.org" \
+%ifarch x86_64
+    --enable-cuda \
+    --enable-msdk \
+    --enable-nvdec \
+    --enable-nvenc \
     --with-cuda-prefix=%{_prefix} \
     --with-msdk-prefix=%{_prefix} \
-    --with-package-name="Fedora GStreamer-plugins-bad package" \
-    --with-package-origin="http://negativo17.org"
+%endif
 
 %make_build
 
 %install
 %make_install
-install -p -m 644 -D %{SOURCE1} %{buildroot}%{_datadir}/appdata/gstreamer-bad.appdata.xml
+install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metainfo.xml
 find %{buildroot} -name '*.la' -delete
 %find_lang gst-plugins-bad-%{majorminor}
-
-%ldconfig_scriptlets
 
 %files -f gst-plugins-bad-%{majorminor}.lang
 %license COPYING COPYING.LIB
 %doc AUTHORS README REQUIREMENTS
-%{_datadir}/appdata/*.xml
-
-# presets
-%dir %{_datadir}/gstreamer-%{majorminor}/presets/
-%{_datadir}/gstreamer-%{majorminor}/presets/GstFreeverb.prs
-%{_datadir}/gstreamer-%{majorminor}/presets/GstVoAmrwbEnc.prs
-
-# opencv data
-%dir %{_datadir}/gst-plugins-bad/%{majorminor}/opencv_haarcascades/
-%{_datadir}/gst-plugins-bad/%{majorminor}/opencv_haarcascades/fist.xml
-%{_datadir}/gst-plugins-bad/%{majorminor}/opencv_haarcascades/palm.xml
+%{_metainfodir}/gstreamer-bad.metainfo.xml
 %{_libdir}/girepository-%{majorminor}/GstInsertBin-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstMpegts-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstPlayer-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstWebRTC-%{majorminor}.typelib
-
 %{_libdir}/libgstadaptivedemux-%{majorminor}.so.*
 %{_libdir}/libgstbadaudio-%{majorminor}.so.*
 %{_libdir}/libgstbasecamerabinsrc-%{majorminor}.so.*
@@ -375,7 +371,14 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/libgsturidownloader-%{majorminor}.so.*
 %{_libdir}/libgstwayland-%{majorminor}.so.*
 %{_libdir}/libgstwebrtc-%{majorminor}.so.*
-
+# Presets
+%dir %{_datadir}/gstreamer-%{majorminor}/presets/
+%{_datadir}/gstreamer-%{majorminor}/presets/GstFreeverb.prs
+%{_datadir}/gstreamer-%{majorminor}/presets/GstVoAmrwbEnc.prs
+# OpenCV data
+%dir %{_datadir}/gst-plugins-bad/%{majorminor}/opencv_haarcascades/
+%{_datadir}/gst-plugins-bad/%{majorminor}/opencv_haarcascades/fist.xml
+%{_datadir}/gst-plugins-bad/%{majorminor}/opencv_haarcascades/palm.xml
 # Plugins
 %{_libdir}/gstreamer-%{majorminor}/libgstaccurip.so
 %{_libdir}/gstreamer-%{majorminor}/libgstadpcmdec.so
@@ -406,11 +409,10 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstdebugutilsbad.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdecklink.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdtls.so
+%{_libdir}/gstreamer-%{majorminor}/libgstdtsdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdvb.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdvbsuboverlay.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdvdspu.so
-%{_libdir}/gstreamer-%{majorminor}/libgstfaac.so
-%{_libdir}/gstreamer-%{majorminor}/libgstfaad.so
 %{_libdir}/gstreamer-%{majorminor}/libgstfaceoverlay.so
 %{_libdir}/gstreamer-%{majorminor}/libgstfbdevsink.so
 %{_libdir}/gstreamer-%{majorminor}/libgstfdkaac.so
@@ -436,7 +438,6 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstkms.so
 %{_libdir}/gstreamer-%{majorminor}/libgstladspa.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlegacyrawparse.so
-%{_libdir}/gstreamer-%{majorminor}/libgstlv2.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmms.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmodplug.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmpeg2enc.so
@@ -445,7 +446,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstmpegtsdemux.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmpegtsmux.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmplex.so
+%ifarch x86_64
 %{_libdir}/gstreamer-%{majorminor}/libgstmsdk.so
+%endif
 %{_libdir}/gstreamer-%{majorminor}/libgstmxf.so
 %{_libdir}/gstreamer-%{majorminor}/libgstneonhttpsrc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstnetsim.so
@@ -455,6 +458,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstopenexr.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenh264.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenjpeg.so
+%{_libdir}/gstreamer-%{majorminor}/libgstopenmpt.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopusparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstpcapparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstipcpipeline.so
@@ -506,11 +510,11 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstmidi.so
 %{_libdir}/gstreamer-%{majorminor}/libgstwildmidi.so
 
-%{?_with_cuda:
+%ifarch x86_64
 %files nvidia
 %{_libdir}/gstreamer-%{majorminor}/libgstnvdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstnvenc.so
-}
+%endif
 
 %files devel
 %doc %{_datadir}/gtk-doc/html/*
@@ -523,6 +527,12 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Tue Feb 07 2023 Simone Caronni <negativo17@gmail.com> - 1:1.16.1-4
+- First build for el8.
+- Disable FAAC Encoder/Decoder as it creates more problems than anything.
+- Update SPEC file.
+- Remove obsolete build options.
+
 * Thu Dec 19 2019 Simone Caronni <negativo17@gmail.com> - 1:1.16.1-3
 - Add missing BR.
 

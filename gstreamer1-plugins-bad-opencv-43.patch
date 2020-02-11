@@ -1,0 +1,24 @@
+diff -Naur gst-plugins-bad-1.16.2.old/configure.ac gst-plugins-bad-1.16.2/configure.ac
+--- gst-plugins-bad-1.16.2.old/configure.ac	2020-03-30 11:22:12.433157507 +0200
++++ gst-plugins-bad-1.16.2/configure.ac	2020-03-30 11:22:37.648605282 +0200
+@@ -1845,7 +1845,7 @@
+       HAVE_OPENCV="yes"
+     fi
+   ], [
+-    PKG_CHECK_MODULES([OPENCV], [opencv4 >= 4.0.0 opencv4 < 4.2.0] , [
++    PKG_CHECK_MODULES([OPENCV], [opencv4 >= 4.0.0 opencv4 < 4.3.0] , [
+     AC_PROG_CXX
+     AC_LANG([C++])
+     OLD_CPPFLAGS=$CPPFLAGS
+diff -Naur gst-plugins-bad-1.16.2.old/ext/opencv/meson.build gst-plugins-bad-1.16.2/ext/opencv/meson.build
+--- gst-plugins-bad-1.16.2.old/ext/opencv/meson.build	2020-03-30 11:22:12.732162817 +0200
++++ gst-plugins-bad-1.16.2/ext/opencv/meson.build	2020-03-30 11:22:26.284403476 +0200
+@@ -65,7 +65,7 @@
+     endif
+   endforeach
+ else
+-  opencv_dep = dependency('opencv4', version : ['>= 4.0.0', '< 4.2.0'], required : false)
++  opencv_dep = dependency('opencv4', version : ['>= 4.0.0', '< 4.3.0'], required : false)
+   opencv_found = opencv_dep.found()
+   if opencv_found
+     foreach h : libopencv4_headers
