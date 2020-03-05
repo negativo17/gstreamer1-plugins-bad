@@ -6,7 +6,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.14.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -48,8 +48,6 @@ BuildRequires:  gstreamer1-plugins-base-devel >= %{version}
 BuildRequires:  bzip2-devel
 BuildRequires:  check
 BuildRequires:  exempi-devel
-BuildRequires:  faac-devel
-BuildRequires:  faad2-devel
 BuildRequires:  flite-devel
 BuildRequires:  game-music-emu-devel
 BuildRequires:  gettext-devel >= 0.17
@@ -243,6 +241,8 @@ export MSDK_CFLAGS="$MSDK_CFLAGS -I%{_includedir}/mfx"
     --disable-rpath \
     --disable-silent-rules \
     --disable-fatal-warnings \
+    --disable-faac \
+    --disable-faad \
     --enable-acm \
     --enable-android_media \
     --enable-aom \
@@ -263,8 +263,6 @@ export MSDK_CFLAGS="$MSDK_CFLAGS -I%{_includedir}/mfx"
     --enable-dts \
     --enable-dvb \
     --enable-experimental \
-    --enable-faac \
-    --enable-faad \
     --enable-fbdev \
     --enable-fdk_aac \
     --enable-flite \
@@ -403,8 +401,8 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstdvb.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdvbsuboverlay.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdvdspu.so
-%{_libdir}/gstreamer-%{majorminor}/libgstfaac.so
-%{_libdir}/gstreamer-%{majorminor}/libgstfaad.so
+#%{_libdir}/gstreamer-%{majorminor}/libgstfaac.so
+#%{_libdir}/gstreamer-%{majorminor}/libgstfaad.so
 %{_libdir}/gstreamer-%{majorminor}/libgstfaceoverlay.so
 %{_libdir}/gstreamer-%{majorminor}/libgstfbdevsink.so
 %{_libdir}/gstreamer-%{majorminor}/libgstfdkaac.so
@@ -521,6 +519,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Thu Mar 05 2020 Simone Caronni <negativo17@gmail.com> - 1:1.14.4-2
+- Disable FAAC Encoder/Decoder as it creates more problems than anything.
+
 * Sun Nov 10 2019 Simone Caronni <negativo17@gmail.com> - 1:1.14.4-1
 - Rebase to 1.14.4.
 - Momentarily disable lcms, lilv, libcurl, libxml, soundtouch.
