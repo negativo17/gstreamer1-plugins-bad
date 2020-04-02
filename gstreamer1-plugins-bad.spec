@@ -1,3 +1,5 @@
+%define _legacy_common_support 1
+
 %ifarch x86_64
 %global         _with_cuda 1
 %endif
@@ -6,7 +8,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.16.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -14,6 +16,9 @@ URL:            http://gstreamer.freedesktop.org/
 
 Source0:        http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Source1:        gstreamer-bad.appdata.xml
+
+# Based on https://cgit.freedesktop.org/gstreamer/gst-plugins-bad/commit/?h=1.16&id=2c67d0d2f05a1dd6f3c9b6c0c7a387d738117052
+Patch0:         %{name}-opencv-43.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -57,7 +62,6 @@ BuildRequires:  libcdaudio-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  mesa-libGLU-devel
 BuildRequires:  orc-devel >= 0.4.17
-#BuildRequires:  spc-devel
 BuildRequires:  vulkan-devel
 BuildRequires:  wildmidi-devel
 BuildRequires:  xvidcore-devel
@@ -110,8 +114,6 @@ BuildRequires:  pkgconfig(libpng) >= 1.0
 BuildRequires:  pkgconfig(librsvg-2.0) >= 2.36.2
 BuildRequires:  pkgconfig(librtmp)
 BuildRequires:  pkgconfig(libSoundTouch)
-BuildRequires:  pkgconfig(libsrtp)
-#BuildRequires:  pkgconfig(libsrtp2) >= 2.1.0
 BuildRequires:  pkgconfig(libssh2) >= 1.4.3
 BuildRequires:  pkgconfig(libusb-1.0)
 BuildRequires:  pkgconfig(libva-drm)
@@ -126,8 +128,6 @@ BuildRequires:  pkgconfig(neon) <= 0.30.99
 BuildRequires:  pkgconfig(nettle)
 BuildRequires:  pkgconfig(nice) >= 0.1.14
 BuildRequires:  pkgconfig(openal) >= 1.14
-BuildRequires:  pkgconfig(opencv) >= 2.3.0
-BuildRequires:  pkgconfig(opencv) <= 3.5.0
 BuildRequires:  pkgconfig(OpenEXR)
 BuildRequires:  pkgconfig(openh264) >= 1.3.0
 BuildRequires:  pkgconfig(openssl) >= 1.0.1
@@ -160,6 +160,16 @@ BuildRequires:  pkgconfig(xcomposite)
 BuildRequires:  pkgconfig(xkbcommon)
 BuildRequires:  pkgconfig(zbar) >= 0.9
 BuildRequires:  pkgconfig(zvbi-0.2)
+
+%if 0%{?fedora} >= 32
+BuildRequires:  pkgconfig(libsrtp2) >= 2.1.0
+# >= 4.0.0, < 4.3.0, opencv4 pkg-config since 4.2:
+BuildRequires:  pkgconfig(opencv4)
+%else
+BuildRequires:  pkgconfig(libsrtp)
+# >= 3.0.0, < 3.5.0:
+BuildRequires:  pkgconfig(opencv)
+%endif
 
 %{?_with_cuda:
 # Nvidia encoder/decoder (nvenc/nvdec) plugin build requirements
@@ -240,7 +250,6 @@ export MSDK_CFLAGS="$MSDK_CFLAGS -I%{_includedir}/mfx"
     --disable-fatal-warnings \
     --disable-faac \
     --disable-faad \
-    --enable-acm \
     --enable-android_media \
     --enable-aom \
     --enable-apple_media \
@@ -304,14 +313,12 @@ export MSDK_CFLAGS="$MSDK_CFLAGS -I%{_includedir}/mfx"
     --enable-sndfile \
     --enable-soundtouch \
     --enable-spandsp \
-    --enable-spc \
     --enable-srt \
     --enable-srtp \
     --enable-teletextdec \
     --enable-tinyalsa \
     --enable-ttml \
     --enable-uvch264 \
-    --enable-vcd \
     --enable-vdpau \
     --enable-voaacenc \
     --enable-voamrwbenc \
@@ -519,6 +526,10 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Mon Mar 30 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-4
+- Update build for Fedora 32.
+- Remove obsolete build options.
+
 * Tue Mar 17 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-3
 - Rebuild for updated dependencies.
 
