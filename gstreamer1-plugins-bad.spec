@@ -8,7 +8,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.16.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -526,6 +526,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Sun May 17 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-5
+- Rebuild for updated dependencies.
+
 * Mon Mar 30 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-4
 - Update build for Fedora 32.
 - Remove obsolete build options.
