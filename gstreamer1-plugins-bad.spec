@@ -6,7 +6,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.14.4
-Release:        4%{?dist}
+Release:        5%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -106,7 +106,7 @@ BuildRequires:  pkgconfig(libmms) >= 0.4
 BuildRequires:  pkgconfig(libmodplug)
 BuildRequires:  pkgconfig(libofa) >= 0.9.3
 BuildRequires:  pkgconfig(libopenjp2)
-#BuildRequires:  pkgconfig(libopenmpt)
+BuildRequires:  pkgconfig(libopenmpt)
 #BuildRequires:  pkgconfig(libopenni2) >= 0.26
 BuildRequires:  pkgconfig(libpng) >= 1.0
 BuildRequires:  pkgconfig(librsvg-2.0) >= 2.36.2
@@ -447,6 +447,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstopenglmixers.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenh264.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenjpeg.so
+%{_libdir}/gstreamer-%{majorminor}/libgstopenmpt.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopusparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstpcapparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstipcpipeline.so
@@ -517,6 +518,10 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Sun May 24 2020 Simone Caronni <negativo17@gmail.com> - 1:1.14.4-5
+- Update SPEC file.
+- Enable openmpt plugin.
+
 * Sun May 17 2020 Simone Caronni <negativo17@gmail.com> - 1:1.14.4-4
 - Rebuild for updated dependencies.
 
