@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.16.2
-Release:        6%{?dist}
+Release:        7%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -527,6 +527,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Mon Jun 29 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-7
+- Rebuild for updated dependencies.
+
 * Sun May 24 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-6
 - Update SPEC file.
 - Enable OpenMPT plugin.
