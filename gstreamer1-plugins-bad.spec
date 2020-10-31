@@ -15,8 +15,7 @@ URL:            http://gstreamer.freedesktop.org/
 Source0:        http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 
 Patch0:         %{name}-cuda.patch
-Patch1:         %{name}-fdk-aac-v2.patch
-Patch2:         %{name}-openh264-v2.patch
+Patch1:         %{name}-openh264-v2.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
