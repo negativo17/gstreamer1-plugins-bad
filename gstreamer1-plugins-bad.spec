@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.18.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -306,7 +306,11 @@ well enough, or the code is not of good enough quality.
   -D mpegtsdemux=enabled \
   -D mpegtsmux=enabled \
   -D mplex=enabled \
+%ifarch x86_64
   -D msdk=enabled \
+%else
+  -D msdk=disabled \
+%endif
   -D musepack=disabled \
   -D mxf=enabled \
   -D neon=enabled \
@@ -602,6 +606,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Mon Nov 09 2020 Simone Caronni <negativo17@gmail.com> - 1:1.18.1-2
+- Fix build on aarch64.
+
 * Sat Oct 31 2020 Simone Caronni <negativo17@gmail.com> - 1:1.18.1-1
 - Update to 1.18.1, rebase on Meson.
 - Trim changelog.
