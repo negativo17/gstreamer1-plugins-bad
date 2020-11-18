@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.16.2
-Release:        7%{?dist}
+Release:        8%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -15,6 +15,10 @@ Source1:        gstreamer-bad.appdata.xml
 
 # Based on https://cgit.freedesktop.org/gstreamer/gst-plugins-bad/commit/?h=1.16&id=2c67d0d2f05a1dd6f3c9b6c0c7a387d738117052
 Patch0:         %{name}-opencv-43.patch
+Patch1:         %{name}-cuda.patch
+# https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/commit/e6225482f65a12d1f2355f893b8527f24d393c23
+Patch2:         %{name}-neon.patch
+Patch3:         https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/commit/17850d7e87af93c6bd181d7c25903478c2254fa6.diff#/%{name}-vulkan.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -119,7 +123,7 @@ BuildRequires:  pkgconfig(lilv-0) >= 0.22
 BuildRequires:  pkgconfig(lrdf)
 BuildRequires:  pkgconfig(mjpegtools) >= 2.0.0
 BuildRequires:  pkgconfig(neon) >= 0.27.0
-BuildRequires:  pkgconfig(neon) <= 0.30.99
+BuildRequires:  pkgconfig(neon) <= 0.31.99
 BuildRequires:  pkgconfig(nettle)
 BuildRequires:  pkgconfig(nice) >= 0.1.14
 BuildRequires:  pkgconfig(openal) >= 1.14
@@ -527,6 +531,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Wed Nov 18 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-8
+- Rebuild for CUDA 11.1.
+
 * Mon Jun 29 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-7
 - Rebuild for updated dependencies.
 
