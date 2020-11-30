@@ -354,7 +354,7 @@ well enough, or the code is not of good enough quality.
   -D srt=enabled \
   -D srtp=enabled \
   -D subenc=enabled \
-  -D svthevcenc=disabled \
+  -D svthevcenc=disabled \ # Build out of tree along with main library
   -D switchbin=enabled \
   -D teletext=enabled \
   -D timecode=enabled \
