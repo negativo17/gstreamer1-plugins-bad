@@ -3,8 +3,8 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.18.1
-Release:        2%{?dist}
+Version:        1.18.2
+Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -64,6 +64,7 @@ BuildRequires:  xvidcore-devel
 
 
 BuildRequires:  pkgconfig(aom)
+BuildRequires:  pkgconfig(avtp)
 BuildRequires:  pkgconfig(bluez) >= 5.0
 BuildRequires:  pkgconfig(cairo) >= 1.0
 BuildRequires:  pkgconfig(clutter-1.0) >= 1.8
@@ -92,6 +93,7 @@ BuildRequires:  pkgconfig(libbs2b) >= 3.1.0
 BuildRequires:  pkgconfig(libchromaprint)
 BuildRequires:  pkgconfig(libcrypto)
 BuildRequires:  pkgconfig(libcurl) >= 7.35.0
+BuildRequires:  pkgconfig(libdca)
 BuildRequires:  pkgconfig(libdc1394-2) >= 2.0.0
 BuildRequires:  pkgconfig(libde265) >= 0.9
 BuildRequires:  pkgconfig(libdrm) >= 2.4.55
@@ -233,7 +235,7 @@ well enough, or the code is not of good enough quality.
   -D audiomixmatrix=enabled \
   -D audiovisualizers=enabled \
   -D autoconvert=enabled \
-  -D avtp=disabled \
+  -D avtp=enabled \
   -D bayer=enabled \
   -D bluez=enabled \
   -D bs2b=enabled \
@@ -255,7 +257,7 @@ well enough, or the code is not of good enough quality.
   -D directfb=disabled \
   -D directsound=enabled \
   -D dtls=enabled \
-  -D dts=disabled \
+  -D dts=enabled \
   -D dvb=enabled \
   -D dvbsubenc=enabled \
   -D dvbsuboverlay=enabled \
@@ -354,7 +356,7 @@ well enough, or the code is not of good enough quality.
   -D srt=enabled \
   -D srtp=enabled \
   -D subenc=enabled \
-  -D svthevcenc=disabled \ # Build out of tree along with main library
+  -D svthevcenc=disabled \
   -D switchbin=enabled \
   -D teletext=enabled \
   -D timecode=enabled \
@@ -464,6 +466,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstaudiomixmatrix.so
 %{_libdir}/gstreamer-%{majorminor}/libgstaudiovisualizers.so
 %{_libdir}/gstreamer-%{majorminor}/libgstautoconvert.so
+%{_libdir}/gstreamer-%{majorminor}/libgstavtp.so
 %{_libdir}/gstreamer-%{majorminor}/libgstbayer.so
 %{_libdir}/gstreamer-%{majorminor}/libgstbluez.so
 %{_libdir}/gstreamer-%{majorminor}/libgstbs2b.so
@@ -480,6 +483,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstdebugutilsbad.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdecklink.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdtls.so
+%{_libdir}/gstreamer-%{majorminor}/libgstdtsdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdvb.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdvbsubenc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdvbsuboverlay.so
@@ -606,6 +610,10 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Thu Jan 14 2021 Simone Caronni <negativo17@gmail.com> - 1:1.18.2-1
+- Update to 1.18.2.
+- Enable DTS and AVTP plugins.
+
 * Mon Nov 09 2020 Simone Caronni <negativo17@gmail.com> - 1:1.18.1-2
 - Fix build on aarch64.
 
