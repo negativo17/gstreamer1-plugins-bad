@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.18.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -610,6 +610,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Fri Mar 26 2021 Simone Caronni <negativo17@gmail.com> - 1:1.18.2-2
+- Rebuild for updated depdendencies.
+
 * Thu Jan 14 2021 Simone Caronni <negativo17@gmail.com> - 1:1.18.2-1
 - Update to 1.18.2.
 - Enable DTS and AVTP plugins.
