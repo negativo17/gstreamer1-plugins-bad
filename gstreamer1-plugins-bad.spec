@@ -6,7 +6,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.14.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -97,6 +97,7 @@ BuildRequires:  pkgconfig(libbs2b) >= 3.1.0
 BuildRequires:  pkgconfig(libchromaprint)
 BuildRequires:  pkgconfig(libcrypto)
 #BuildRequires:  pkgconfig(libcurl) >= 7.35.0
+BuildRequires:  pkgconfig(libdca)
 BuildRequires:  pkgconfig(libdc1394-2) >= 2.0.0
 BuildRequires:  pkgconfig(libde265) >= 0.9
 BuildRequires:  pkgconfig(libdrm) >= 2.4.55
@@ -398,6 +399,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstdebugutilsbad.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdecklink.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdtls.so
+%{_libdir}/gstreamer-%{majorminor}/libgstdtsdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdvb.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdvbsuboverlay.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdvdspu.so
@@ -518,6 +520,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Fri Mar 26 2021 Simone Caronni <negativo17@gmail.com> - 1:1.14.5-3
+- Enable DTS plugin.
+
 * Tue Dec 08 2020 Simone Caronni <negativo17@gmail.com> - 1:1.14.5-2
 - Rebuild for updated CUDA.
 
