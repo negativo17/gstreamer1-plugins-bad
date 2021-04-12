@@ -3,8 +3,8 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.18.2
-Release:        2%{?dist}
+Version:        1.18.4
+Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -156,14 +156,10 @@ BuildRequires:  pkgconfig(xkbcommon-x11)
 BuildRequires:  pkgconfig(zbar) >= 0.9
 BuildRequires:  pkgconfig(zvbi-0.2)
 
-%if 0%{?fedora} >= 32
+%if 0%{?fedora}
 BuildRequires:  pkgconfig(libsrtp2) >= 2.1.0
-# >= 4.0.0, < 4.3.0, opencv4 pkg-config since 4.2:
-BuildRequires:  pkgconfig(opencv4)
 %else
 BuildRequires:  pkgconfig(libsrtp)
-# >= 3.0.0, < 3.5.0:
-BuildRequires:  pkgconfig(opencv)
 %endif
 
 %ifarch x86_64
@@ -321,7 +317,7 @@ well enough, or the code is not of good enough quality.
   -D ofa=enabled \
   -D onvif=enabled \
   -D openal=enabled \
-  -D opencv=enabled \
+  -D opencv=disabled \
   -D openexr=enabled \
   -D openh264=enabled \
   -D openjpeg=enabled \
@@ -424,7 +420,6 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/libgstinsertbin-%{majorminor}.so.*
 %{_libdir}/libgstisoff-%{majorminor}.so.*
 %{_libdir}/libgstmpegts-%{majorminor}.so.*
-%{_libdir}/libgstopencv-%{majorminor}.so.*
 %{_libdir}/libgstphotography-%{majorminor}.so.*
 %{_libdir}/libgstplayer-%{majorminor}.so.*
 %{_libdir}/libgsttranscoder-%{majorminor}.so.*
@@ -532,7 +527,6 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstnvcodec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstofa.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenal.so
-%{_libdir}/gstreamer-%{majorminor}/libgstopencv.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenexr.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenh264.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenjpeg.so
@@ -610,6 +604,10 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Mon Apr 12 2021 Simone Caronni <negativo17@gmail.com> - 1:1.18.4-1
+- Update to 1.18.4.
+- Disable OpenCV again.
+
 * Fri Mar 26 2021 Simone Caronni <negativo17@gmail.com> - 1:1.18.2-2
 - Rebuild for updated depdendencies.
 
