@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.18.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -604,6 +604,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Sun Jun 20 2021 Simone Caronni <negativo17@gmail.com> - 1:1.18.4-2
+- Rebuild for updated dependencies.
+
 * Mon Apr 12 2021 Simone Caronni <negativo17@gmail.com> - 1:1.18.4-1
 - Update to 1.18.4.
 - Disable OpenCV again.
