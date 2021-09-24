@@ -3,8 +3,8 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.18.4
-Release:        2%{?dist}
+Version:        1.19.1
+Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -88,6 +88,7 @@ BuildRequires:  pkgconfig(gtk+-x11-3.0)
 BuildRequires:  pkgconfig(gudev-1.0)
 BuildRequires:  pkgconfig(kate) >= 0.1.7
 BuildRequires:  pkgconfig(lcms2) >= 2.7
+BuildRequires:  pkgconfig(ldacBT-enc)
 BuildRequires:  pkgconfig(libass) >= 0.10.2
 BuildRequires:  pkgconfig(libbs2b) >= 3.1.0
 BuildRequires:  pkgconfig(libchromaprint)
@@ -125,6 +126,7 @@ BuildRequires:  pkgconfig(OpenEXR)
 BuildRequires:  pkgconfig(openh264) >= 1.3.0
 BuildRequires:  pkgconfig(openssl) >= 1.0.1
 BuildRequires:  pkgconfig(opus) >= 0.9.4
+BuildRequires:  pkgconfig(libqrencode)
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Gui)
 BuildRequires:  pkgconfig(Qt5Quick)
@@ -274,6 +276,7 @@ well enough, or the code is not of good enough quality.
   -D geometrictransform=enabled \
   -D gl=enabled \
   -D gme=enabled \
+  -D gs=disabled \
   -D gsm=enabled \
   -D hls-crypto=auto \
   -D hls=enabled \
@@ -282,6 +285,7 @@ well enough, or the code is not of good enough quality.
   -D interlace=enabled \
   -D ipcpipeline=enabled \
   -D iqa=disabled \
+  -D isac=disabled \
   -D ivfparse=enabled \
   -D ivtc=enabled \
   -D jp2kdecimator=enabled \
@@ -315,8 +319,10 @@ well enough, or the code is not of good enough quality.
   -D netsim=enabled \
   -D nvcodec=enabled \
   -D ofa=enabled \
+  -D onnx=disabled \
   -D onvif=enabled \
   -D openal=enabled \
+  -D openaptx=disabled \
   -D opencv=disabled \
   -D openexr=enabled \
   -D openh264=enabled \
@@ -407,6 +413,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/girepository-%{majorminor}/GstInsertBin-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstMpegts-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstPlayer-%{majorminor}.typelib
+%{_libdir}/girepository-%{majorminor}/GstPlay-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstTranscoder-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstVulkan-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstVulkanWayland-%{majorminor}.typelib
@@ -421,10 +428,12 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/libgstisoff-%{majorminor}.so.*
 %{_libdir}/libgstmpegts-%{majorminor}.so.*
 %{_libdir}/libgstphotography-%{majorminor}.so.*
+%{_libdir}/libgstplay-%{majorminor}.so.*
 %{_libdir}/libgstplayer-%{majorminor}.so.*
 %{_libdir}/libgsttranscoder-%{majorminor}.so.*
 %{_libdir}/libgstsctp-%{majorminor}.so.*
 %{_libdir}/libgsturidownloader-%{majorminor}.so.*
+%{_libdir}/libgstva-%{majorminor}.so.*
 %{_libdir}/libgstvulkan-%{majorminor}.so.*
 %{_libdir}/libgstwayland-%{majorminor}.so.*
 %{_libdir}/libgstwebrtc-%{majorminor}.so.*
@@ -440,6 +449,7 @@ find %{buildroot} -name '*.la' -delete
 %{_datadir}/gstreamer-%{majorminor}/encoding-profiles/file-extension/mp4.gep
 %{_datadir}/gstreamer-%{majorminor}/encoding-profiles/file-extension/oga.gep
 %{_datadir}/gstreamer-%{majorminor}/encoding-profiles/file-extension/ogv.gep
+%{_datadir}/gstreamer-%{majorminor}/encoding-profiles/file-extension/ts.gep
 %{_datadir}/gstreamer-%{majorminor}/encoding-profiles/file-extension/webm.gep
 %dir %{_datadir}/gstreamer-%{majorminor}/encoding-profiles/online-services/
 %{_datadir}/gstreamer-%{majorminor}/encoding-profiles/online-services/youtube.gep
@@ -469,6 +479,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstclosedcaption.so
 %{_libdir}/gstreamer-%{majorminor}/libgstcamerabin.so
 %{_libdir}/gstreamer-%{majorminor}/libgstchromaprint.so
+%{_libdir}/gstreamer-%{majorminor}/libgstcodecalpha.so
 %{_libdir}/gstreamer-%{majorminor}/libgstcoloreffects.so
 %{_libdir}/gstreamer-%{majorminor}/libgstcolormanagement.so
 %{_libdir}/gstreamer-%{majorminor}/libgstcurl.so
@@ -507,6 +518,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstkate.so
 %{_libdir}/gstreamer-%{majorminor}/libgstkms.so
 %{_libdir}/gstreamer-%{majorminor}/libgstladspa.so
+%{_libdir}/gstreamer-%{majorminor}/libgstldac.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlegacyrawparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlv2.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmidi.so
@@ -536,6 +548,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstipcpipeline.so
 %{_libdir}/gstreamer-%{majorminor}/libgstpnm.so
 %{_libdir}/gstreamer-%{majorminor}/libgstproxy.so
+%{_libdir}/gstreamer-%{majorminor}/libgstqroverlay.so
 %{_libdir}/gstreamer-%{majorminor}/libgstremovesilence.so
 %{_libdir}/gstreamer-%{majorminor}/libgstresindvd.so
 %{_libdir}/gstreamer-%{majorminor}/libgstrfbsrc.so
@@ -593,6 +606,7 @@ find %{buildroot} -name '*.la' -delete
 %{_datadir}/gir-%{majorminor}/GstCodecs-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstInsertBin-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstMpegts-%{majorminor}.gir
+%{_datadir}/gir-%{majorminor}/GstPlay-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstPlayer-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstTranscoder-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstVulkan-%{majorminor}.gir
@@ -604,6 +618,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Wed Sep 22 2021 Fabio Valentini <decathorpe@gmail.com> - 1:1.19.1-1
+- Update to 1.19.1.
+
 * Sun Jun 20 2021 Simone Caronni <negativo17@gmail.com> - 1:1.18.4-2
 - Rebuild for updated dependencies.
 
