@@ -3,7 +3,7 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.19.1
+Version:        1.19.2
 Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
@@ -12,6 +12,7 @@ URL:            http://gstreamer.freedesktop.org/
 
 Source0:        http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Source1:        gstreamer-bad.metainfo.xml
+Patch0:         %{name}-aptx.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -35,7 +36,9 @@ Provides:       %{name}-wildmidi%{?_isa} = %{?epoch}:%{version}-%{release}
 Obsoletes:      gstreamer1-plugin-openh264 < %{?epoch}:%{version}-%{release}
 Provides:       gstreamer1-plugin-openh264 = %{?epoch}:%{version}-%{release}
 Provides:       gstreamer1-plugin-openh264%{?_isa} = %{?epoch}:%{version}-%{release}
-
+Obsoletes:      gstreamer1-svt-hevc < %{?epoch}:%{version}-%{release}
+Provides:       gstreamer1-svt-hevc = %{?epoch}:%{version}-%{release}
+Provides:       gstreamer1-svt-hevc%{?_isa} = %{?epoch}:%{version}-%{release}
 
 BuildRequires:  meson >= 0.48.0
 BuildRequires:  gcc-c++
@@ -99,6 +102,7 @@ BuildRequires:  pkgconfig(libdc1394-2) >= 2.0.0
 BuildRequires:  pkgconfig(libde265) >= 0.9
 BuildRequires:  pkgconfig(libdrm) >= 2.4.55
 BuildRequires:  pkgconfig(libexif) >= 0.6.16
+BuildRequires:  pkgconfig(libfreeaptx) >= 0.1.1
 BuildRequires:  pkgconfig(libmms) >= 0.4
 BuildRequires:  pkgconfig(libmodplug)
 BuildRequires:  pkgconfig(libofa) >= 0.9.3
@@ -167,6 +171,8 @@ BuildRequires:  pkgconfig(libsrtp)
 %ifarch x86_64
 # Intel QuickSync plugin build requirements
 BuildRequires:  pkgconfig(libmfx)
+# Intel SVT-HEVC encoder
+BuildRequires:  pkgconfig(SvtHevcEnc) >= 1.4.1
 %endif
 
 %description
@@ -322,7 +328,7 @@ well enough, or the code is not of good enough quality.
   -D onnx=disabled \
   -D onvif=enabled \
   -D openal=enabled \
-  -D openaptx=disabled \
+  -D openaptx=enabled \
   -D opencv=disabled \
   -D openexr=enabled \
   -D openh264=enabled \
@@ -358,9 +364,14 @@ well enough, or the code is not of good enough quality.
   -D srt=enabled \
   -D srtp=enabled \
   -D subenc=enabled \
+%ifarch x86_64
+  -D svthevcenc=enabled \
+%else
   -D svthevcenc=disabled \
+%endif
   -D switchbin=enabled \
   -D teletext=enabled \
+  -D tests=disabled \
   -D timecode=enabled \
   -D tinyalsa=disabled \
   -D transcode=enabled \
@@ -461,6 +472,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstaccurip.so
 %{_libdir}/gstreamer-%{majorminor}/libgstadpcmdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstadpcmenc.so
+%{_libdir}/gstreamer-%{majorminor}/libgstaes.so
 %{_libdir}/gstreamer-%{majorminor}/libgstaiff.so
 %{_libdir}/gstreamer-%{majorminor}/libgstaom.so
 %{_libdir}/gstreamer-%{majorminor}/libgstasfmux.so
@@ -539,6 +551,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstnvcodec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstofa.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenal.so
+%{_libdir}/gstreamer-%{majorminor}/libgstopenaptx.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenexr.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenh264.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenjpeg.so
@@ -572,6 +585,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstspeed.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsrt.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsrtp.so
+%ifarch x86_64
+%{_libdir}/gstreamer-%{majorminor}/libgstsvthevcenc.so
+%endif
 %{_libdir}/gstreamer-%{majorminor}/libgstsubenc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstswitchbin.so
 %{_libdir}/gstreamer-%{majorminor}/libgstteletext.so
@@ -618,6 +634,10 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Sun Oct 24 2021 Simone Caronni <negativo17@gmail.com> - 1:1.19.2-1
+- Update to 1.19.2.
+- Enable aptX and SVT-HEVC encoder plugins.
+
 * Wed Sep 22 2021 Fabio Valentini <decathorpe@gmail.com> - 1:1.19.1-1
 - Update to 1.19.1.
 
