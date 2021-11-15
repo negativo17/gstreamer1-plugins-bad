@@ -3,7 +3,7 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.19.2
+Version:        1.19.3
 Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
@@ -103,9 +103,7 @@ BuildRequires:  pkgconfig(libde265) >= 0.9
 BuildRequires:  pkgconfig(libdrm) >= 2.4.55
 BuildRequires:  pkgconfig(libexif) >= 0.6.16
 BuildRequires:  pkgconfig(libfreeaptx) >= 0.1.1
-BuildRequires:  pkgconfig(libmms) >= 0.4
 BuildRequires:  pkgconfig(libmodplug)
-BuildRequires:  pkgconfig(libofa) >= 0.9.3
 BuildRequires:  pkgconfig(libopenjp2)
 BuildRequires:  pkgconfig(libopenmpt)
 #BuildRequires:  pkgconfig(libopenni2) >= 0.26
@@ -282,6 +280,7 @@ well enough, or the code is not of good enough quality.
   -D geometrictransform=enabled \
   -D gl=enabled \
   -D gme=enabled \
+  -D gpl=enabled \
   -D gs=disabled \
   -D gsm=enabled \
   -D hls-crypto=auto \
@@ -300,7 +299,6 @@ well enough, or the code is not of good enough quality.
   -D kms=enabled \
   -D ladspa=enabled \
   -D libde265=enabled \
-  -D libmms=enabled \
   -D librfb=enabled \
   -D lv2=enabled \
   -D magicleap=disabled \
@@ -324,7 +322,6 @@ well enough, or the code is not of good enough quality.
   -D neon=enabled \
   -D netsim=enabled \
   -D nvcodec=enabled \
-  -D ofa=enabled \
   -D onnx=disabled \
   -D onvif=enabled \
   -D openal=enabled \
@@ -534,7 +531,6 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstlegacyrawparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlv2.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmidi.so
-%{_libdir}/gstreamer-%{majorminor}/libgstmms.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmodplug.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmpeg2enc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmpegpsdemux.so
@@ -549,7 +545,6 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstneonhttpsrc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstnetsim.so
 %{_libdir}/gstreamer-%{majorminor}/libgstnvcodec.so
-%{_libdir}/gstreamer-%{majorminor}/libgstofa.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenal.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenaptx.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenexr.so
@@ -634,6 +629,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Mon Nov 15 2021 Simone Caronni <negativo17@gmail.com> - 1:1.19.3-1
+- Update to 1.19.3.
+
 * Sun Oct 24 2021 Simone Caronni <negativo17@gmail.com> - 1:1.19.2-1
 - Update to 1.19.2.
 - Enable aptX and SVT-HEVC encoder plugins.
