@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.20.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -680,6 +680,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-%{majorminor}.pc
 
 %changelog
+* Sat Mar 19 2022 Simone Caronni <negativo17@gmail.com> - 1:1.20.0-2
+- Rebuild for updated dependencies.
+
 * Sun Feb 06 2022 Simone Caronni <negativo17@gmail.com> - 1:1.20.0-1
 - Update to 1.20.0.
 - Switch to oneVPL for Intel Quicksync suppport.
