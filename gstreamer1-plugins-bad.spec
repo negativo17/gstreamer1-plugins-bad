@@ -3,8 +3,8 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.20.0
-Release:        2%{?dist}
+Version:        1.20.3
+Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -12,8 +12,6 @@ URL:            http://gstreamer.freedesktop.org/
 
 Source0:        https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Source1:        gstreamer-bad.metainfo.xml
-# Not merged yet: https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/issues/1642
-Patch0:         %{name}-aptx.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -424,7 +422,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 
 %files -f gst-plugins-bad-%{majorminor}.lang
 %license COPYING
-%doc AUTHORS ChangeLog NEWS README RELEASE REQUIREMENTS
+%doc AUTHORS NEWS README.md RELEASE REQUIREMENTS
 %{_bindir}/gst-transcoder-1.0
 %exclude %{_bindir}/playout
 %{_metainfodir}/gstreamer-bad.metainfo.xml
@@ -672,7 +670,6 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-plugins-bad-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-sctp-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-transcoder-%{majorminor}.pc
-%{_libdir}/pkgconfig/gstreamer-va-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-vulkan-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-vulkan-wayland-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-vulkan-xcb-%{majorminor}.pc
@@ -680,6 +677,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-%{majorminor}.pc
 
 %changelog
+* Fri Jul 22 2022 Simone Caronni <negativo17@gmail.com> - 1:1.20.3-1
+- Update to 1.20.3.
+
 * Sat Mar 19 2022 Simone Caronni <negativo17@gmail.com> - 1:1.20.0-2
 - Rebuild for updated dependencies.
 
