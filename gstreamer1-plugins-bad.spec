@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.20.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -680,6 +680,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-%{majorminor}.pc
 
 %changelog
+* Thu Sep 22 2022 Simone Caronni <negativo17@gmail.com> - 1:1.20.0-3
+- Rebuild for updated dependencies.
+
 * Sat Mar 19 2022 Simone Caronni <negativo17@gmail.com> - 1:1.20.0-2
 - Rebuild for updated dependencies.
 
