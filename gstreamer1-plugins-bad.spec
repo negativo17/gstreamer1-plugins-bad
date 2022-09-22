@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.18.4
-Release:        5%{?dist}
+Release:        6%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -55,12 +55,10 @@ BuildRequires:  gobject-introspection-devel >= 1.31.1
 BuildRequires:  gsm-devel
 BuildRequires:  gtk-doc >= 1.12
 BuildRequires:  ladspa-devel
-BuildRequires:  libcdaudio-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  mesa-libGLU-devel
 BuildRequires:  orc-devel >= 0.4.17
 BuildRequires:  vulkan-devel
-BuildRequires:  wildmidi-devel
 BuildRequires:  xvidcore-devel
 
 
@@ -71,7 +69,6 @@ BuildRequires:  pkgconfig(cairo) >= 1.0
 BuildRequires:  pkgconfig(clutter-1.0) >= 1.8
 BuildRequires:  pkgconfig(clutter-glx-1.0) >= 1.8
 BuildRequires:  pkgconfig(clutter-x11-1.0) >= 1.8
-#BuildRequires:  pkgconfig(dssim)
 BuildRequires:  pkgconfig(dvdnav) >= 4.1.2
 BuildRequires:  pkgconfig(dvdread) >= 4.1.2
 BuildRequires:  pkgconfig(egl)
@@ -104,7 +101,6 @@ BuildRequires:  pkgconfig(libmodplug)
 BuildRequires:  pkgconfig(libofa) >= 0.9.3
 BuildRequires:  pkgconfig(libopenjp2)
 BuildRequires:  pkgconfig(libopenmpt)
-#BuildRequires:  pkgconfig(libopenni2) >= 0.26
 BuildRequires:  pkgconfig(libpng) >= 1.0
 BuildRequires:  pkgconfig(librsvg-2.0) >= 2.36.2
 BuildRequires:  pkgconfig(librtmp)
@@ -116,13 +112,12 @@ BuildRequires:  pkgconfig(libvisual-0.4) >= 0.4.0
 BuildRequires:  pkgconfig(libwebp) >= 0.2.1
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.9.2
 BuildRequires:  pkgconfig(lilv-0) >= 0.22
-BuildRequires:  pkgconfig(lrdf)
 BuildRequires:  pkgconfig(mjpegtools) >= 2.0.0
 BuildRequires:  pkgconfig(neon) >= 0.31.0
 BuildRequires:  pkgconfig(nettle)
 BuildRequires:  pkgconfig(nice) >= 0.1.14
 BuildRequires:  pkgconfig(openal) >= 1.14
-BuildRequires:  pkgconfig(OpenEXR)
+#BuildRequires:  pkgconfig(OpenEXR)
 BuildRequires:  pkgconfig(openh264) >= 1.3.0
 BuildRequires:  pkgconfig(openssl) >= 1.0.1
 BuildRequires:  pkgconfig(opus) >= 0.9.4
@@ -133,7 +128,6 @@ BuildRequires:  pkgconfig(Qt5WaylandClient)
 BuildRequires:  pkgconfig(Qt5X11Extras)
 BuildRequires:  pkgconfig(sbc) >= 1.0
 BuildRequires:  pkgconfig(schroedinger-1.0) >= 1.0.10
-BuildRequires:  pkgconfig(slv2) >= 0.6.6
 BuildRequires:  pkgconfig(sndfile) >= 1.0.16
 BuildRequires:  pkgconfig(soundtouch) >= 1.4
 BuildRequires:  pkgconfig(spandsp) >= 0.0.6
@@ -156,12 +150,7 @@ BuildRequires:  pkgconfig(xkbcommon)
 BuildRequires:  pkgconfig(xkbcommon-x11)
 BuildRequires:  pkgconfig(zbar) >= 0.9
 BuildRequires:  pkgconfig(zvbi-0.2)
-
-%if 0%{?fedora}
 BuildRequires:  pkgconfig(libsrtp2) >= 2.1.0
-%else
-BuildRequires:  pkgconfig(libsrtp)
-%endif
 
 %ifarch x86_64
 # Intel QuickSync plugin build requirements
@@ -199,9 +188,6 @@ Requires:       gstreamer1-plugins-base-devel
 Obsoletes:      %{name}-free-devel < %{?epoch}:%{version}-%{release}
 Provides:       %{name}-free-devel = %{?epoch}:%{version}-%{release}
 Provides:       %{name}-free-devel%{?_isa} = %{?epoch}:%{version}-%{release}
-# Drop after Fedora 36:
-Provides:       gst-transcoder-devel = 1.16.0-4
-Obsoletes:      gst-transcoder-devel < 1.16.0-4
 
 %description    devel
 GStreamer is a streaming media framework, based on graphs of elements which
@@ -289,11 +275,11 @@ well enough, or the code is not of good enough quality.
   -D jpegformat=enabled \
   -D kate=enabled \
   -D kms=enabled \
-  -D ladspa=enabled \
+  -D ladspa=disabled \
   -D libde265=enabled \
   -D libmms=enabled \
   -D librfb=enabled \
-  -D lv2=enabled \
+  -D lv2=disabled \
   -D magicleap=disabled \
   -D mediafoundation=enabled \
   -D microdns=disabled \
@@ -319,7 +305,7 @@ well enough, or the code is not of good enough quality.
   -D onvif=enabled \
   -D openal=enabled \
   -D opencv=disabled \
-  -D openexr=enabled \
+  -D openexr=disabled \
   -D openh264=enabled \
   -D openjpeg=enabled \
   -D openmpt=enabled \
@@ -377,7 +363,7 @@ well enough, or the code is not of good enough quality.
   -D webp=enabled \
   -D webrtcdsp=enabled \
   -D webrtc=enabled \
-  -D wildmidi=enabled \
+  -D wildmidi=disabled \
   -D winks=enabled \
   -D winscreencap=enabled \
   -D wpe=disabled \
@@ -394,8 +380,6 @@ well enough, or the code is not of good enough quality.
 install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metainfo.xml
 find %{buildroot} -name '*.la' -delete
 %find_lang gst-plugins-bad-%{majorminor}
-
-%ldconfig_scriptlets
 
 %files -f gst-plugins-bad-%{majorminor}.lang
 %license COPYING ChangeLog
@@ -507,9 +491,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstjpegformat.so
 %{_libdir}/gstreamer-%{majorminor}/libgstkate.so
 %{_libdir}/gstreamer-%{majorminor}/libgstkms.so
-%{_libdir}/gstreamer-%{majorminor}/libgstladspa.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlegacyrawparse.so
-%{_libdir}/gstreamer-%{majorminor}/libgstlv2.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmidi.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmms.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmodplug.so
@@ -528,7 +510,6 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstnvcodec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstofa.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenal.so
-%{_libdir}/gstreamer-%{majorminor}/libgstopenexr.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenh264.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenjpeg.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenmpt.so
@@ -580,7 +561,6 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstwebp.so
 %{_libdir}/gstreamer-%{majorminor}/libgstwebrtc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstwebrtcdsp.so
-%{_libdir}/gstreamer-%{majorminor}/libgstwildmidi.so
 %{_libdir}/gstreamer-%{majorminor}/libgstx265.so
 %{_libdir}/gstreamer-%{majorminor}/libgsty4mdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstzbar.so
@@ -605,6 +585,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Wed Feb 08 2023 Simone Caronni <negativo17@gmail.com> - 1:1.18.4-6
+- First build for el9.
+
 * Sat Mar 19 2022 Simone Caronni <negativo17@gmail.com> - 1:1.18.4-5
 - Rebuild for updated dependencies.
 
@@ -627,61 +610,3 @@ find %{buildroot} -name '*.la' -delete
 * Thu Jan 14 2021 Simone Caronni <negativo17@gmail.com> - 1:1.18.2-1
 - Update to 1.18.2.
 - Enable DTS and AVTP plugins.
-
-* Mon Nov 09 2020 Simone Caronni <negativo17@gmail.com> - 1:1.18.1-2
-- Fix build on aarch64.
-
-* Sat Oct 31 2020 Simone Caronni <negativo17@gmail.com> - 1:1.18.1-1
-- Update to 1.18.1, rebase on Meson.
-- Trim changelog.
-
-* Mon Jun 29 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-7
-- Rebuild for updated dependencies.
-
-* Sun May 24 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-6
-- Update SPEC file.
-- Enable OpenMPT plugin.
-
-* Sun May 17 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-5
-- Rebuild for updated dependencies.
-
-* Mon Mar 30 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-4
-- Update build for Fedora 32.
-- Remove obsolete build options.
-
-* Tue Mar 17 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-3
-- Rebuild for updated dependencies.
-
-* Thu Mar 05 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-2
-- Disable FAAC Encoder/Decoder as it creates more problems than anything.
-
-* Tue Feb 11 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-1
-- Update to 1.16.2.
-
-* Thu Dec 19 2019 Simone Caronni <negativo17@gmail.com> - 1:1.16.1-3
-- Add missing BR.
-
-* Mon Oct 21 2019 Simone Caronni <negativo17@gmail.com> - 1:1.16.1-2
-- Rebuild for updated dependencies.
-
-* Mon Oct 07 2019 Simone Caronni <negativo17@gmail.com> - 1:1.16.1-1
-- Update to 1.16.1.
-
-* Sun Jul 07 2019 Simone Caronni <negativo17@gmail.com> - 1:1.16.0-2
-- Rebuild for updated dependencies.
-
-* Tue Apr 30 2019 Simone Caronni <negativo17@gmail.com> - 1:1.16.0-1
-- Update to 1.16.0.
-- Disable webkit backend.
-
-* Thu Apr 04 2019 Simone Caronni <negativo17@gmail.com> - 1:1.15.2-2
-- Enable additional plugins.
-- Trim changelog.
-
-* Wed Apr 03 2019 Simone Caronni <negativo17@gmail.com> - 1:1.15.2-1
-- Update to 1.15.2.
-
-* Thu Jan 03 2019 Simone Caronni <negativo17@gmail.com> - 1:1.14.4-3
-- Backport support for CUDA 10.0.
-- Backport switch to Video Codec SDK headers for nvenc/nvdec plugins. This links
-  the libraries, so split out the plugins into its own subpackage.
