@@ -342,7 +342,7 @@ well enough, or the code is not of good enough quality.
   -D opensles=disabled \
   -D opus=enabled \
   -D package-name="Fedora GStreamer-plugins-bad package" \
-  -D package-origin="http://negativo17.org" \
+  -D package-origin="https://negativo17.org" \
   -D pcapparse=enabled \
   -D pnm=enabled \
   -D proxy=enabled \
