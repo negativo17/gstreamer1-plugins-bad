@@ -332,7 +332,7 @@ export MSDK_CFLAGS="$MSDK_CFLAGS -I%{_includedir}/mfx"
     --with-cuda-prefix=%{_prefix} \
     --with-msdk-prefix=%{_prefix} \
     --with-package-name="Fedora GStreamer-plugins-bad package" \
-    --with-package-origin="http://negativo17.org"
+    --with-package-origin="https://negativo17.org"
 
 %make_build
 
