@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.16.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -56,7 +56,6 @@ BuildRequires:  gettext-devel >= 0.17
 BuildRequires:  gobject-introspection-devel >= 1.31.1
 BuildRequires:  gsm-devel
 BuildRequires:  gtk-doc >= 1.12
-#BuildRequires:  jasper-devel
 BuildRequires:  ladspa-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  mesa-libGLU-devel
@@ -72,9 +71,6 @@ BuildRequires:  pkgconfig(cairo) >= 1.0
 BuildRequires:  pkgconfig(clutter-1.0) >= 1.8
 BuildRequires:  pkgconfig(clutter-glx-1.0) >= 1.8
 BuildRequires:  pkgconfig(clutter-x11-1.0) >= 1.8
-#BuildRequires:  pkgconfig(daaladec)
-#BuildRequires:  pkgconfig(daalaenc)
-#BuildRequires:  pkgconfig(dssim)
 BuildRequires:  pkgconfig(dvdnav) >= 4.1.2
 BuildRequires:  pkgconfig(dvdread) >= 4.1.2
 BuildRequires:  pkgconfig(egl)
@@ -85,7 +81,6 @@ BuildRequires:  pkgconfig(gio-unix-2.0) > 2.24
 BuildRequires:  pkgconfig(glesv2)
 BuildRequires:  pkgconfig(gmodule-export-2.0)
 BuildRequires:  pkgconfig(gmodule-no-export-2.0)
-#BuildRequires:  pkgconfig(gnustl)
 BuildRequires:  pkgconfig(gstreamer-allocators-1.0)
 BuildRequires:  pkgconfig(gtk+-3.0) >= 3.15
 BuildRequires:  pkgconfig(gtk+-wayland-3.0)
@@ -108,25 +103,24 @@ BuildRequires:  pkgconfig(libmodplug)
 BuildRequires:  pkgconfig(libofa) >= 0.9.3
 BuildRequires:  pkgconfig(libopenjp2)
 BuildRequires:  pkgconfig(libopenmpt)
-#BuildRequires:  pkgconfig(libopenni2) >= 0.26
 BuildRequires:  pkgconfig(libpng) >= 1.0
 BuildRequires:  pkgconfig(librsvg-2.0) >= 2.36.2
 BuildRequires:  pkgconfig(librtmp)
 BuildRequires:  pkgconfig(libSoundTouch)
+BuildRequires:  pkgconfig(libsrtp)
 BuildRequires:  pkgconfig(libssh2) >= 1.4.3
 BuildRequires:  pkgconfig(libusb-1.0)
 BuildRequires:  pkgconfig(libva-drm)
 BuildRequires:  pkgconfig(libvisual-0.4) >= 0.4.0
 BuildRequires:  pkgconfig(libwebp) >= 0.2.1
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.9.2
-#BuildRequires:  pkgconfig(lilv-0) >= 0.22
-#BuildRequires:  pkgconfig(lrdf)
 BuildRequires:  pkgconfig(mjpegtools) >= 2.0.0
 BuildRequires:  pkgconfig(neon) >= 0.27.0
 BuildRequires:  pkgconfig(neon) <= 0.31.99
 BuildRequires:  pkgconfig(nettle)
 BuildRequires:  pkgconfig(nice) >= 0.1.14
 BuildRequires:  pkgconfig(openal) >= 1.14
+BuildRequires:  pkgconfig(opencv)
 BuildRequires:  pkgconfig(OpenEXR)
 BuildRequires:  pkgconfig(openh264) >= 1.3.0
 BuildRequires:  pkgconfig(openssl) >= 1.0.1
@@ -158,16 +152,6 @@ BuildRequires:  pkgconfig(xcomposite)
 BuildRequires:  pkgconfig(xkbcommon)
 BuildRequires:  pkgconfig(zbar) >= 0.9
 BuildRequires:  pkgconfig(zvbi-0.2)
-
-%if 0%{?fedora} >= 32
-BuildRequires:  pkgconfig(libsrtp2) >= 2.1.0
-# >= 4.0.0, < 4.3.0, opencv4 pkg-config since 4.2:
-BuildRequires:  pkgconfig(opencv4)
-%else
-BuildRequires:  pkgconfig(libsrtp)
-# >= 3.0.0, < 3.5.0:
-BuildRequires:  pkgconfig(opencv)
-%endif
 
 %ifarch x86_64
 # Nvidia encoder/decoder + Intel QuickSync plugin build requirements
@@ -527,6 +511,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Wed Feb 08 2023 Simone Caronni <negativo17@gmail.com> - 1:1.16.1-5
+- SPEC file cleanup.
+
 * Tue Feb 07 2023 Simone Caronni <negativo17@gmail.com> - 1:1.16.1-4
 - First build for el8.
 - Disable FAAC Encoder/Decoder as it creates more problems than anything.
