@@ -3,8 +3,8 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.20.5
-Release:        2%{?dist}
+Version:        1.22.1
+Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -40,7 +40,7 @@ Provides:       gstreamer1-svt-hevc = %{?epoch}:%{version}-%{release}
 Provides:       gstreamer1-svt-hevc%{?_isa} = %{?epoch}:%{version}-%{release}
 
 BuildRequires:  gcc-c++
-BuildRequires:  meson
+BuildRequires:  meson >= 0.62
 
 BuildRequires:  gstreamer1-devel >= %{version}
 BuildRequires:  gstreamer1-plugins-base-devel >= %{version}
@@ -60,7 +60,7 @@ BuildRequires:  libmicrodns-devel
 #BuildRequires:  libmpcdec-devel - Old API
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  mesa-libGLU-devel
-BuildRequires:  orc-devel
+BuildRequires:  orc-devel >= 0.4.17
 BuildRequires:  srt-devel
 BuildRequires:  vulkan-devel
 BuildRequires:  xvidcore-devel
@@ -77,14 +77,37 @@ BuildRequires:  pkgconfig(clutter-x11-1.0) >= 1.8
 BuildRequires:  pkgconfig(dvdnav) >= 4.1.2
 BuildRequires:  pkgconfig(dvdread) >= 4.1.2
 BuildRequires:  pkgconfig(egl)
-BuildRequires:  pkgconfig(fdk-aac) >= 0.1.4
-BuildRequires:  pkgconfig(fluidsynth) >= 1.0
+BuildRequires:  pkgconfig(fdk-aac)
+BuildRequires:  pkgconfig(fluidsynth) >= 2.1
+BuildRequires:  pkgconfig(gdk-x11-3.0)
 BuildRequires:  pkgconfig(gio-2.0)
 BuildRequires:  pkgconfig(gio-unix-2.0) > 2.24
 BuildRequires:  pkgconfig(glesv2)
 BuildRequires:  pkgconfig(gmodule-export-2.0)
 BuildRequires:  pkgconfig(gmodule-no-export-2.0)
+BuildRequires:  pkgconfig(gobject-introspection-1.0)
+#BuildRequires:  pkgconfig(google_cloud_cpp_storage) >= 1.25.0
+BuildRequires:  pkgconfig(gstreamer-1.0)
 BuildRequires:  pkgconfig(gstreamer-allocators-1.0)
+BuildRequires:  pkgconfig(gstreamer-app-1.0)
+BuildRequires:  pkgconfig(gstreamer-audio-1.0)
+BuildRequires:  pkgconfig(gstreamer-base-1.0)
+BuildRequires:  pkgconfig(gstreamer-check-1.0)
+BuildRequires:  pkgconfig(gstreamer-controller-1.0)
+BuildRequires:  pkgconfig(gstreamer-fft-1.0)
+BuildRequires:  pkgconfig(gstreamer-gl-1.0)
+BuildRequires:  pkgconfig(gstreamer-gl-egl-1.0)
+BuildRequires:  pkgconfig(gstreamer-gl-prototypes-1.0)
+BuildRequires:  pkgconfig(gstreamer-gl-wayland-1.0)
+BuildRequires:  pkgconfig(gstreamer-gl-x11-1.0)
+BuildRequires:  pkgconfig(gstreamer-net-1.0)
+BuildRequires:  pkgconfig(gstreamer-pbutils-1.0)
+BuildRequires:  pkgconfig(gstreamer-riff-1.0)
+BuildRequires:  pkgconfig(gstreamer-rtp-1.0)
+BuildRequires:  pkgconfig(gstreamer-rtsp-1.0)
+BuildRequires:  pkgconfig(gstreamer-sdp-1.0)
+BuildRequires:  pkgconfig(gstreamer-tag-1.0)
+BuildRequires:  pkgconfig(gstreamer-video-1.0)
 BuildRequires:  pkgconfig(gtk+-3.0)
 BuildRequires:  pkgconfig(gtk+-wayland-3.0)
 BuildRequires:  pkgconfig(gtk+-x11-3.0)
@@ -101,10 +124,11 @@ BuildRequires:  pkgconfig(libcurl) >= 7.55.0
 BuildRequires:  pkgconfig(libdca)
 BuildRequires:  pkgconfig(libdc1394-2) >= 2.2.5
 BuildRequires:  pkgconfig(libde265) >= 0.9
-BuildRequires:  pkgconfig(libdrm) >= 2.4.98
+BuildRequires:  pkgconfig(libdrm) >= 2.4.104
 BuildRequires:  pkgconfig(libexif) >= 0.6.16
 BuildRequires:  pkgconfig(libfreeaptx) >= 0.1.1
 BuildRequires:  pkgconfig(libmodplug)
+#BuildRequires:  pkgconfig(libonnxruntime) >= 1.13.1
 BuildRequires:  pkgconfig(libopenjp2) >= 2.2
 BuildRequires:  pkgconfig(libopenmpt)
 #BuildRequires:  pkgconfig(libopenni2) >= 0.26
@@ -117,25 +141,26 @@ BuildRequires:  pkgconfig(libsoup-2.4) >= 2.48
 BuildRequires:  pkgconfig(libsrtp2) >= 2.1.0
 BuildRequires:  pkgconfig(libssh2) >= 1.4.3
 BuildRequires:  pkgconfig(libusb-1.0)
-BuildRequires:  pkgconfig(libva) >= 1.6
-BuildRequires:  pkgconfig(libva-drm) >= 1.6
+BuildRequires:  pkgconfig(libva)
+BuildRequires:  pkgconfig(libva-drm)
+BuildRequires:  pkgconfig(libva-x11)
 BuildRequires:  pkgconfig(libvisual-0.4) >= 0.4.0
 BuildRequires:  pkgconfig(libwebp) >= 0.2.1
-BuildRequires:  pkgconfig(libxml-2.0) >= 2.9.2
+BuildRequires:  pkgconfig(libxml-2.0) >= 2.8
 BuildRequires:  pkgconfig(lilv-0) >= 0.22
 BuildRequires:  pkgconfig(lrdf)
 BuildRequires:  pkgconfig(ltc) >= 1.1.4
 BuildRequires:  pkgconfig(mjpegtools) >= 2.0.0
+BuildRequires:  pkgconfig(nice) >= 0.1.20
 BuildRequires:  pkgconfig(neon) >= 0.27
 BuildRequires:  pkgconfig(neon) <= 0.32.99
-BuildRequires:  pkgconfig(nettle)
+BuildRequires:  pkgconfig(nettle) >= 3.0
 BuildRequires:  pkgconfig(nice) >= 0.1.14
 BuildRequires:  pkgconfig(openal) >= 1.14
 BuildRequires:  pkgconfig(opencv4) >= 4.0.0
-BuildRequires:  pkgconfig(opencv4) < 4.7.0
 BuildRequires:  pkgconfig(OpenEXR)
 BuildRequires:  pkgconfig(openh264) >= 1.3.0
-BuildRequires:  pkgconfig(openssl) >= 1.1.0
+BuildRequires:  pkgconfig(openssl) >= 1.0.1
 BuildRequires:  pkgconfig(opus) >= 0.9.4
 BuildRequires:  pkgconfig(pango)
 BuildRequires:  pkgconfig(pangocairo) >= 1.22.0
@@ -146,33 +171,37 @@ BuildRequires:  pkgconfig(Qt5WaylandClient)
 BuildRequires:  pkgconfig(Qt5X11Extras)
 BuildRequires:  pkgconfig(sbc) >= 1.0
 BuildRequires:  pkgconfig(schroedinger-1.0) >= 1.0.10
-BuildRequires:  pkgconfig(slv2) >= 0.6.6
 BuildRequires:  pkgconfig(sndfile) >= 1.0.16
-BuildRequires:  pkgconfig(soundtouch) >= 1.4
+#BuildRequires:  pkgconfig(soundtouch-1.4)
 BuildRequires:  pkgconfig(spandsp) >= 0.0.6
 BuildRequires:  pkgconfig(srt) >= 1.3.0
 BuildRequires:  pkgconfig(tiger) >= 0.3.2
 BuildRequires:  pkgconfig(vo-aacenc)
-BuildRequires:  pkgconfig(vo-amrwbenc)
+BuildRequires:  pkgconfig(vo-amrwbenc) >= 0.1.0
+BuildRequires:  pkgconfig(vulkan)
 BuildRequires:  pkgconfig(wayland-client) >= 1.15
 BuildRequires:  pkgconfig(wayland-cursor) >= 1.15
 BuildRequires:  pkgconfig(wayland-egl) >= 1.15
 BuildRequires:  pkgconfig(wayland-protocols) >= 1.15
 BuildRequires:  pkgconfig(wayland-server) >= 1.15
+#BuildRequires:  pkgconfig(webrtc-audio-coding-1)
 BuildRequires:  pkgconfig(webrtc-audio-processing) >= 0.2
 BuildRequires:  pkgconfig(webrtc-audio-processing) < 0.4
+#BuildRequires:  pkgconfig(wpe-webkit-1.1) >= 2.28
+BuildRequires:  pkgconfig(wpebackend-fdo-1.0) >= 1.8
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  pkgconfig(x265)
 BuildRequires:  pkgconfig(xcb) >= 1.10
-BuildRequires:  pkgconfig(xcomposite)
 BuildRequires:  pkgconfig(xkbcommon) >= 0.8
 BuildRequires:  pkgconfig(xkbcommon-x11)
 BuildRequires:  pkgconfig(wildmidi) >= 0.4.2
 BuildRequires:  pkgconfig(zbar) >= 0.9
 BuildRequires:  pkgconfig(zvbi-0.2)
-BuildRequires:  pkgconfig(zxing) >= 1.1.1
+#BuildRequires:  pkgconfig(zxing) >= 1.4.0
 
 %ifarch x86_64
+BuildRequires:  pkgconfig(libmfx) >= 1.0
+BuildRequires:  pkgconfig(libmfx) <= 1.99
 BuildRequires:  pkgconfig(SvtHevcEnc) >= 1.4.1
 BuildRequires:  pkgconfig(vpl) >= 2.2
 %endif
@@ -229,6 +258,7 @@ well enough, or the code is not of good enough quality.
   -D adpcmenc=enabled \
   -D aes=enabled \
   -D aiff=enabled \
+  -D amfcodec=disabled \
   -D androidmedia=enabled \
   -D aom=enabled \
   -D applemedia=enabled \
@@ -263,6 +293,7 @@ well enough, or the code is not of good enough quality.
   -D decklink=enabled \
   -D directfb=disabled \
   -D directsound=enabled \
+  -D directshow=disabled \
   -D doc=disabled \
   -D dtls=enabled \
   -D dts=enabled \
@@ -319,11 +350,6 @@ well enough, or the code is not of good enough quality.
   -D mpegtsdemux=enabled \
   -D mpegtsmux=enabled \
   -D mplex=enabled \
-%ifarch x86_64
-  -D msdk=enabled \
-%else
-  -D msdk=disabled \
-%endif
   -D musepack=disabled \
   -D mxf=enabled \
   -D neon=enabled \
@@ -371,11 +397,6 @@ well enough, or the code is not of good enough quality.
   -D srt=enabled \
   -D srtp=enabled \
   -D subenc=enabled \
-%ifarch x86_64
-  -D svthevcenc=enabled \
-%else
-  -D svthevcenc=disabled \
-%endif
   -D switchbin=enabled \
   -D teletext=enabled \
   -D tests=disabled \
@@ -408,7 +429,16 @@ well enough, or the code is not of good enough quality.
   -D x265=enabled \
   -D y4m=enabled \
   -D zbar=enabled \
-  -D zxing=enabled
+  -D zxing=disabled \
+%ifarch x86_64
+  -D msdk=enabled \
+  -D qsv=enabled \
+  -D svthevcenc=enabled \
+%else
+  -D msdk=disabled \
+  -D qsv=disabled \
+  -D svthevcenc=disabled \
+%endif
 
 %meson_build
 
@@ -418,21 +448,22 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 
 %find_lang gst-plugins-bad-%{majorminor}
 
-%{?ldconfig_scriptlets}
-
 %files -f gst-plugins-bad-%{majorminor}.lang
 %license COPYING
 %doc AUTHORS NEWS README.md RELEASE REQUIREMENTS
 %{_bindir}/gst-transcoder-1.0
 %exclude %{_bindir}/playout
 %{_metainfodir}/gstreamer-bad.metainfo.xml
+%{_libdir}/girepository-%{majorminor}/CudaGst-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstBadAudio-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstCodecs-%{majorminor}.typelib
+%{_libdir}/girepository-%{majorminor}/GstCuda-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstInsertBin-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstMpegts-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstPlayer-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstPlay-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstTranscoder-%{majorminor}.typelib
+%{_libdir}/girepository-%{majorminor}/GstVa-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstVulkan-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstVulkanWayland-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstVulkanXCB-%{majorminor}.typelib
@@ -442,6 +473,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/libgstbasecamerabinsrc-%{majorminor}.so.*
 %{_libdir}/libgstcodecparsers-%{majorminor}.so.*
 %{_libdir}/libgstcodecs-%{majorminor}.so.*
+%{_libdir}/libgstcuda-%{majorminor}.so.*
 %{_libdir}/libgstinsertbin-%{majorminor}.so.*
 %{_libdir}/libgstisoff-%{majorminor}.so.*
 %{_libdir}/libgstmpegts-%{majorminor}.so.*
@@ -456,6 +488,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/libgstvulkan-%{majorminor}.so.*
 %{_libdir}/libgstwayland-%{majorminor}.so.*
 %{_libdir}/libgstwebrtc-%{majorminor}.so.*
+%{_libdir}/libgstwebrtcnice-%{majorminor}.so.*
 # Encoder profiles
 %dir %{_datadir}/gstreamer-%{majorminor}/encoding-profiles/
 %dir %{_datadir}/gstreamer-%{majorminor}/encoding-profiles/device/
@@ -500,6 +533,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstcamerabin.so
 %{_libdir}/gstreamer-%{majorminor}/libgstchromaprint.so
 %{_libdir}/gstreamer-%{majorminor}/libgstcodecalpha.so
+%{_libdir}/gstreamer-%{majorminor}/libgstcodectimestamper.so
 %{_libdir}/gstreamer-%{majorminor}/libgstcoloreffects.so
 %{_libdir}/gstreamer-%{majorminor}/libgstcolormanagement.so
 %{_libdir}/gstreamer-%{majorminor}/libgstcurl.so
@@ -527,6 +561,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstgeometrictransform.so
 %{_libdir}/gstreamer-%{majorminor}/libgstgme.so
 %{_libdir}/gstreamer-%{majorminor}/libgstgsm.so
+%{_libdir}/gstreamer-%{majorminor}/libgstgtkwayland.so
 %{_libdir}/gstreamer-%{majorminor}/libgsthls.so
 %{_libdir}/gstreamer-%{majorminor}/libgstid3tag.so
 %{_libdir}/gstreamer-%{majorminor}/libgstinterlace.so
@@ -570,6 +605,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstpnm.so
 %{_libdir}/gstreamer-%{majorminor}/libgstproxy.so
 %{_libdir}/gstreamer-%{majorminor}/libgstqroverlay.so
+%ifarch x86_64
+%{_libdir}/gstreamer-%{majorminor}/libgstqsv.so
+%endif
 %{_libdir}/gstreamer-%{majorminor}/libgstremovesilence.so
 %{_libdir}/gstreamer-%{majorminor}/libgstresindvd.so
 %{_libdir}/gstreamer-%{majorminor}/libgstrfbsrc.so
@@ -621,7 +659,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstx265.so
 %{_libdir}/gstreamer-%{majorminor}/libgsty4mdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstzbar.so
-%{_libdir}/gstreamer-%{majorminor}/libgstzxing.so
+#%{_libdir}/gstreamer-%{majorminor}/libgstzxing.so
 
 %files fluidsynth
 %{_libdir}/gstreamer-%{majorminor}/libgstfluidsynthmidi.so
@@ -629,13 +667,16 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstwildmidi.so
 
 %files devel
+%{_datadir}/gir-%{majorminor}/CudaGst-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstBadAudio-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstCodecs-%{majorminor}.gir
+%{_datadir}/gir-%{majorminor}/GstCuda-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstInsertBin-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstMpegts-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstPlayer-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstPlay-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstTranscoder-%{majorminor}.gir
+%{_datadir}/gir-%{majorminor}/GstVa-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstVulkan-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstVulkanWayland-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstVulkanXCB-%{majorminor}.gir
@@ -646,6 +687,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/libgstbasecamerabinsrc-%{majorminor}.so
 %{_libdir}/libgstcodecparsers-%{majorminor}.so
 %{_libdir}/libgstcodecs-%{majorminor}.so
+%{_libdir}/libgstcuda-%{majorminor}.so
 %{_libdir}/libgstinsertbin-%{majorminor}.so
 %{_libdir}/libgstisoff-%{majorminor}.so
 %{_libdir}/libgstmpegts-%{majorminor}.so
@@ -660,8 +702,10 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/libgstvulkan-%{majorminor}.so
 %{_libdir}/libgstwayland-%{majorminor}.so
 %{_libdir}/libgstwebrtc-%{majorminor}.so
+%{_libdir}/libgstwebrtcnice-%{majorminor}.so
 %{_libdir}/pkgconfig/gstreamer-bad-audio-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-codecparsers-%{majorminor}.pc
+%{_libdir}/pkgconfig/gstreamer-cuda-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-insertbin-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-mpegts-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-photography-%{majorminor}.pc
@@ -670,13 +714,19 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-plugins-bad-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-sctp-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-transcoder-%{majorminor}.pc
+%{_libdir}/pkgconfig/gstreamer-va-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-vulkan-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-vulkan-wayland-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-vulkan-xcb-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-wayland-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-webrtc-%{majorminor}.pc
+%{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Fri Mar 17 2023 Simone Caronni <negativo17@gmail.com> - 1:1.22.1-1
+- Update to 1.22.1.
+- Disable momentarily zxing plugin.
+
 * Wed Mar 15 2023 Simone Caronni <negativo17@gmail.com> - 1:1.20.5-2
 - Rebuild for updated dependencies.
 
