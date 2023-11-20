@@ -3,8 +3,8 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.22.5
-Release:        2%{?dist}
+Version:        1.22.7
+Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -200,7 +200,7 @@ BuildRequires:  pkgconfig(xkbcommon-x11)
 BuildRequires:  pkgconfig(wildmidi) >= 0.4.2
 BuildRequires:  pkgconfig(zbar) >= 0.9
 BuildRequires:  pkgconfig(zvbi-0.2)
-#BuildRequires:  pkgconfig(zxing) >= 1.4.0
+BuildRequires:  pkgconfig(zxing)
 
 %ifarch x86_64
 BuildRequires:  pkgconfig(libmfx) >= 1.0
@@ -432,7 +432,7 @@ well enough, or the code is not of good enough quality.
   -D x265=enabled \
   -D y4m=enabled \
   -D zbar=enabled \
-  -D zxing=disabled \
+  -D zxing=enabled \
 %ifarch x86_64
   -D msdk=enabled \
   -D qsv=enabled \
@@ -662,7 +662,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstx265.so
 %{_libdir}/gstreamer-%{majorminor}/libgsty4mdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstzbar.so
-#%{_libdir}/gstreamer-%{majorminor}/libgstzxing.so
+%{_libdir}/gstreamer-%{majorminor}/libgstzxing.so
 
 %files fluidsynth
 %{_libdir}/gstreamer-%{majorminor}/libgstfluidsynthmidi.so
@@ -726,6 +726,10 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Mon Nov 20 2023 Simone Caronni <negativo17@gmail.com> - 1:1.22.7-1
+- Update to 1.22.7.
+- Enable zxing plugin.
+
 * Thu Nov 09 2023 Simone Caronni <negativo17@gmail.com> - 1:1.22.5-2
 - Provide/obsolete bad-free-libs.
 
