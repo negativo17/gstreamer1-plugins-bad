@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.22.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -12,6 +12,8 @@ URL:            http://gstreamer.freedesktop.org/
 
 Source0:        https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Source1:        gstreamer-bad.metainfo.xml
+# https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/567a2a7f67a376fc263ebe12338da28c6c281374
+Patch0:         %{name}-neon.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -156,7 +158,7 @@ BuildRequires:  pkgconfig(ltc) >= 1.1.4
 BuildRequires:  pkgconfig(mjpegtools) >= 2.0.0
 BuildRequires:  pkgconfig(nice) >= 0.1.20
 BuildRequires:  pkgconfig(neon) >= 0.27
-BuildRequires:  pkgconfig(neon) <= 0.32.99
+BuildRequires:  pkgconfig(neon) <= 0.33.99
 BuildRequires:  pkgconfig(nettle) >= 3.0
 BuildRequires:  pkgconfig(nice) >= 0.1.14
 BuildRequires:  pkgconfig(openal) >= 1.14
@@ -726,6 +728,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Wed Apr 03 2024 Simone Caronni <negativo17@gmail.com> - 1:1.22.9-2
+- Add neon patch.
+
 * Mon Jan 29 2024 Simone Caronni <negativo17@gmail.com> - 1:1.22.9-1
 - Update to 1.22.9.
 
