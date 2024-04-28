@@ -12,8 +12,6 @@ URL:            http://gstreamer.freedesktop.org/
 
 Source0:        https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Source1:        gstreamer-bad.metainfo.xml
-# https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/567a2a7f67a376fc263ebe12338da28c6c281374
-Patch0:         %{name}-neon.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
