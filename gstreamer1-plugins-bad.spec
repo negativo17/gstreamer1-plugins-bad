@@ -3,7 +3,7 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.22.12
+Version:        1.24.4
 Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
@@ -116,7 +116,7 @@ BuildRequires:  pkgconfig(gtk+-wayland-3.0)
 BuildRequires:  pkgconfig(gtk+-x11-3.0)
 BuildRequires:  pkgconfig(gudev-1.0)
 BuildRequires:  pkgconfig(json-glib-1.0)
-BuildRequires:  pkgconfig(kate) >= 0.1.7
+BuildRequires:  pkgconfig(lc3)
 BuildRequires:  pkgconfig(lcms2) >= 2.7
 BuildRequires:  pkgconfig(ldacBT-enc)
 BuildRequires:  pkgconfig(libass) >= 0.10.2
@@ -178,6 +178,7 @@ BuildRequires:  pkgconfig(sndfile) >= 1.0.16
 #BuildRequires:  pkgconfig(soundtouch-1.4)
 BuildRequires:  pkgconfig(spandsp) >= 0.0.6
 BuildRequires:  pkgconfig(srt) >= 1.3.0
+BuildRequires:  pkgconfig(SvtAv1Enc) >= 1.1
 BuildRequires:  pkgconfig(tiger) >= 0.3.2
 BuildRequires:  pkgconfig(vo-aacenc)
 BuildRequires:  pkgconfig(vo-amrwbenc) >= 0.1.0
@@ -188,8 +189,7 @@ BuildRequires:  pkgconfig(wayland-egl) >= 1.15
 BuildRequires:  pkgconfig(wayland-protocols) >= 1.15
 BuildRequires:  pkgconfig(wayland-server) >= 1.15
 #BuildRequires:  pkgconfig(webrtc-audio-coding-1)
-BuildRequires:  pkgconfig(webrtc-audio-processing) >= 0.2
-BuildRequires:  pkgconfig(webrtc-audio-processing) < 0.4
+BuildRequires:  pkgconfig(webrtc-audio-processing-1)
 #BuildRequires:  pkgconfig(wpe-webkit-1.1) >= 2.28
 BuildRequires:  pkgconfig(wpebackend-fdo-1.0) >= 1.8
 BuildRequires:  pkgconfig(x11)
@@ -261,7 +261,9 @@ well enough, or the code is not of good enough quality.
   -D adpcmenc=enabled \
   -D aes=enabled \
   -D aiff=enabled \
+  -D aja=disabled \
   -D amfcodec=disabled \
+  -D analyticsoverlay=enabled \
   -D androidmedia=enabled \
   -D aom=enabled \
   -D applemedia=enabled \
@@ -283,27 +285,37 @@ well enough, or the code is not of good enough quality.
   -D camerabin2=enabled \
   -D chromaprint=enabled \
   -D closedcaption=enabled \
+  -D codec2json=enabled \
   -D codecalpha=enabled \
+  -D codectimestamper=enabled \
   -D coloreffects=enabled \
   -D colormanagement=enabled \
   -D curl=enabled \
   -D curl-ssh2=enabled \
-  -D d3d11=enabled \
-  -D d3dvideosink=enabled \
+  -D d3d11=disabled \
+  -D d3d11-hlsl-precompile=disabled \
+  -D d3d11-math=disabled \
+  -D d3d11-wgc=disabled \
+  -D d3d12=disabled \
+  -D d3dvideosink=disabled \
   -D dash=enabled \
   -D dc1394=enabled \
   -D debugutils=enabled \
   -D decklink=enabled \
   -D directfb=disabled \
-  -D directsound=enabled \
   -D directshow=disabled \
+  -D directsound=enabled \
   -D doc=disabled \
+  -D drm=enabled \
   -D dtls=enabled \
   -D dts=enabled \
   -D dvb=enabled \
   -D dvbsubenc=enabled \
   -D dvbsuboverlay=enabled \
   -D dvdspu=enabled \
+  -D dwrite=enabled \
+  -D examples=enabled \
+  -D extra-checks=enabled \
   -D faac=disabled \
   -D faad=disabled \
   -D faceoverlay=enabled \
@@ -319,14 +331,22 @@ well enough, or the code is not of good enough quality.
   -D gdp=enabled \
   -D geometrictransform=enabled \
   -D gl=enabled \
+  -D glib-asserts=enabled \
+  -D glib-checks=enabled \
   -D gme=enabled \
+  -D gobject-cast-checks=enabled \
   -D gpl=enabled \
   -D gs=disabled \
   -D gsm=enabled \
+  -D gst_play_tests=false \
+  -D gtk3=enabled \
   -D hls=enabled \
+  -D hls-crypto=auto \
   -D id3tag=enabled \
+  -D insertbin=enabled \
   -D inter=enabled \
   -D interlace=enabled \
+  -D introspection=enabled \
   -D ipcpipeline=enabled \
   -D iqa=disabled \
   -D isac=disabled \
@@ -334,16 +354,16 @@ well enough, or the code is not of good enough quality.
   -D ivtc=enabled \
   -D jp2kdecimator=enabled \
   -D jpegformat=enabled \
-  -D kate=enabled \
   -D kms=enabled \
   -D ladspa=enabled \
+  -D ladspa-rdf=enabled \
+  -D lc3=enabled \
   -D ldac=enabled \
   -D libde265=enabled \
   -D librfb=enabled \
   -D lv2=enabled \
   -D magicleap=disabled \
   -D mediafoundation=enabled \
-  -D mfx_api=oneVPL \
   -D microdns=enabled \
   -D midi=enabled \
   -D modplug=enabled \
@@ -353,10 +373,13 @@ well enough, or the code is not of good enough quality.
   -D mpegtsdemux=enabled \
   -D mpegtsmux=enabled \
   -D mplex=enabled \
+  -D msdk=enabled \
+  -D mse=enabled \
   -D musepack=disabled \
   -D mxf=enabled \
   -D neon=enabled \
   -D netsim=enabled \
+  -D nls=enabled \
   -D nvcodec=enabled \
   -D onnx=disabled \
   -D onvif=enabled \
@@ -370,19 +393,21 @@ well enough, or the code is not of good enough quality.
   -D openni2=disabled \
   -D opensles=disabled \
   -D opus=enabled \
+  -D orc=enabled \
   -D package-name="Fedora GStreamer-plugins-bad package" \
   -D package-origin="https://negativo17.org" \
   -D pcapparse=enabled \
   -D pnm=enabled \
   -D proxy=enabled \
   -D qroverlay=enabled \
+  -D qt6d3d11=disabled \
   -D rawparse=enabled \
   -D removesilence=enabled \
   -D resindvd=enabled \
   -D rist=enabled \
   -D rsvg=enabled \
-  -D rtmp2=enabled \
   -D rtmp=enabled \
+  -D rtmp2=enabled \
   -D rtp=enabled \
   -D sbc=enabled \
   -D sctp=enabled \
@@ -400,13 +425,18 @@ well enough, or the code is not of good enough quality.
   -D srt=enabled \
   -D srtp=enabled \
   -D subenc=enabled \
+  -D svtav1=enabled \
   -D switchbin=enabled \
   -D teletext=enabled \
   -D tests=disabled \
   -D timecode=enabled \
   -D tinyalsa=disabled \
+  -D tools=enabled \
   -D transcode=enabled \
   -D ttml=enabled \
+  -D udev=enabled \
+  -D unixfd=enabled \
+  -D uvcgadget=enabled \
   -D uvch264=enabled \
   -D v4l2codecs=enabled \
   -D va=enabled \
@@ -418,13 +448,16 @@ well enough, or the code is not of good enough quality.
   -D voaacenc=enabled \
   -D voamrwbenc=enabled \
   -D vulkan=enabled \
-  -D wasapi2=disabled \
+  -D vulkan-video=enabled \
   -D wasapi=disabled \
+  -D wasapi2=disabled \
   -D wayland=enabled \
   -D webp=enabled \
-  -D webrtcdsp=enabled \
   -D webrtc=enabled \
+  -D webrtcdsp=enabled \
+  -D wic=enabled \
   -D wildmidi=enabled \
+  -D win32ipc=disabled \
   -D winks=enabled \
   -D winscreencap=enabled \
   -D wpe=disabled \
@@ -434,6 +467,8 @@ well enough, or the code is not of good enough quality.
   -D zbar=enabled \
   -D zxing=enabled \
 %ifarch x86_64
+  -D mfx_api=oneVPL \
+  -D mfx-modules-dir=enabled \
   -D msdk=enabled \
   -D qsv=enabled \
   -D svthevcenc=enabled \
@@ -455,14 +490,16 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %license COPYING
 %doc AUTHORS NEWS README.md RELEASE REQUIREMENTS
 %{_bindir}/gst-transcoder-1.0
-%exclude %{_bindir}/playout
 %{_metainfodir}/gstreamer-bad.metainfo.xml
 %{_libdir}/girepository-%{majorminor}/CudaGst-%{majorminor}.typelib
+%{_libdir}/girepository-%{majorminor}/GstAnalytics-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstBadAudio-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstCodecs-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstCuda-%{majorminor}.typelib
+%{_libdir}/girepository-%{majorminor}/GstDxva-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstInsertBin-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstMpegts-%{majorminor}.typelib
+%{_libdir}/girepository-%{majorminor}/GstMse-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstPlayer-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstPlay-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstTranscoder-%{majorminor}.typelib
@@ -472,14 +509,17 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/girepository-%{majorminor}/GstVulkanXCB-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstWebRTC-%{majorminor}.typelib
 %{_libdir}/libgstadaptivedemux-%{majorminor}.so.*
+%{_libdir}/libgstanalytics-%{majorminor}.so.*
 %{_libdir}/libgstbadaudio-%{majorminor}.so.*
 %{_libdir}/libgstbasecamerabinsrc-%{majorminor}.so.*
 %{_libdir}/libgstcodecparsers-%{majorminor}.so.*
 %{_libdir}/libgstcodecs-%{majorminor}.so.*
 %{_libdir}/libgstcuda-%{majorminor}.so.*
+%{_libdir}/libgstdxva-%{majorminor}.so.*
 %{_libdir}/libgstinsertbin-%{majorminor}.so.*
 %{_libdir}/libgstisoff-%{majorminor}.so.*
 %{_libdir}/libgstmpegts-%{majorminor}.so.*
+%{_libdir}/libgstmse-%{majorminor}.so.*
 %{_libdir}/libgstopencv-%{majorminor}.so.*
 %{_libdir}/libgstphotography-%{majorminor}.so.*
 %{_libdir}/libgstplayer-%{majorminor}.so.*
@@ -518,6 +558,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstadpcmenc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstaes.so
 %{_libdir}/gstreamer-%{majorminor}/libgstaiff.so
+%{_libdir}/gstreamer-%{majorminor}/libgstanalyticsoverlay.so
 %{_libdir}/gstreamer-%{majorminor}/libgstaom.so
 %{_libdir}/gstreamer-%{majorminor}/libgstasfmux.so
 %{_libdir}/gstreamer-%{majorminor}/libgstassrender.so
@@ -536,6 +577,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstcamerabin.so
 %{_libdir}/gstreamer-%{majorminor}/libgstchromaprint.so
 %{_libdir}/gstreamer-%{majorminor}/libgstcodecalpha.so
+%{_libdir}/gstreamer-%{majorminor}/libgstcodec2json.so
 %{_libdir}/gstreamer-%{majorminor}/libgstcodectimestamper.so
 %{_libdir}/gstreamer-%{majorminor}/libgstcoloreffects.so
 %{_libdir}/gstreamer-%{majorminor}/libgstcolormanagement.so
@@ -567,15 +609,16 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstgtkwayland.so
 %{_libdir}/gstreamer-%{majorminor}/libgsthls.so
 %{_libdir}/gstreamer-%{majorminor}/libgstid3tag.so
+%{_libdir}/gstreamer-%{majorminor}/libgstinsertbin.so
 %{_libdir}/gstreamer-%{majorminor}/libgstinterlace.so
 %{_libdir}/gstreamer-%{majorminor}/libgstinter.so
 %{_libdir}/gstreamer-%{majorminor}/libgstivfparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstivtc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstjp2kdecimator.so
 %{_libdir}/gstreamer-%{majorminor}/libgstjpegformat.so
-%{_libdir}/gstreamer-%{majorminor}/libgstkate.so
 %{_libdir}/gstreamer-%{majorminor}/libgstkms.so
 %{_libdir}/gstreamer-%{majorminor}/libgstladspa.so
+%{_libdir}/gstreamer-%{majorminor}/libgstlc3.so
 %{_libdir}/gstreamer-%{majorminor}/libgstldac.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlegacyrawparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlv2.so
@@ -591,6 +634,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %ifarch x86_64
 %{_libdir}/gstreamer-%{majorminor}/libgstmsdk.so
 %endif
+%{_libdir}/gstreamer-%{majorminor}/libgstmse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmxf.so
 %{_libdir}/gstreamer-%{majorminor}/libgstneonhttpsrc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstnetsim.so
@@ -634,6 +678,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstspeed.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsrt.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsrtp.so
+%{_libdir}/gstreamer-%{majorminor}/libgstsvtav1.so
 %ifarch x86_64
 %{_libdir}/gstreamer-%{majorminor}/libgstsvthevcenc.so
 %endif
@@ -643,7 +688,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgsttimecode.so
 %{_libdir}/gstreamer-%{majorminor}/libgsttranscode.so
 %{_libdir}/gstreamer-%{majorminor}/libgstttmlsubs.so
+%{_libdir}/gstreamer-%{majorminor}/libgstunixfd.so
 %{_libdir}/gstreamer-%{majorminor}/libgstuvch264.so
+%{_libdir}/gstreamer-%{majorminor}/libgstuvcgadget.so
 %{_libdir}/gstreamer-%{majorminor}/libgstv4l2codecs.so
 %{_libdir}/gstreamer-%{majorminor}/libgstva.so
 %{_libdir}/gstreamer-%{majorminor}/libgstvideofiltersbad.so
@@ -671,11 +718,14 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 
 %files devel
 %{_datadir}/gir-%{majorminor}/CudaGst-%{majorminor}.gir
+%{_datadir}/gir-%{majorminor}/GstAnalytics-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstBadAudio-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstCodecs-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstCuda-%{majorminor}.gir
+%{_datadir}/gir-%{majorminor}/GstDxva-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstInsertBin-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstMpegts-%{majorminor}.gir
+%{_datadir}/gir-%{majorminor}/GstMse-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstPlayer-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstPlay-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstTranscoder-%{majorminor}.gir
@@ -686,14 +736,17 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_datadir}/gir-%{majorminor}/GstWebRTC-%{majorminor}.gir
 %{_includedir}/gstreamer-%{majorminor}/gst/*
 %{_libdir}/libgstadaptivedemux-%{majorminor}.so
+%{_libdir}/libgstanalytics-%{majorminor}.so
 %{_libdir}/libgstbadaudio-%{majorminor}.so
 %{_libdir}/libgstbasecamerabinsrc-%{majorminor}.so
 %{_libdir}/libgstcodecparsers-%{majorminor}.so
 %{_libdir}/libgstcodecs-%{majorminor}.so
 %{_libdir}/libgstcuda-%{majorminor}.so
+%{_libdir}/libgstdxva-%{majorminor}.so
 %{_libdir}/libgstinsertbin-%{majorminor}.so
 %{_libdir}/libgstisoff-%{majorminor}.so
 %{_libdir}/libgstmpegts-%{majorminor}.so
+%{_libdir}/libgstmse-%{majorminor}.so
 %{_libdir}/libgstopencv-%{majorminor}.so
 %{_libdir}/libgstphotography-%{majorminor}.so
 %{_libdir}/libgstplay-%{majorminor}.so
@@ -706,11 +759,13 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/libgstwayland-%{majorminor}.so
 %{_libdir}/libgstwebrtc-%{majorminor}.so
 %{_libdir}/libgstwebrtcnice-%{majorminor}.so
+%{_libdir}/pkgconfig/gstreamer-analytics-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-bad-audio-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-codecparsers-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-cuda-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-insertbin-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-mpegts-%{majorminor}.pc
+%{_libdir}/pkgconfig/gstreamer-mse-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-photography-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-play-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-player-%{majorminor}.pc
@@ -726,6 +781,10 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Mon Jun 03 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.4-1
+- Update to 1.24.4.
+- Review all build options.
+
 * Sat May 04 2024 Simone Caronni <negativo17@gmail.com> - 1:1.22.12-1
 - Update to 1.22.12.
 
