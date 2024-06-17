@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.16.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -511,6 +511,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Mon Jun 17 2024 Simone Caronni <negativo17@gmail.com> - 1:1.16.1-8
+- Rebuild for updated dependencies.
+
 * Sun Jun 04 2023 Simone Caronni <negativo17@gmail.com> - 1:1.16.1-7
 - Rebuild for updated dependencies.
 
