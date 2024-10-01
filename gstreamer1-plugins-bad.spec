@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.24.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -191,7 +191,7 @@ BuildRequires:  pkgconfig(wayland-server) >= 1.15
 #BuildRequires:  pkgconfig(webrtc-audio-coding-1)
 BuildRequires:  pkgconfig(webrtc-audio-processing-1)
 #BuildRequires:  pkgconfig(wpe-webkit-1.1) >= 2.28
-BuildRequires:  pkgconfig(wpebackend-fdo-1.0) >= 1.8
+#BuildRequires:  pkgconfig(wpebackend-fdo-1.0) >= 1.8
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  pkgconfig(x265)
 BuildRequires:  pkgconfig(xcb) >= 1.10
@@ -781,6 +781,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Tue Oct 01 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.8-2
+- Remove wpe dependency, plugin was already disabled.
+
 * Tue Sep 24 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.8-1
 - Update to 1.24.8.
 
