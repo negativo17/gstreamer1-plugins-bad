@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.24.8
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -193,7 +193,7 @@ BuildRequires:  pkgconfig(webrtc-audio-processing-1)
 #BuildRequires:  pkgconfig(wpe-webkit-1.1) >= 2.28
 #BuildRequires:  pkgconfig(wpebackend-fdo-1.0) >= 1.8
 BuildRequires:  pkgconfig(x11)
-BuildRequires:  pkgconfig(x265)
+#BuildRequires:  pkgconfig(x265)
 BuildRequires:  pkgconfig(xcb) >= 1.10
 BuildRequires:  pkgconfig(xkbcommon) >= 0.8
 BuildRequires:  pkgconfig(xkbcommon-x11)
@@ -462,7 +462,7 @@ well enough, or the code is not of good enough quality.
   -D winscreencap=enabled \
   -D wpe=disabled \
   -D x11=enabled \
-  -D x265=enabled \
+  -D x265=disabled \
   -D y4m=enabled \
   -D zbar=enabled \
   -D zxing=enabled \
@@ -706,7 +706,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstwebrtc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstwebrtcdsp.so
 %{_libdir}/gstreamer-%{majorminor}/libgstwildmidi.so
-%{_libdir}/gstreamer-%{majorminor}/libgstx265.so
+#%{_libdir}/gstreamer-%{majorminor}/libgstx265.so
 %{_libdir}/gstreamer-%{majorminor}/libgsty4mdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstzbar.so
 %{_libdir}/gstreamer-%{majorminor}/libgstzxing.so
@@ -781,6 +781,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Fri Oct 11 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.8-3
+- Momentarily disable x265 plugin until it catches up with 4.0.
+
 * Tue Oct 01 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.8-2
 - Remove wpe dependency, plugin was already disabled.
 
