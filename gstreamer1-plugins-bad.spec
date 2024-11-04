@@ -3,8 +3,8 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.24.8
-Release:        4%{?dist}
+Version:        1.24.9
+Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -783,6 +783,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Mon Nov 04 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.9-1
+- Update to 1.24.9.
+
 * Mon Oct 21 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.8-4
 - Re-enable x265 plugin.
 
