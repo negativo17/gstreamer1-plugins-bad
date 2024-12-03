@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.24.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -12,7 +12,7 @@ URL:            http://gstreamer.freedesktop.org/
 
 Source0:        https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Source1:        gstreamer-bad.metainfo.xml
-# https://gitlab.archlinux.org/archlinux/packaging/packages/gstreamer/-/blob/main/0003-x265enc-Unbreak-build-with-x265-4.0.patch
+# https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/7968
 Patch0:         %{name}-x265-4.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
@@ -207,7 +207,6 @@ BuildRequires:  pkgconfig(zxing)
 %ifarch x86_64
 BuildRequires:  pkgconfig(libmfx) >= 1.0
 BuildRequires:  pkgconfig(libmfx) <= 1.99
-BuildRequires:  pkgconfig(SvtHevcEnc) >= 1.4.1
 BuildRequires:  pkgconfig(vpl) >= 2.2
 %endif
 
@@ -428,6 +427,7 @@ well enough, or the code is not of good enough quality.
   -D srtp=enabled \
   -D subenc=enabled \
   -D svtav1=enabled \
+  -D svthevcenc=disabled \
   -D switchbin=enabled \
   -D teletext=enabled \
   -D tests=disabled \
@@ -473,11 +473,9 @@ well enough, or the code is not of good enough quality.
   -D mfx-modules-dir=enabled \
   -D msdk=enabled \
   -D qsv=enabled \
-  -D svthevcenc=enabled \
 %else
   -D msdk=disabled \
   -D qsv=disabled \
-  -D svthevcenc=disabled \
 %endif
 
 %meson_build
@@ -681,9 +679,6 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstsrt.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsrtp.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsvtav1.so
-%ifarch x86_64
-%{_libdir}/gstreamer-%{majorminor}/libgstsvthevcenc.so
-%endif
 %{_libdir}/gstreamer-%{majorminor}/libgstsubenc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstswitchbin.so
 %{_libdir}/gstreamer-%{majorminor}/libgstteletext.so
@@ -783,6 +778,10 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Tue Dec 03 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.9-2
+- Disable SVT-HEVC.
+- Update x265 patch for version 4.1.
+
 * Mon Nov 04 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.9-1
 - Update to 1.24.9.
 
