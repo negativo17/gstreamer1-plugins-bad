@@ -3,8 +3,8 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.24.9
-Release:        2%{?dist}
+Version:        1.24.10
+Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -12,8 +12,6 @@ URL:            http://gstreamer.freedesktop.org/
 
 Source0:        https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Source1:        gstreamer-bad.metainfo.xml
-# https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/7968
-Patch0:         %{name}-x265-4.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -778,6 +776,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Mon Dec 09 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.10-1
+- Update to 1.24.10.
+
 * Tue Dec 03 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.9-2
 - Disable SVT-HEVC.
 - Update x265 patch for version 4.1.
