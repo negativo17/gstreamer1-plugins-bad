@@ -3,8 +3,8 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.24.8
-Release:        2%{?dist}
+Version:        1.24.10
+Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -781,6 +781,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Mon Dec 09 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.10-1
+- Update to 1.24.10.
+
 * Tue Oct 01 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.8-2
 - Remove wpe dependency, plugin was already disabled.
 
