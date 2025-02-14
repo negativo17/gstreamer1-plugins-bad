@@ -3,7 +3,7 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.24.10
+Version:        1.24.11
 Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
@@ -781,6 +781,10 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Fri Feb 14 2025 Simone Caronni <negativo17@gmail.com> - 1:1.24.11-1
+- Update to 1.24.11.
+- Trim changelog.
+
 * Mon Dec 09 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.10-1
 - Update to 1.24.10.
 
@@ -817,137 +821,3 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 
 * Mon Jan 29 2024 Simone Caronni <negativo17@gmail.com> - 1:1.22.9-1
 - Update to 1.22.9.
-
-* Fri Dec 22 2023 Simone Caronni <negativo17@gmail.com> - 1:1.22.8-1
-- Update to 1.22.8.
-
-* Mon Nov 20 2023 Simone Caronni <negativo17@gmail.com> - 1:1.22.7-1
-- Update to 1.22.7.
-- Enable zxing plugin.
-
-* Thu Nov 09 2023 Simone Caronni <negativo17@gmail.com> - 1:1.22.5-2
-- Provide/obsolete bad-free-libs.
-
-* Mon Aug 07 2023 Simone Caronni <negativo17@gmail.com> - 1:1.22.5-1
-- Update to 1.22.5.
-
-* Wed Jun 28 2023 Simone Caronni <negativo17@gmail.com> - 1:1.22.4-1
-- Update to 1.22.4.
-
-* Sun Jun 04 2023 Simone Caronni <negativo17@gmail.com> - 1:1.22.3-1
-- Update to 1.22.3.
-
-* Fri May 12 2023 Simone Caronni <negativo17@gmail.com> - 1:1.22.2-1
-- Update to 1.22.2.
-
-* Fri Mar 17 2023 Simone Caronni <negativo17@gmail.com> - 1:1.22.1-1
-- Update to 1.22.1.
-- Disable momentarily zxing plugin.
-
-* Wed Mar 15 2023 Simone Caronni <negativo17@gmail.com> - 1:1.20.5-2
-- Rebuild for updated dependencies.
-
-* Fri Jan 20 2023 Simone Caronni <negativo17@gmail.com> - 1:1.20.5-1
-- Update to 1.20.5.
-
-* Fri Jan 06 2023 Simone Caronni <negativo17@gmail.com> - 1:1.20.4-1
-- Update to 1.20.4.
-
-* Thu Oct 13 2022 Simone Caronni <negativo17@gmail.com> - 1:1.20.3-3
-- Update build requirements.
-
-* Thu Sep 22 2022 Simone Caronni <negativo17@gmail.com> - 1:1.20.3-2
-- Rebuild for updated dependencies.
-
-* Fri Jul 22 2022 Simone Caronni <negativo17@gmail.com> - 1:1.20.3-1
-- Update to 1.20.3.
-
-* Sat Mar 19 2022 Simone Caronni <negativo17@gmail.com> - 1:1.20.0-2
-- Rebuild for updated dependencies.
-
-* Sun Feb 06 2022 Simone Caronni <negativo17@gmail.com> - 1:1.20.0-1
-- Update to 1.20.0.
-- Switch to oneVPL for Intel Quicksync suppport.
-- Clean up SPEC file.
-
-* Mon Nov 15 2021 Simone Caronni <negativo17@gmail.com> - 1:1.19.3-1
-- Update to 1.19.3.
-
-* Sun Oct 24 2021 Simone Caronni <negativo17@gmail.com> - 1:1.19.2-1
-- Update to 1.19.2.
-- Enable aptX and SVT-HEVC encoder plugins.
-
-* Wed Sep 22 2021 Fabio Valentini <decathorpe@gmail.com> - 1:1.19.1-1
-- Update to 1.19.1.
-
-* Sun Jun 20 2021 Simone Caronni <negativo17@gmail.com> - 1:1.18.4-2
-- Rebuild for updated dependencies.
-
-* Mon Apr 12 2021 Simone Caronni <negativo17@gmail.com> - 1:1.18.4-1
-- Update to 1.18.4.
-- Disable OpenCV again.
-
-* Fri Mar 26 2021 Simone Caronni <negativo17@gmail.com> - 1:1.18.2-2
-- Rebuild for updated depdendencies.
-
-* Thu Jan 14 2021 Simone Caronni <negativo17@gmail.com> - 1:1.18.2-1
-- Update to 1.18.2.
-- Enable DTS and AVTP plugins.
-
-* Mon Nov 09 2020 Simone Caronni <negativo17@gmail.com> - 1:1.18.1-2
-- Fix build on aarch64.
-
-* Sat Oct 31 2020 Simone Caronni <negativo17@gmail.com> - 1:1.18.1-1
-- Update to 1.18.1, rebase on Meson.
-- Trim changelog.
-
-* Mon Jun 29 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-7
-- Rebuild for updated dependencies.
-
-* Sun May 24 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-6
-- Update SPEC file.
-- Enable OpenMPT plugin.
-
-* Sun May 17 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-5
-- Rebuild for updated dependencies.
-
-* Mon Mar 30 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-4
-- Update build for Fedora 32.
-- Remove obsolete build options.
-
-* Tue Mar 17 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-3
-- Rebuild for updated dependencies.
-
-* Thu Mar 05 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-2
-- Disable FAAC Encoder/Decoder as it creates more problems than anything.
-
-* Tue Feb 11 2020 Simone Caronni <negativo17@gmail.com> - 1:1.16.2-1
-- Update to 1.16.2.
-
-* Thu Dec 19 2019 Simone Caronni <negativo17@gmail.com> - 1:1.16.1-3
-- Add missing BR.
-
-* Mon Oct 21 2019 Simone Caronni <negativo17@gmail.com> - 1:1.16.1-2
-- Rebuild for updated dependencies.
-
-* Mon Oct 07 2019 Simone Caronni <negativo17@gmail.com> - 1:1.16.1-1
-- Update to 1.16.1.
-
-* Sun Jul 07 2019 Simone Caronni <negativo17@gmail.com> - 1:1.16.0-2
-- Rebuild for updated dependencies.
-
-* Tue Apr 30 2019 Simone Caronni <negativo17@gmail.com> - 1:1.16.0-1
-- Update to 1.16.0.
-- Disable webkit backend.
-
-* Thu Apr 04 2019 Simone Caronni <negativo17@gmail.com> - 1:1.15.2-2
-- Enable additional plugins.
-- Trim changelog.
-
-* Wed Apr 03 2019 Simone Caronni <negativo17@gmail.com> - 1:1.15.2-1
-- Update to 1.15.2.
-
-* Thu Jan 03 2019 Simone Caronni <negativo17@gmail.com> - 1:1.14.4-3
-- Backport support for CUDA 10.0.
-- Backport switch to Video Codec SDK headers for nvenc/nvdec plugins. This links
-  the libraries, so split out the plugins into its own subpackage.
