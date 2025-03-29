@@ -3,7 +3,7 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.24.11
+Version:        1.26.0
 Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
@@ -63,13 +63,12 @@ BuildRequires:  libmicrodns-devel
 #BuildRequires:  libmpcdec-devel - Old API
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  mesa-libGLU-devel
-BuildRequires:  orc-devel >= 0.4.17
 BuildRequires:  srt-devel
 BuildRequires:  vulkan-devel
 BuildRequires:  xvidcore-devel
 
 
-BuildRequires:  pkgconfig(aom)
+BuildRequires:  pkgconfig(aom) >= 3.0.2
 BuildRequires:  pkgconfig(avtp)
 BuildRequires:  pkgconfig(bluez) >= 5.0
 BuildRequires:  pkgconfig(cairo)
@@ -101,6 +100,7 @@ BuildRequires:  pkgconfig(gstreamer-fft-1.0)
 BuildRequires:  pkgconfig(gstreamer-gl-1.0)
 BuildRequires:  pkgconfig(gstreamer-gl-egl-1.0)
 BuildRequires:  pkgconfig(gstreamer-gl-prototypes-1.0)
+#BuildRequires:  pkgconfig(gstreamer-gl-viv-fb-1.0)
 BuildRequires:  pkgconfig(gstreamer-gl-wayland-1.0)
 BuildRequires:  pkgconfig(gstreamer-gl-x11-1.0)
 BuildRequires:  pkgconfig(gstreamer-net-1.0)
@@ -121,17 +121,18 @@ BuildRequires:  pkgconfig(lcms2) >= 2.7
 BuildRequires:  pkgconfig(ldacBT-enc)
 BuildRequires:  pkgconfig(libass) >= 0.10.2
 BuildRequires:  pkgconfig(libbs2b) >= 3.1.0
+BuildRequires:  pkgconfig(lcevc_dec)
 BuildRequires:  pkgconfig(libchromaprint)
 BuildRequires:  pkgconfig(libcrypto)
 BuildRequires:  pkgconfig(libcurl) >= 7.55.0
 BuildRequires:  pkgconfig(libdca)
 BuildRequires:  pkgconfig(libdc1394-2) >= 2.2.5
 BuildRequires:  pkgconfig(libde265) >= 0.9
-BuildRequires:  pkgconfig(libdrm) >= 2.4.104
+BuildRequires:  pkgconfig(libdrm) >= 2.4.108
 BuildRequires:  pkgconfig(libexif) >= 0.6.16
 BuildRequires:  pkgconfig(libfreeaptx) >= 0.1.1
 BuildRequires:  pkgconfig(libmodplug)
-#BuildRequires:  pkgconfig(libonnxruntime) >= 1.13.1
+#BuildRequires:  pkgconfig(libonnxruntime) >= 1.16.1
 BuildRequires:  pkgconfig(libopenjp2) >= 2.2
 BuildRequires:  pkgconfig(libopenmpt)
 #BuildRequires:  pkgconfig(libopenni2) >= 0.26
@@ -140,23 +141,23 @@ BuildRequires:  pkgconfig(libqrencode)
 BuildRequires:  pkgconfig(librsvg-2.0) >= 2.36.2
 BuildRequires:  pkgconfig(librtmp)
 BuildRequires:  pkgconfig(libSoundTouch)
-BuildRequires:  pkgconfig(libsoup-2.4) >= 2.48
+BuildRequires:  pkgconfig(libsoup-3.0)
 BuildRequires:  pkgconfig(libsrtp2) >= 2.1.0
 BuildRequires:  pkgconfig(libssh2) >= 1.4.3
 BuildRequires:  pkgconfig(libusb-1.0)
-BuildRequires:  pkgconfig(libva)
-BuildRequires:  pkgconfig(libva-drm)
-BuildRequires:  pkgconfig(libva-x11)
+BuildRequires:  pkgconfig(libva) >= 1.18
+BuildRequires:  pkgconfig(libva-drm) >= 1.18
+BuildRequires:  pkgconfig(libva-x11) >= 1.18
 BuildRequires:  pkgconfig(libvisual-0.4) >= 0.4.0
 BuildRequires:  pkgconfig(libwebp) >= 0.2.1
-BuildRequires:  pkgconfig(libxml-2.0) >= 2.8
+BuildRequires:  pkgconfig(libwebpmux) >= 0.2.1
+BuildRequires:  pkgconfig(libxml-2.0) >= 2.9.2
 BuildRequires:  pkgconfig(lilv-0) >= 0.22
 BuildRequires:  pkgconfig(lrdf)
 BuildRequires:  pkgconfig(ltc) >= 1.1.4
 BuildRequires:  pkgconfig(mjpegtools) >= 2.0.0
 BuildRequires:  pkgconfig(nice) >= 0.1.20
 BuildRequires:  pkgconfig(neon) >= 0.27
-BuildRequires:  pkgconfig(neon) <= 0.33.99
 BuildRequires:  pkgconfig(nettle) >= 3.0
 BuildRequires:  pkgconfig(nice) >= 0.1.14
 BuildRequires:  pkgconfig(openal) >= 1.14
@@ -165,13 +166,9 @@ BuildRequires:  pkgconfig(OpenEXR)
 BuildRequires:  pkgconfig(openh264) >= 1.3.0
 BuildRequires:  pkgconfig(openssl) >= 1.0.1
 BuildRequires:  pkgconfig(opus) >= 0.9.4
+BuildRequires:  pkgconfig(orc-0.4)
 BuildRequires:  pkgconfig(pango)
 BuildRequires:  pkgconfig(pangocairo) >= 1.22.0
-BuildRequires:  pkgconfig(Qt5Core)
-BuildRequires:  pkgconfig(Qt5Gui)
-BuildRequires:  pkgconfig(Qt5Quick)
-BuildRequires:  pkgconfig(Qt5WaylandClient)
-BuildRequires:  pkgconfig(Qt5X11Extras)
 BuildRequires:  pkgconfig(sbc) >= 1.0
 BuildRequires:  pkgconfig(schroedinger-1.0) >= 1.0.10
 BuildRequires:  pkgconfig(sndfile) >= 1.0.16
@@ -179,6 +176,7 @@ BuildRequires:  pkgconfig(sndfile) >= 1.0.16
 BuildRequires:  pkgconfig(spandsp) >= 0.0.6
 BuildRequires:  pkgconfig(srt) >= 1.3.0
 BuildRequires:  pkgconfig(SvtAv1Enc) >= 1.1
+#BuildRequires:  pkgconfig(SvtJpegxs) >= 0.9
 BuildRequires:  pkgconfig(tiger) >= 0.3.2
 BuildRequires:  pkgconfig(vo-aacenc)
 BuildRequires:  pkgconfig(vo-amrwbenc) >= 0.1.0
@@ -189,7 +187,10 @@ BuildRequires:  pkgconfig(wayland-egl) >= 1.15
 BuildRequires:  pkgconfig(wayland-protocols) >= 1.15
 BuildRequires:  pkgconfig(wayland-server) >= 1.15
 #BuildRequires:  pkgconfig(webrtc-audio-coding-1)
-BuildRequires:  pkgconfig(webrtc-audio-processing-1)
+BuildRequires:  pkgconfig(webrtc-audio-processing-1) >= 1.0
+#BuildRequires:  pkgconfig(webrtc-audio-processing-2) >= 2.0
+#BuildRequires:  pkgconfig(webview2)
+BuildRequires:  pkgconfig(wildmidi) >= 0.4.2
 #BuildRequires:  pkgconfig(wpe-webkit-1.1) >= 2.28
 #BuildRequires:  pkgconfig(wpebackend-fdo-1.0) >= 1.8
 BuildRequires:  pkgconfig(x11)
@@ -197,10 +198,9 @@ BuildRequires:  pkgconfig(x265)
 BuildRequires:  pkgconfig(xcb) >= 1.10
 BuildRequires:  pkgconfig(xkbcommon) >= 0.8
 BuildRequires:  pkgconfig(xkbcommon-x11)
-BuildRequires:  pkgconfig(wildmidi) >= 0.4.2
-BuildRequires:  pkgconfig(zbar) >= 0.9
+BuildRequires:  pkgconfig(zbar) >= 0.23.1
 BuildRequires:  pkgconfig(zvbi-0.2)
-BuildRequires:  pkgconfig(zxing)
+BuildRequires:  pkgconfig(zxing) >= 1.4.0
 
 %ifarch x86_64
 BuildRequires:  pkgconfig(libmfx) >= 1.0
@@ -263,12 +263,11 @@ well enough, or the code is not of good enough quality.
   -D aja=disabled \
   -D amfcodec=disabled \
   -D analyticsoverlay=enabled \
-  -D androidmedia=enabled \
+  -D androidmedia=disabled \
   -D aom=enabled \
   -D applemedia=enabled \
   -D asfmux=enabled \
   -D asio=enabled \
-  -D asio-sdk-path=enabled \
   -D assrender=enabled \
   -D audiobuffersplit=enabled \
   -D audiofxbad=enabled \
@@ -289,6 +288,7 @@ well enough, or the code is not of good enough quality.
   -D codectimestamper=enabled \
   -D coloreffects=enabled \
   -D colormanagement=enabled \
+  -D cuda-nvmm=disabled \
   -D curl=enabled \
   -D curl-ssh2=enabled \
   -D d3d11=disabled \
@@ -357,6 +357,8 @@ well enough, or the code is not of good enough quality.
   -D ladspa=enabled \
   -D ladspa-rdf=enabled \
   -D lc3=enabled \
+  -D lcevcdecoder=enabled \
+  -D lcevcencoder=disabled \
   -D ldac=enabled \
   -D libde265=enabled \
   -D librfb=enabled \
@@ -379,7 +381,8 @@ well enough, or the code is not of good enough quality.
   -D neon=enabled \
   -D netsim=enabled \
   -D nls=enabled \
-  -D nvcodec=enabled \
+  -D nvcomp=disabled \
+  -D nvdswrapper=disabled \
   -D onnx=disabled \
   -D onvif=enabled \
   -D openal=enabled \
@@ -425,6 +428,7 @@ well enough, or the code is not of good enough quality.
   -D srtp=enabled \
   -D subenc=enabled \
   -D svtav1=enabled \
+  -D svtjpegxs=disabled \
   -D svthevcenc=disabled \
   -D switchbin=enabled \
   -D teletext=enabled \
@@ -449,12 +453,14 @@ well enough, or the code is not of good enough quality.
   -D voamrwbenc=enabled \
   -D vulkan=enabled \
   -D vulkan-video=enabled \
+  -D vulkan-windowing=x11,wayland \
   -D wasapi=disabled \
   -D wasapi2=disabled \
   -D wayland=enabled \
   -D webp=enabled \
   -D webrtc=enabled \
   -D webrtcdsp=enabled \
+  -D webview2=enabled \
   -D wic=enabled \
   -D wildmidi=enabled \
   -D win32ipc=disabled \
@@ -470,9 +476,11 @@ well enough, or the code is not of good enough quality.
   -D mfx_api=oneVPL \
   -D mfx-modules-dir=enabled \
   -D msdk=enabled \
+  -D nvcodec=enabled \
   -D qsv=enabled \
 %else
   -D msdk=disabled \
+  -D nvcodec=disabled \
   -D qsv=disabled \
 %endif
 
@@ -489,11 +497,15 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %doc AUTHORS NEWS README.md RELEASE REQUIREMENTS
 %{_bindir}/gst-transcoder-1.0
 %{_metainfodir}/gstreamer-bad.metainfo.xml
+%ifarch x86_64
 %{_libdir}/girepository-%{majorminor}/CudaGst-%{majorminor}.typelib
+%endif
 %{_libdir}/girepository-%{majorminor}/GstAnalytics-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstBadAudio-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstCodecs-%{majorminor}.typelib
+%ifarch x86_64
 %{_libdir}/girepository-%{majorminor}/GstCuda-%{majorminor}.typelib
+%endif
 %{_libdir}/girepository-%{majorminor}/GstDxva-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstInsertBin-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstMpegts-%{majorminor}.typelib
@@ -512,7 +524,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/libgstbasecamerabinsrc-%{majorminor}.so.*
 %{_libdir}/libgstcodecparsers-%{majorminor}.so.*
 %{_libdir}/libgstcodecs-%{majorminor}.so.*
+%ifarch x86_64
 %{_libdir}/libgstcuda-%{majorminor}.so.*
+%endif
 %{_libdir}/libgstdxva-%{majorminor}.so.*
 %{_libdir}/libgstinsertbin-%{majorminor}.so.*
 %{_libdir}/libgstisoff-%{majorminor}.so.*
@@ -617,6 +631,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstkms.so
 %{_libdir}/gstreamer-%{majorminor}/libgstladspa.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlc3.so
+%{_libdir}/gstreamer-%{majorminor}/libgstlcevcdecoder.so
 %{_libdir}/gstreamer-%{majorminor}/libgstldac.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlegacyrawparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlv2.so
@@ -636,7 +651,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstmxf.so
 %{_libdir}/gstreamer-%{majorminor}/libgstneonhttpsrc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstnetsim.so
+%ifarch x86_64
 %{_libdir}/gstreamer-%{majorminor}/libgstnvcodec.so
+%endif
 %{_libdir}/gstreamer-%{majorminor}/libgstopenal.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenaptx.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopencv.so
@@ -680,6 +697,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstsubenc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstswitchbin.so
 %{_libdir}/gstreamer-%{majorminor}/libgstteletext.so
+%{_libdir}/gstreamer-%{majorminor}/libgsttensordecoders.so
 %{_libdir}/gstreamer-%{majorminor}/libgsttimecode.so
 %{_libdir}/gstreamer-%{majorminor}/libgsttranscode.so
 %{_libdir}/gstreamer-%{majorminor}/libgstttmlsubs.so
@@ -712,11 +730,15 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstwildmidi.so
 
 %files devel
+%ifarch x86_64
 %{_datadir}/gir-%{majorminor}/CudaGst-%{majorminor}.gir
+%endif
 %{_datadir}/gir-%{majorminor}/GstAnalytics-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstBadAudio-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstCodecs-%{majorminor}.gir
+%ifarch x86_64
 %{_datadir}/gir-%{majorminor}/GstCuda-%{majorminor}.gir
+%endif
 %{_datadir}/gir-%{majorminor}/GstDxva-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstInsertBin-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstMpegts-%{majorminor}.gir
@@ -736,7 +758,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/libgstbasecamerabinsrc-%{majorminor}.so
 %{_libdir}/libgstcodecparsers-%{majorminor}.so
 %{_libdir}/libgstcodecs-%{majorminor}.so
+%ifarch x86_64
 %{_libdir}/libgstcuda-%{majorminor}.so
+%endif
 %{_libdir}/libgstdxva-%{majorminor}.so
 %{_libdir}/libgstinsertbin-%{majorminor}.so
 %{_libdir}/libgstisoff-%{majorminor}.so
@@ -757,7 +781,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-analytics-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-bad-audio-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-codecparsers-%{majorminor}.pc
+%ifarch x86_64
 %{_libdir}/pkgconfig/gstreamer-cuda-%{majorminor}.pc
+%endif
 %{_libdir}/pkgconfig/gstreamer-insertbin-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-mpegts-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-mse-%{majorminor}.pc
@@ -776,6 +802,11 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Thu Mar 27 2025 Simone Caronni <negativo17@gmail.com> - 1:1.26.0-1
+- Update to 1.16.0.
+- Enable LCEVC decoder plugin.
+- nvcodec for aarch64 requires now the Jetson libraries, so it's disabled.
+
 * Sat Jan 11 2025 Simone Caronni <negativo17@gmail.com> - 1:1.24.11-1
 - Update to 1.24.11.
 - Trim changelog.
