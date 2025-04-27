@@ -3,7 +3,7 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.26.0
+Version:        1.26.1
 Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
@@ -58,6 +58,7 @@ BuildRequires:  glslc
 BuildRequires:  gobject-introspection-devel >= 1.31.1
 BuildRequires:  gsm-devel
 BuildRequires:  ladspa-devel
+BuildRequires:  libatomic
 BuildRequires:  libcdaudio-devel
 BuildRequires:  libmicrodns-devel
 #BuildRequires:  libmpcdec-devel - Old API
@@ -381,6 +382,7 @@ well enough, or the code is not of good enough quality.
   -D neon=enabled \
   -D netsim=enabled \
   -D nls=enabled \
+  -D nvcodec=enabled \
   -D nvcomp=disabled \
   -D nvdswrapper=disabled \
   -D onnx=disabled \
@@ -476,11 +478,9 @@ well enough, or the code is not of good enough quality.
   -D mfx_api=oneVPL \
   -D mfx-modules-dir=enabled \
   -D msdk=enabled \
-  -D nvcodec=enabled \
   -D qsv=enabled \
 %else
   -D msdk=disabled \
-  -D nvcodec=disabled \
   -D qsv=disabled \
 %endif
 
@@ -497,15 +497,11 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %doc AUTHORS NEWS README.md RELEASE REQUIREMENTS
 %{_bindir}/gst-transcoder-1.0
 %{_metainfodir}/gstreamer-bad.metainfo.xml
-%ifarch x86_64
 %{_libdir}/girepository-%{majorminor}/CudaGst-%{majorminor}.typelib
-%endif
 %{_libdir}/girepository-%{majorminor}/GstAnalytics-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstBadAudio-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstCodecs-%{majorminor}.typelib
-%ifarch x86_64
 %{_libdir}/girepository-%{majorminor}/GstCuda-%{majorminor}.typelib
-%endif
 %{_libdir}/girepository-%{majorminor}/GstDxva-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstInsertBin-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstMpegts-%{majorminor}.typelib
@@ -524,9 +520,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/libgstbasecamerabinsrc-%{majorminor}.so.*
 %{_libdir}/libgstcodecparsers-%{majorminor}.so.*
 %{_libdir}/libgstcodecs-%{majorminor}.so.*
-%ifarch x86_64
 %{_libdir}/libgstcuda-%{majorminor}.so.*
-%endif
 %{_libdir}/libgstdxva-%{majorminor}.so.*
 %{_libdir}/libgstinsertbin-%{majorminor}.so.*
 %{_libdir}/libgstisoff-%{majorminor}.so.*
@@ -651,9 +645,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstmxf.so
 %{_libdir}/gstreamer-%{majorminor}/libgstneonhttpsrc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstnetsim.so
-%ifarch x86_64
 %{_libdir}/gstreamer-%{majorminor}/libgstnvcodec.so
-%endif
 %{_libdir}/gstreamer-%{majorminor}/libgstopenal.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenaptx.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopencv.so
@@ -730,15 +722,11 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstwildmidi.so
 
 %files devel
-%ifarch x86_64
 %{_datadir}/gir-%{majorminor}/CudaGst-%{majorminor}.gir
-%endif
 %{_datadir}/gir-%{majorminor}/GstAnalytics-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstBadAudio-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstCodecs-%{majorminor}.gir
-%ifarch x86_64
 %{_datadir}/gir-%{majorminor}/GstCuda-%{majorminor}.gir
-%endif
 %{_datadir}/gir-%{majorminor}/GstDxva-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstInsertBin-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstMpegts-%{majorminor}.gir
@@ -758,9 +746,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/libgstbasecamerabinsrc-%{majorminor}.so
 %{_libdir}/libgstcodecparsers-%{majorminor}.so
 %{_libdir}/libgstcodecs-%{majorminor}.so
-%ifarch x86_64
 %{_libdir}/libgstcuda-%{majorminor}.so
-%endif
 %{_libdir}/libgstdxva-%{majorminor}.so
 %{_libdir}/libgstinsertbin-%{majorminor}.so
 %{_libdir}/libgstisoff-%{majorminor}.so
@@ -781,9 +767,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-analytics-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-bad-audio-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-codecparsers-%{majorminor}.pc
-%ifarch x86_64
 %{_libdir}/pkgconfig/gstreamer-cuda-%{majorminor}.pc
-%endif
 %{_libdir}/pkgconfig/gstreamer-insertbin-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-mpegts-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-mse-%{majorminor}.pc
@@ -802,6 +786,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Sun Apr 27 2025 Simone Caronni <negativo17@gmail.com> - 1:1.26.1-1
+- Update to 1.26.1.
+
 * Thu Mar 27 2025 Simone Caronni <negativo17@gmail.com> - 1:1.26.0-1
 - Update to 1.16.0.
 - Enable LCEVC decoder plugin.
