@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.26.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -41,6 +41,9 @@ Provides:       gstreamer1-svt-hevc%{?_isa} = %{?epoch}:%{version}-%{release}
 Obsoletes:      %{name}-free-libs < %{?epoch}:%{version}-%{release}
 Provides:       %{name}-free-libs = %{?epoch}:%{version}-%{release}
 Provides:       %{name}-free-libs%{?_isa} = %{?epoch}:%{version}-%{release}
+Obsoletes:      gstreamer1-plugin-vaapi < %{?epoch}:%{version}-%{release}
+Provides:       gstreamer1-plugin-vaapi = %{?epoch}:%{version}-%{release}
+Provides:       gstreamer1-plugin-vaapi%{?_isa} = %{?epoch}:%{version}-%{release}
 
 BuildRequires:  gcc-c++
 BuildRequires:  meson >= 0.62
@@ -786,6 +789,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Mon Apr 28 2025 Simone Caronni <negativo17@gmail.com> - 1:1.26.1-2
+- Obsolete gstreamer1-plugin-vaapi.
+
 * Sun Apr 27 2025 Simone Caronni <negativo17@gmail.com> - 1:1.26.1-1
 - Update to 1.26.1.
 
