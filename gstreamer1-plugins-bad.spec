@@ -3,8 +3,8 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.22.1
-Release:        2%{?dist}
+Version:        1.22.12
+Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -38,6 +38,9 @@ Provides:       gstreamer1-plugin-openh264%{?_isa} = %{?epoch}:%{version}-%{rele
 Obsoletes:      gstreamer1-svt-hevc < %{?epoch}:%{version}-%{release}
 Provides:       gstreamer1-svt-hevc = %{?epoch}:%{version}-%{release}
 Provides:       gstreamer1-svt-hevc%{?_isa} = %{?epoch}:%{version}-%{release}
+Obsoletes:      %{name}-free-libs < %{?epoch}:%{version}-%{release}
+Provides:       %{name}-free-libs = %{?epoch}:%{version}-%{release}
+Provides:       %{name}-free-libs%{?_isa} = %{?epoch}:%{version}-%{release}
 
 BuildRequires:  gcc-c++
 BuildRequires:  meson >= 0.62
@@ -142,10 +145,11 @@ BuildRequires:  pkgconfig(libwebp) >= 0.2.1
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.8
 BuildRequires:  pkgconfig(lilv-0) >= 0.22
 BuildRequires:  pkgconfig(mjpegtools) >= 2.0.0
-BuildRequires:  pkgconfig(neon) >= 0.27
-BuildRequires:  pkgconfig(neon) <= 0.32.99
-BuildRequires:  pkgconfig(nettle) >= 3.0
 BuildRequires:  pkgconfig(nice) >= 0.1.20
+BuildRequires:  pkgconfig(neon) >= 0.27
+BuildRequires:  pkgconfig(neon) <= 0.33.99
+BuildRequires:  pkgconfig(nettle) >= 3.0
+BuildRequires:  pkgconfig(nice) >= 0.1.14
 BuildRequires:  pkgconfig(openal) >= 1.14
 BuildRequires:  pkgconfig(opencv4) >= 4.0.0
 BuildRequires:  pkgconfig(OpenEXR)
@@ -704,6 +708,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Thu May 22 2025 Simone Caronni <negativo17@gmail.com> - 1:1.22.12-1
+- Update to 1.22.12.
+
 * Mon Jun 17 2024 Simone Caronni <negativo17@gmail.com> - 1:1.22.1-2
 - Rebuild for updated dependencies.
 
