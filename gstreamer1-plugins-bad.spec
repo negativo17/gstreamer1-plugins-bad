@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.24.11
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -12,6 +12,7 @@ URL:            http://gstreamer.freedesktop.org/
 
 Source0:        https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Source1:        gstreamer-bad.metainfo.xml
+Patch0:         https://src.fedoraproject.org/rpms/gstreamer1-plugins-bad-free/raw/77f6c0915a29b705eb4f0551266dbae3e3866a75/f/fix-CVE-2025-3887.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -251,7 +252,7 @@ This package contains the development files for the plug-ins that aren't tested
 well enough, or the code is not of good enough quality.
 
 %prep
-%autosetup -p1 -n gst-plugins-bad-%{version}
+%autosetup -p3 -n gst-plugins-bad-%{version}
 
 %build
 %meson \
@@ -776,6 +777,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Thu May 22 2025 Simone Caronni <negativo17@gmail.com> - 1:1.24.11-2
+- Fix CVE-2025-3887.
+
 * Sat Jan 11 2025 Simone Caronni <negativo17@gmail.com> - 1:1.24.11-1
 - Update to 1.24.11.
 - Trim changelog.
