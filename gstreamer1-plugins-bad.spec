@@ -3,8 +3,8 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.26.1
-Release:        2%{?dist}
+Version:        1.26.2
+Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -789,6 +789,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Fri Jun 06 2025 Simone Caronni <negativo17@gmail.com> - 1:1.26.2-1
+- Update to 1.26.2.
+
 * Mon Apr 28 2025 Simone Caronni <negativo17@gmail.com> - 1:1.26.1-2
 - Obsolete gstreamer1-plugin-vaapi.
 
