@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.16.1
-Release:        8%{?dist}
+Release:        9%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -422,6 +422,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstkms.so
 %{_libdir}/gstreamer-%{majorminor}/libgstladspa.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlegacyrawparse.so
+%{_libdir}/gstreamer-%{majorminor}/libgstmidi.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmms.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmodplug.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmpeg2enc.so
@@ -488,11 +489,10 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{majorminor}/libgstyadif.so
 %{_libdir}/gstreamer-%{majorminor}/libgstzbar.so
 %{_libdir}/gstreamer-%{majorminor}/libgstwaylandsink.so
+%{_libdir}/gstreamer-%{majorminor}/libgstwildmidi.so
 
 %files fluidsynth
 %{_libdir}/gstreamer-%{majorminor}/libgstfluidsynthmidi.so
-%{_libdir}/gstreamer-%{majorminor}/libgstmidi.so
-%{_libdir}/gstreamer-%{majorminor}/libgstwildmidi.so
 
 %ifarch x86_64
 %files nvidia
@@ -511,6 +511,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/pkgconfig/gstreamer-*-%{majorminor}.pc
 
 %changelog
+* Mon Jun 23 2025 Simone Caronni <negativo17@gmail.com> - 1:1.16.1-9
+- Move files from fluidsynth plugin subpackage to main package.
+
 * Mon Jun 17 2024 Simone Caronni <negativo17@gmail.com> - 1:1.16.1-8
 - Rebuild for updated dependencies.
 
