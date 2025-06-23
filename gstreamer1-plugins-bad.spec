@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.22.12
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -649,7 +649,6 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 
 %files fluidsynth
 %{_libdir}/gstreamer-%{majorminor}/libgstfluidsynthmidi.so
-%{_libdir}/gstreamer-%{majorminor}/libgstmidi.so
 
 %files devel
 %{_datadir}/gir-%{majorminor}/CudaGst-%{majorminor}.gir
@@ -708,6 +707,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Mon Jun 23 2025 Simone Caronni <negativo17@gmail.com> - 1:1.22.12-2
+- Drop duplicate files in fluidsynth plugin subpackage.
+
 * Thu May 22 2025 Simone Caronni <negativo17@gmail.com> - 1:1.22.12-1
 - Update to 1.22.12.
 
