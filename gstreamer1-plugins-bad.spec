@@ -3,7 +3,7 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.26.3
+Version:        1.26.5
 Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
@@ -12,6 +12,10 @@ URL:            http://gstreamer.freedesktop.org/
 
 Source0:        https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Source1:        gstreamer-bad.metainfo.xml
+
+# Add support for LCEVCdec 4. Based off:
+# https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/1b041d8114b4de8341926fe1ae62a1d64781970d
+Patch0:         %{name}-lcevcdec4.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -70,7 +74,6 @@ BuildRequires:  mesa-libGLU-devel
 BuildRequires:  srt-devel
 BuildRequires:  vulkan-devel
 BuildRequires:  xvidcore-devel
-
 
 BuildRequires:  pkgconfig(aom) >= 3.0.2
 BuildRequires:  pkgconfig(avtp)
@@ -787,6 +790,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Fri Aug 22 2025 Simone Caronni <negativo17@gmail.com> - 1:1.26.5-1
+- Update to 1.26.5.
+
 * Sat Jun 28 2025 Simone Caronni <negativo17@gmail.com> - 1:1.26.3-1
 - Update to 1.26.3.
 
