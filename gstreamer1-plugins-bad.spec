@@ -79,9 +79,6 @@ BuildRequires:  pkgconfig(aom) >= 3.0.2
 BuildRequires:  pkgconfig(avtp)
 BuildRequires:  pkgconfig(bluez) >= 5.0
 BuildRequires:  pkgconfig(cairo)
-BuildRequires:  pkgconfig(clutter-1.0) >= 1.8
-BuildRequires:  pkgconfig(clutter-glx-1.0) >= 1.8
-BuildRequires:  pkgconfig(clutter-x11-1.0) >= 1.8
 #BuildRequires:  pkgconfig(dssim)
 BuildRequires:  pkgconfig(dvdnav) >= 4.1.2
 BuildRequires:  pkgconfig(dvdread) >= 4.1.2
@@ -155,7 +152,6 @@ BuildRequires:  pkgconfig(libusb-1.0)
 BuildRequires:  pkgconfig(libva) >= 1.18
 BuildRequires:  pkgconfig(libva-drm) >= 1.18
 BuildRequires:  pkgconfig(libva-x11) >= 1.18
-BuildRequires:  pkgconfig(libvisual-0.4) >= 0.4.0
 BuildRequires:  pkgconfig(libwebp) >= 0.2.1
 BuildRequires:  pkgconfig(libwebpmux) >= 0.2.1
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.9.2
@@ -177,7 +173,6 @@ BuildRequires:  pkgconfig(orc-0.4)
 BuildRequires:  pkgconfig(pango)
 BuildRequires:  pkgconfig(pangocairo) >= 1.22.0
 BuildRequires:  pkgconfig(sbc) >= 1.0
-BuildRequires:  pkgconfig(schroedinger-1.0) >= 1.0.10
 BuildRequires:  pkgconfig(sndfile) >= 1.0.16
 #BuildRequires:  pkgconfig(soundtouch-1.4)
 BuildRequires:  pkgconfig(spandsp) >= 0.0.6
