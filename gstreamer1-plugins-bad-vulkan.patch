@@ -1,0 +1,22 @@
+diff --git a/ext/vulkan/vkerror.c b/ext/vulkan/vkerror.c
+index 3fec27e4d86652e1910170f3037935663c8f69e4..c91589d9b4a26f8aa7f219d235a6ac11769ab262 100644
+--- a/ext/vulkan/vkerror.c
++++ b/ext/vulkan/vkerror.c
+@@ -27,7 +27,7 @@
+ #include "vkerror.h"
+ 
+ /* *INDENT-OFF* */
+-static const struct 
++static const struct
+ {
+   VkResult result;
+   const char *str;
+@@ -63,8 +63,6 @@ _vk_result_to_string (VkResult result)
+ 
+   if (result >= 0)
+     return NULL;
+-  if (result < VK_RESULT_BEGIN_RANGE)
+-    return "Unknown Error";
+ 
+   for (i = 0; i < G_N_ELEMENTS (vk_result_string_map); i++) {
+     if (result == vk_result_string_map[i].result)
