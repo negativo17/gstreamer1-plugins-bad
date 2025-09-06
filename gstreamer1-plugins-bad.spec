@@ -59,7 +59,6 @@ BuildRequires:  glslc
 BuildRequires:  gobject-introspection-devel >= 1.31.1
 BuildRequires:  gsm-devel
 BuildRequires:  ladspa-devel
-BuildRequires:  libcdaudio-devel
 BuildRequires:  libmicrodns-devel
 #BuildRequires:  libmpcdec-devel - Old API
 BuildRequires:  mesa-libGL-devel
@@ -71,12 +70,8 @@ BuildRequires:  xvidcore-devel
 
 
 BuildRequires:  pkgconfig(aom)
-BuildRequires:  pkgconfig(avtp)
 BuildRequires:  pkgconfig(bluez) >= 5.0
 BuildRequires:  pkgconfig(cairo)
-BuildRequires:  pkgconfig(clutter-1.0) >= 1.8
-BuildRequires:  pkgconfig(clutter-glx-1.0) >= 1.8
-BuildRequires:  pkgconfig(clutter-x11-1.0) >= 1.8
 #BuildRequires:  pkgconfig(dssim)
 BuildRequires:  pkgconfig(dvdnav) >= 4.1.2
 BuildRequires:  pkgconfig(dvdread) >= 4.1.2
@@ -141,23 +136,19 @@ BuildRequires:  pkgconfig(libqrencode)
 BuildRequires:  pkgconfig(librsvg-2.0) >= 2.36.2
 BuildRequires:  pkgconfig(librtmp)
 BuildRequires:  pkgconfig(libSoundTouch)
-BuildRequires:  pkgconfig(libsoup-2.4) >= 2.48
+BuildRequires:  pkgconfig(libsoup-3.0)
 BuildRequires:  pkgconfig(libsrtp2) >= 2.1.0
 BuildRequires:  pkgconfig(libssh2) >= 1.4.3
 BuildRequires:  pkgconfig(libusb-1.0)
 BuildRequires:  pkgconfig(libva)
 BuildRequires:  pkgconfig(libva-drm)
 BuildRequires:  pkgconfig(libva-x11)
-BuildRequires:  pkgconfig(libvisual-0.4) >= 0.4.0
 BuildRequires:  pkgconfig(libwebp) >= 0.2.1
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.8
 BuildRequires:  pkgconfig(lilv-0) >= 0.22
-BuildRequires:  pkgconfig(lrdf)
-BuildRequires:  pkgconfig(ltc) >= 1.1.4
 BuildRequires:  pkgconfig(mjpegtools) >= 2.0.0
 BuildRequires:  pkgconfig(nice) >= 0.1.20
 BuildRequires:  pkgconfig(neon) >= 0.27
-BuildRequires:  pkgconfig(neon) <= 0.33.99
 BuildRequires:  pkgconfig(nettle) >= 3.0
 BuildRequires:  pkgconfig(nice) >= 0.1.14
 BuildRequires:  pkgconfig(openal) >= 1.14
@@ -174,7 +165,6 @@ BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  pkgconfig(Qt5WaylandClient)
 BuildRequires:  pkgconfig(Qt5X11Extras)
 BuildRequires:  pkgconfig(sbc) >= 1.0
-BuildRequires:  pkgconfig(schroedinger-1.0) >= 1.0.10
 BuildRequires:  pkgconfig(sndfile) >= 1.0.16
 #BuildRequires:  pkgconfig(soundtouch-1.4)
 BuildRequires:  pkgconfig(spandsp) >= 0.0.6
@@ -198,7 +188,6 @@ BuildRequires:  pkgconfig(x265)
 BuildRequires:  pkgconfig(xcb) >= 1.10
 BuildRequires:  pkgconfig(xkbcommon) >= 0.8
 BuildRequires:  pkgconfig(xkbcommon-x11)
-BuildRequires:  pkgconfig(wildmidi) >= 0.4.2
 BuildRequires:  pkgconfig(zbar) >= 0.9
 BuildRequires:  pkgconfig(zvbi-0.2)
 BuildRequires:  pkgconfig(zxing)
@@ -277,7 +266,7 @@ well enough, or the code is not of good enough quality.
   -D audiomixmatrix=enabled \
   -D audiovisualizers=enabled \
   -D autoconvert=enabled \
-  -D avtp=enabled \
+  -D avtp=disabled \
   -D bayer=enabled \
   -D bluez=enabled \
   -D bs2b=enabled \
@@ -356,7 +345,7 @@ well enough, or the code is not of good enough quality.
   -D jpegformat=enabled \
   -D kms=enabled \
   -D ladspa=enabled \
-  -D ladspa-rdf=enabled \
+  -D ladspa-rdf=disabled \
   -D lc3=enabled \
   -D ldac=enabled \
   -D libde265=enabled \
@@ -457,7 +446,7 @@ well enough, or the code is not of good enough quality.
   -D webrtc=enabled \
   -D webrtcdsp=enabled \
   -D wic=enabled \
-  -D wildmidi=enabled \
+  -D wildmidi=disabled \
   -D win32ipc=disabled \
   -D winks=enabled \
   -D winscreencap=enabled \
@@ -567,7 +556,6 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstaudiomixmatrix.so
 %{_libdir}/gstreamer-%{majorminor}/libgstaudiovisualizers.so
 %{_libdir}/gstreamer-%{majorminor}/libgstautoconvert.so
-%{_libdir}/gstreamer-%{majorminor}/libgstavtp.so
 %{_libdir}/gstreamer-%{majorminor}/libgstbayer.so
 %{_libdir}/gstreamer-%{majorminor}/libgstbluez.so
 %{_libdir}/gstreamer-%{majorminor}/libgstbs2b.so
@@ -701,7 +689,6 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstwebp.so
 %{_libdir}/gstreamer-%{majorminor}/libgstwebrtc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstwebrtcdsp.so
-%{_libdir}/gstreamer-%{majorminor}/libgstwildmidi.so
 %{_libdir}/gstreamer-%{majorminor}/libgstx265.so
 %{_libdir}/gstreamer-%{majorminor}/libgsty4mdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstzbar.so
@@ -710,7 +697,6 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %files fluidsynth
 %{_libdir}/gstreamer-%{majorminor}/libgstfluidsynthmidi.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmidi.so
-%{_libdir}/gstreamer-%{majorminor}/libgstwildmidi.so
 
 %files devel
 %{_datadir}/gir-%{majorminor}/CudaGst-%{majorminor}.gir
