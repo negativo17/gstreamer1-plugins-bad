@@ -68,9 +68,6 @@ BuildRequires:  xvidcore-devel
 BuildRequires:  pkgconfig(aom)
 BuildRequires:  pkgconfig(bluez) >= 5.0
 BuildRequires:  pkgconfig(cairo) >= 1.0
-BuildRequires:  pkgconfig(clutter-1.0) >= 1.8
-BuildRequires:  pkgconfig(clutter-glx-1.0) >= 1.8
-BuildRequires:  pkgconfig(clutter-x11-1.0) >= 1.8
 BuildRequires:  pkgconfig(dvdnav) >= 4.1.2
 BuildRequires:  pkgconfig(dvdread) >= 4.1.2
 BuildRequires:  pkgconfig(egl)
@@ -111,7 +108,6 @@ BuildRequires:  pkgconfig(libsrtp)
 BuildRequires:  pkgconfig(libssh2) >= 1.4.3
 BuildRequires:  pkgconfig(libusb-1.0)
 BuildRequires:  pkgconfig(libva-drm)
-BuildRequires:  pkgconfig(libvisual-0.4) >= 0.4.0
 BuildRequires:  pkgconfig(libwebp) >= 0.2.1
 BuildRequires:  pkgconfig(libxml-2.0) >= 2.9.2
 BuildRequires:  pkgconfig(mjpegtools) >= 2.0.0
@@ -131,7 +127,6 @@ BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  pkgconfig(Qt5WaylandClient)
 BuildRequires:  pkgconfig(Qt5X11Extras)
 BuildRequires:  pkgconfig(sbc) >= 1.0
-BuildRequires:  pkgconfig(schroedinger-1.0) >= 1.0.10
 BuildRequires:  pkgconfig(sndfile) >= 1.0.16
 BuildRequires:  pkgconfig(soundtouch) >= 1.4
 BuildRequires:  pkgconfig(spandsp) >= 0.0.6
