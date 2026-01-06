@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.22.12
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -231,6 +231,35 @@ operate on media data.
 
 This package contains the development files for the plug-ins that aren't tested
 well enough, or the code is not of good enough quality.
+
+%package        opencv
+Summary:        GStreamer "bad" opencv plugin
+Requires:       %{name}%{?_isa} = %{?epoch}:%{version}-%{release}
+Obsoletes:      %{name}-free-opencv < %{?epoch}:%{version}-%{release}
+Provides:       %{name}-free-opencv = %{?epoch}:%{version}-%{release}
+Provides:       %{name}-free-opencv%{?_isa} = %{?epoch}:%{version}-%{release}
+
+%description    opencv
+GStreamer is a streaming media framework, based on graphs of elements which
+operate on media data.
+
+This package contains plug-ins that aren't tested well enough, or the code is
+not of good enough quality.
+
+This package contains the opencv plugin
+
+%package        opencv-devel
+Summary:        Development files for the GStreamer media framework "bad" opencv plugin
+Requires:       %{name}%{?_isa} = %{?epoch}:%{version}-%{release}
+Obsoletes:      %{name}-free-opencv < %{?epoch}:%{version}-%{release}
+Provides:       %{name}-free-opencv = %{?epoch}:%{version}-%{release}
+Provides:       %{name}-free-opencv%{?_isa} = %{?epoch}:%{version}-%{release}
+
+%description    opencv-devel
+GStreamer is a streaming media framework, based on graphs of elements which
+operate on media data.
+
+This package contains the development files for the "bad" opencv plug-in.
 
 %prep
 %autosetup -p1 -n gst-plugins-bad-%{version}
@@ -461,7 +490,6 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/libgstinsertbin-%{majorminor}.so.*
 %{_libdir}/libgstisoff-%{majorminor}.so.*
 %{_libdir}/libgstmpegts-%{majorminor}.so.*
-%{_libdir}/libgstopencv-%{majorminor}.so.*
 %{_libdir}/libgstphotography-%{majorminor}.so.*
 %{_libdir}/libgstplayer-%{majorminor}.so.*
 %{_libdir}/libgstplay-%{majorminor}.so.*
@@ -577,7 +605,6 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstnvcodec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenal.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenaptx.so
-%{_libdir}/gstreamer-%{majorminor}/libgstopencv.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenexr.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenh264.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenjpeg.so
@@ -670,7 +697,6 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/libgstinsertbin-%{majorminor}.so
 %{_libdir}/libgstisoff-%{majorminor}.so
 %{_libdir}/libgstmpegts-%{majorminor}.so
-%{_libdir}/libgstopencv-%{majorminor}.so
 %{_libdir}/libgstphotography-%{majorminor}.so
 %{_libdir}/libgstplay-%{majorminor}.so
 %{_libdir}/libgstplayer-%{majorminor}.so
@@ -701,7 +727,18 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-%{majorminor}.pc
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
+%files opencv
+%{_libdir}/libgstopencv-%{majorminor}.so.*
+%{_libdir}/gstreamer-%{majorminor}/libgstopencv.so
+
+%files opencv-devel
+%{_libdir}/libgstopencv-%{majorminor}.so
+
 %changelog
+* Mon Jan  5 2026 Lars R. Damerow <lars@pixar.com> - 1:1.22.12-1
+- Split opencv plugin into separate subpackages to reduce size of main
+  package's implicit dependencies.
+
 * Mon Jun 23 2025 Simone Caronni <negativo17@gmail.com> - 1:1.22.12-2
 - Drop duplicate files in fluidsynth plugin subpackage.
 
