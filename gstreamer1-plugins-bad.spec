@@ -214,24 +214,6 @@ not of good enough quality.
 
 This package contains the fluidsynth plugin
 
-%package        devel
-Summary:        Development files for the GStreamer media framework "bad" plug-ins
-Requires:       %{name}%{?_isa} = %{?epoch}:%{version}-%{release}
-Requires:       gstreamer1-plugins-base-devel
-Obsoletes:      %{name}-free-devel < %{?epoch}:%{version}-%{release}
-Provides:       %{name}-free-devel = %{?epoch}:%{version}-%{release}
-Provides:       %{name}-free-devel%{?_isa} = %{?epoch}:%{version}-%{release}
-# Drop after Fedora 36:
-Provides:       gst-transcoder-devel = 1.16.0-4
-Obsoletes:      gst-transcoder-devel < 1.16.0-4
-
-%description    devel
-GStreamer is a streaming media framework, based on graphs of elements which
-operate on media data.
-
-This package contains the development files for the plug-ins that aren't tested
-well enough, or the code is not of good enough quality.
-
 %package        opencv
 Summary:        GStreamer "bad" opencv plugin
 Requires:       %{name}%{?_isa} = %{?epoch}:%{version}-%{release}
@@ -248,18 +230,25 @@ not of good enough quality.
 
 This package contains the opencv plugin
 
-%package        opencv-devel
-Summary:        Development files for the GStreamer media framework "bad" opencv plugin
+%package        devel
+Summary:        Development files for the GStreamer media framework "bad" plug-ins
 Requires:       %{name}%{?_isa} = %{?epoch}:%{version}-%{release}
-Obsoletes:      %{name}-free-opencv < %{?epoch}:%{version}-%{release}
-Provides:       %{name}-free-opencv = %{?epoch}:%{version}-%{release}
-Provides:       %{name}-free-opencv%{?_isa} = %{?epoch}:%{version}-%{release}
+Requires:       %{name}-fluidsynth%{?_isa} = %{?epoch}:%{version}-%{release}
+Requires:       %{name}-opencv%{?_isa} = %{?epoch}:%{version}-%{release}
+Requires:       gstreamer1-plugins-base-devel
+Obsoletes:      %{name}-free-devel < %{?epoch}:%{version}-%{release}
+Provides:       %{name}-free-devel = %{?epoch}:%{version}-%{release}
+Provides:       %{name}-free-devel%{?_isa} = %{?epoch}:%{version}-%{release}
+# Drop after Fedora 36:
+Provides:       gst-transcoder-devel = 1.16.0-4
+Obsoletes:      gst-transcoder-devel < 1.16.0-4
 
-%description    opencv-devel
+%description    devel
 GStreamer is a streaming media framework, based on graphs of elements which
 operate on media data.
 
-This package contains the development files for the "bad" opencv plug-in.
+This package contains the development files for the plug-ins that aren't tested
+well enough, or the code is not of good enough quality.
 
 %prep
 %autosetup -p1 -n gst-plugins-bad-%{version}
@@ -697,6 +686,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/libgstinsertbin-%{majorminor}.so
 %{_libdir}/libgstisoff-%{majorminor}.so
 %{_libdir}/libgstmpegts-%{majorminor}.so
+%{_libdir}/libgstopencv-%{majorminor}.so
 %{_libdir}/libgstphotography-%{majorminor}.so
 %{_libdir}/libgstplay-%{majorminor}.so
 %{_libdir}/libgstplayer-%{majorminor}.so
@@ -730,9 +720,6 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %files opencv
 %{_libdir}/libgstopencv-%{majorminor}.so.*
 %{_libdir}/gstreamer-%{majorminor}/libgstopencv.so
-
-%files opencv-devel
-%{_libdir}/libgstopencv-%{majorminor}.so
 
 %changelog
 * Mon Jan  5 2026 Lars R. Damerow <lars@pixar.com> - 1:1.22.12-1
