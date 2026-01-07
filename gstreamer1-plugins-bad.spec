@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.26.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -234,16 +234,31 @@ not of good enough quality.
 
 This package contains the fluidsynth plugin
 
+%package        opencv
+Summary:        GStreamer "bad" opencv plugin
+Requires:       %{name}%{?_isa} = %{?epoch}:%{version}-%{release}
+Obsoletes:      %{name}-free-opencv < %{?epoch}:%{version}-%{release}
+Provides:       %{name}-free-opencv = %{?epoch}:%{version}-%{release}
+Provides:       %{name}-free-opencv%{?_isa} = %{?epoch}:%{version}-%{release}
+
+%description    opencv
+GStreamer is a streaming media framework, based on graphs of elements which
+operate on media data.
+
+This package contains plug-ins that aren't tested well enough, or the code is
+not of good enough quality.
+
+This package contains the opencv plugin
+
 %package        devel
 Summary:        Development files for the GStreamer media framework "bad" plug-ins
 Requires:       %{name}%{?_isa} = %{?epoch}:%{version}-%{release}
+Requires:       %{name}-fludisynth%{?_isa} = %{?epoch}:%{version}-%{release}
+Requires:       %{name}-opencv%{?_isa} = %{?epoch}:%{version}-%{release}
 Requires:       gstreamer1-plugins-base-devel
 Obsoletes:      %{name}-free-devel < %{?epoch}:%{version}-%{release}
 Provides:       %{name}-free-devel = %{?epoch}:%{version}-%{release}
 Provides:       %{name}-free-devel%{?_isa} = %{?epoch}:%{version}-%{release}
-# Drop after Fedora 36:
-Provides:       gst-transcoder-devel = 1.16.0-4
-Obsoletes:      gst-transcoder-devel < 1.16.0-4
 
 %description    devel
 GStreamer is a streaming media framework, based on graphs of elements which
@@ -527,7 +542,6 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/libgstisoff-%{majorminor}.so.*
 %{_libdir}/libgstmpegts-%{majorminor}.so.*
 %{_libdir}/libgstmse-%{majorminor}.so.*
-%{_libdir}/libgstopencv-%{majorminor}.so.*
 %{_libdir}/libgstphotography-%{majorminor}.so.*
 %{_libdir}/libgstplayer-%{majorminor}.so.*
 %{_libdir}/libgstplay-%{majorminor}.so.*
@@ -649,7 +663,6 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstnvcodec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenal.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenaptx.so
-%{_libdir}/gstreamer-%{majorminor}/libgstopencv.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenexr.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenh264.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenjpeg.so
@@ -720,6 +733,10 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %files fluidsynth
 %{_libdir}/gstreamer-%{majorminor}/libgstfluidsynthmidi.so
 
+%files opencv
+%{_libdir}/libgstopencv-%{majorminor}.so.*
+%{_libdir}/gstreamer-%{majorminor}/libgstopencv.so
+
 %files devel
 %{_datadir}/gir-%{majorminor}/CudaGst-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstAnalytics-%{majorminor}.gir
@@ -785,6 +802,10 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Wed Jan 07 2026 Simone Caronni <negativo17@gmail.com> - 1:1.26.9-2
+- Split out opencv package
+  (https://github.com/negativo17/gstreamer1-plugins-bad/pull/7).
+
 * Wed Dec 17 2025 Simone Caronni <negativo17@gmail.com> - 1:1.26.9-1
 - Update to 1.26.9.
 
