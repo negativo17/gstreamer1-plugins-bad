@@ -2,7 +2,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.28.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -207,6 +207,7 @@ BuildRequires:  hip-devel
 BuildRequires:  pkgconfig(libmfx) >= 1.0
 BuildRequires:  pkgconfig(libmfx) <= 1.99
 BuildRequires:  pkgconfig(libvmaf)
+BuildRequires:  pkgconfig(SvtJpegxs)
 BuildRequires:  pkgconfig(vpl) >= 2.2
 BuildRequires:  rocminfo
 %endif
@@ -452,7 +453,6 @@ well enough, or the code is not of good enough quality.
   -D srtp=enabled \
   -D subenc=enabled \
   -D svtav1=enabled \
-  -D svtjpegxs=disabled \
   -D svthevcenc=disabled \
   -D switchbin=enabled \
   -D teletext=enabled \
@@ -508,10 +508,12 @@ well enough, or the code is not of good enough quality.
   -D mfx-modules-dir=enabled \
   -D msdk=enabled \
   -D qsv=enabled \
+  -D svtjpegxs=enabled \
   -D vmaf=enabled
 %else
   -D msdk=disabled \
   -D qsv=disabled \
+  -D svtjpegxs=disabled \
   -D vmaf=disabled
 %endif
 
@@ -720,6 +722,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstsrt.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsrtp.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsvtav1.so
+%ifarch x86_64
+%{_libdir}/gstreamer-%{majorminor}/libgstsvtjpegxs.so
+%endif
 %{_libdir}/gstreamer-%{majorminor}/libgstsubenc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstswitchbin.so
 %{_libdir}/gstreamer-%{majorminor}/libgstteletext.so
@@ -829,6 +834,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Mon Feb 16 2026 Simone Caronni <negativo17@gmail.com> - 1:1.28.0-3
+- Enable Intel SVT Jpeg XS plugin.
+
 * Mon Feb 16 2026 Simone Caronni <negativo17@gmail.com> - 1:1.28.0-2
 - Enable precompiled CUDA and HIP kernels.
 
