@@ -2,7 +2,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.28.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -198,11 +198,17 @@ BuildRequires:  pkgconfig(zbar) >= 0.23.1
 BuildRequires:  pkgconfig(zvbi-0.2)
 BuildRequires:  pkgconfig(zxing) >= 1.4.0
 
+%ifarch x86_64 aarch64
+BuildRequires:  cuda-nvcc
+%endif
+
 %ifarch x86_64
+BuildRequires:  hip-devel
 BuildRequires:  pkgconfig(libmfx) >= 1.0
 BuildRequires:  pkgconfig(libmfx) <= 1.99
 BuildRequires:  pkgconfig(libvmaf)
 BuildRequires:  pkgconfig(vpl) >= 2.2
+BuildRequires:  rocminfo
 %endif
 
 %description
@@ -395,6 +401,10 @@ well enough, or the code is not of good enough quality.
   -D netsim=enabled \
   -D nls=enabled \
   -D nvcodec=enabled \
+%ifarch x86_64 aarch64
+  -D nvcodec-cuda-precompile=enabled \
+  -D nvcodec-nvcc-arch=compute_75 \
+%endif
   -D nvcomp=disabled \
   -D nvdswrapper=disabled \
   -D onnx=disabled \
@@ -490,6 +500,10 @@ well enough, or the code is not of good enough quality.
   -D zbar=enabled \
   -D zxing=enabled \
 %ifarch x86_64
+  -D hip=enabled \
+  -D hip-amd-precompile=enabled \
+  -D hip-nvcc-arch=compute_75 \
+  -D hip-nvidia-precompile=enabled \
   -D mfx_api=oneVPL \
   -D mfx-modules-dir=enabled \
   -D msdk=enabled \
@@ -815,6 +829,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Mon Feb 16 2026 Simone Caronni <negativo17@gmail.com> - 1:1.28.0-2
+- Enable precompiled CUDA and HIP kernels.
+
 * Sun Feb 15 2026 Simone Caronni <negativo17@gmail.com> - 1:1.28.0-1
 - Update to 1.28.0.
 
