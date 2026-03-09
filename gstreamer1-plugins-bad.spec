@@ -1,8 +1,8 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.28.0
-Release:        3%{?dist}
+Version:        1.28.1
+Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -527,13 +527,14 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 
 %files -f gst-plugins-bad-%{majorminor}.lang
 %license COPYING
-%doc ChangeLog MAINTAINERS NEWS README.md RELEASE
+%doc ChangeLog MAINTAINERS README.md RELEASE release-notes-1.28.md
 %{_bindir}/gst-transcoder-1.0
 %{_metainfodir}/gstreamer-bad.metainfo.xml
 %{_libdir}/girepository-%{majorminor}/CudaGst-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstAnalytics-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstBadAudio-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstCodecs-%{majorminor}.typelib
+%{_libdir}/girepository-%{majorminor}/GstCodecParsers-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstCuda-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstDxva-%{majorminor}.typelib
 %{_libdir}/girepository-%{majorminor}/GstHip-%{majorminor}.typelib
@@ -769,6 +770,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_datadir}/gir-%{majorminor}/GstAnalytics-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstBadAudio-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstCodecs-%{majorminor}.gir
+%{_datadir}/gir-%{majorminor}/GstCodecParsers-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstCuda-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstDxva-%{majorminor}.gir
 %{_datadir}/gir-%{majorminor}/GstHip-%{majorminor}.gir
@@ -834,6 +836,10 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Mon Mar 09 2026 Simone Caronni <negativo17@gmail.com> - 1:1.28.1-1
+- Update to 1.28.1.
+- Trim changelog.
+
 * Mon Feb 16 2026 Simone Caronni <negativo17@gmail.com> - 1:1.28.0-3
 - Enable Intel SVT Jpeg XS plugin.
 
@@ -888,53 +894,3 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 * Sat Jan 11 2025 Simone Caronni <negativo17@gmail.com> - 1:1.24.11-1
 - Update to 1.24.11.
 - Trim changelog.
-
-* Mon Dec 09 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.10-1
-- Update to 1.24.10.
-
-* Tue Dec 03 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.9-2
-- Disable SVT-HEVC.
-- Update x265 patch for version 4.1.
-
-* Mon Nov 04 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.9-1
-- Update to 1.24.9.
-
-* Mon Oct 21 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.8-4
-- Re-enable x265 plugin.
-
-* Fri Oct 11 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.8-3
-- Momentarily disable x265 plugin until it catches up with 4.0.
-
-* Tue Oct 01 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.8-2
-- Remove wpe dependency, plugin was already disabled.
-
-* Tue Sep 24 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.8-1
-- Update to 1.24.8.
-
-* Sun Sep 01 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.7-1
-- Update to 1.24.7.
-
-* Fri Aug 23 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.6-1
-- Update to 1.24.6.
-
-* Tue Jun 25 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.5-1
-- Update to 1.24.5.
-
-* Mon Jun 17 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.4-2
-- Rebuild for updated dependencies.
-
-* Mon Jun 03 2024 Simone Caronni <negativo17@gmail.com> - 1:1.24.4-1
-- Update to 1.24.4.
-- Review all build options.
-
-* Sat May 04 2024 Simone Caronni <negativo17@gmail.com> - 1:1.22.12-1
-- Update to 1.22.12.
-
-* Sun Apr 28 2024 Simone Caronni <negativo17@gmail.com> - 1:1.22.11-1
-- Update to 1.22.11.
-
-* Wed Apr 03 2024 Simone Caronni <negativo17@gmail.com> - 1:1.22.9-2
-- Add neon patch.
-
-* Mon Jan 29 2024 Simone Caronni <negativo17@gmail.com> - 1:1.22.9-1
-- Update to 1.22.9.
