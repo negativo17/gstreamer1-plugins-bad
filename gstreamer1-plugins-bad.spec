@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.26.10
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -253,7 +253,7 @@ This package contains the opencv plugin
 %package        devel
 Summary:        Development files for the GStreamer media framework "bad" plug-ins
 Requires:       %{name}%{?_isa} = %{?epoch}:%{version}-%{release}
-Requires:       %{name}-fludisynth%{?_isa} = %{?epoch}:%{version}-%{release}
+Requires:       %{name}-fluidsynth%{?_isa} = %{?epoch}:%{version}-%{release}
 Requires:       %{name}-opencv%{?_isa} = %{?epoch}:%{version}-%{release}
 Requires:       gstreamer1-plugins-base-devel
 Obsoletes:      %{name}-free-devel < %{?epoch}:%{version}-%{release}
@@ -802,6 +802,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Wed Mar 11 2026 Simone Caronni <negativo17@gmail.com> - 1:1.26.10-2
+- Fix typo: https://github.com/negativo17/gstreamer1-plugins-bad/issues/8
+
 * Fri Jan 09 2026 Simone Caronni <negativo17@gmail.com> - 1:1.26.10-1
 - Update to 1.26.10.
 
