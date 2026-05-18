@@ -1,7 +1,7 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.28.2
+Version:        1.28.3
 Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
@@ -836,6 +836,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Mon May 18 2026 Simone Caronni <negativo17@gmail.com> - 1:1.28.3-1
+- Update to 1.28.3.
+
 * Mon Apr 20 2026 Simone Caronni <negativo17@gmail.com> - 1:1.28.2-1
 - Update to 1.28.2.
 
