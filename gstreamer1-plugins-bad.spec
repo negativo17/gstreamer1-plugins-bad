@@ -3,8 +3,8 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.24.11
-Release:        4%{?dist}
+Version:        1.26.7
+Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -12,7 +12,10 @@ URL:            http://gstreamer.freedesktop.org/
 
 Source0:        https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Source1:        gstreamer-bad.metainfo.xml
-Patch0:         https://src.fedoraproject.org/rpms/gstreamer1-plugins-bad-free/raw/77f6c0915a29b705eb4f0551266dbae3e3866a75/f/fix-CVE-2025-3887.patch
+
+# Add support for LCEVCdec 4. Based off:
+# https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/1b041d8114b4de8341926fe1ae62a1d64781970d
+Patch0:         %{name}-lcevcdec4.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -30,9 +33,6 @@ Provides:       %{name}-nonfree%{?_isa} = %{?epoch}:%{version}-%{release}
 Obsoletes:      %{name}-nvidia < %{?epoch}:%{version}-%{release}
 Provides:       %{name}-nvidia = %{?epoch}:%{version}-%{release}
 Provides:       %{name}-nvidia%{?_isa} = %{?epoch}:%{version}-%{release}
-Obsoletes:      %{name}-wildmidi < %{?epoch}:%{version}-%{release}
-Provides:       %{name}-wildmidi = %{?epoch}:%{version}-%{release}
-Provides:       %{name}-wildmidi%{?_isa} = %{?epoch}:%{version}-%{release}
 Obsoletes:      gstreamer1-plugin-openh264 < %{?epoch}:%{version}-%{release}
 Provides:       gstreamer1-plugin-openh264 = %{?epoch}:%{version}-%{release}
 Provides:       gstreamer1-plugin-openh264%{?_isa} = %{?epoch}:%{version}-%{release}
@@ -42,6 +42,9 @@ Provides:       gstreamer1-svt-hevc%{?_isa} = %{?epoch}:%{version}-%{release}
 Obsoletes:      %{name}-free-libs < %{?epoch}:%{version}-%{release}
 Provides:       %{name}-free-libs = %{?epoch}:%{version}-%{release}
 Provides:       %{name}-free-libs%{?_isa} = %{?epoch}:%{version}-%{release}
+Obsoletes:      gstreamer1-plugin-vaapi < %{?epoch}:%{version}-%{release}
+Provides:       gstreamer1-plugin-vaapi = %{?epoch}:%{version}-%{release}
+Provides:       gstreamer1-plugin-vaapi%{?_isa} = %{?epoch}:%{version}-%{release}
 
 BuildRequires:  gcc-c++
 BuildRequires:  meson >= 0.62
@@ -59,20 +62,18 @@ BuildRequires:  glslc
 BuildRequires:  gobject-introspection-devel >= 1.31.1
 BuildRequires:  gsm-devel
 BuildRequires:  ladspa-devel
+BuildRequires:  libatomic
 BuildRequires:  libmicrodns-devel
 #BuildRequires:  libmpcdec-devel - Old API
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  mesa-libGLU-devel
-BuildRequires:  orc-devel >= 0.4.17
 BuildRequires:  srt-devel
 BuildRequires:  vulkan-devel
 BuildRequires:  xvidcore-devel
 
-
-BuildRequires:  pkgconfig(aom)
+BuildRequires:  pkgconfig(aom) >= 3.0.2
 BuildRequires:  pkgconfig(bluez) >= 5.0
 BuildRequires:  pkgconfig(cairo)
-#BuildRequires:  pkgconfig(dssim)
 BuildRequires:  pkgconfig(dvdnav) >= 4.1.2
 BuildRequires:  pkgconfig(dvdread) >= 4.1.2
 BuildRequires:  pkgconfig(egl)
@@ -85,7 +86,6 @@ BuildRequires:  pkgconfig(glesv2)
 BuildRequires:  pkgconfig(gmodule-export-2.0)
 BuildRequires:  pkgconfig(gmodule-no-export-2.0)
 BuildRequires:  pkgconfig(gobject-introspection-1.0)
-#BuildRequires:  pkgconfig(google_cloud_cpp_storage) >= 1.25.0
 BuildRequires:  pkgconfig(gstreamer-1.0)
 BuildRequires:  pkgconfig(gstreamer-allocators-1.0)
 BuildRequires:  pkgconfig(gstreamer-app-1.0)
@@ -117,20 +117,19 @@ BuildRequires:  pkgconfig(lcms2) >= 2.7
 BuildRequires:  pkgconfig(ldacBT-enc)
 BuildRequires:  pkgconfig(libass) >= 0.10.2
 BuildRequires:  pkgconfig(libbs2b) >= 3.1.0
+BuildRequires:  pkgconfig(lcevc_dec)
 BuildRequires:  pkgconfig(libchromaprint)
 BuildRequires:  pkgconfig(libcrypto)
 BuildRequires:  pkgconfig(libcurl) >= 7.55.0
 BuildRequires:  pkgconfig(libdca)
 BuildRequires:  pkgconfig(libdc1394-2) >= 2.2.5
 BuildRequires:  pkgconfig(libde265) >= 0.9
-BuildRequires:  pkgconfig(libdrm) >= 2.4.104
+BuildRequires:  pkgconfig(libdrm) >= 2.4.108
 BuildRequires:  pkgconfig(libexif) >= 0.6.16
 BuildRequires:  pkgconfig(libfreeaptx) >= 0.1.1
 BuildRequires:  pkgconfig(libmodplug)
-#BuildRequires:  pkgconfig(libonnxruntime) >= 1.13.1
 BuildRequires:  pkgconfig(libopenjp2) >= 2.2
 BuildRequires:  pkgconfig(libopenmpt)
-#BuildRequires:  pkgconfig(libopenni2) >= 0.26
 BuildRequires:  pkgconfig(libpng) >= 1.0
 BuildRequires:  pkgconfig(libqrencode)
 BuildRequires:  pkgconfig(librsvg-2.0) >= 2.36.2
@@ -140,11 +139,12 @@ BuildRequires:  pkgconfig(libsoup-3.0)
 BuildRequires:  pkgconfig(libsrtp2) >= 2.1.0
 BuildRequires:  pkgconfig(libssh2) >= 1.4.3
 BuildRequires:  pkgconfig(libusb-1.0)
-BuildRequires:  pkgconfig(libva)
-BuildRequires:  pkgconfig(libva-drm)
-BuildRequires:  pkgconfig(libva-x11)
+BuildRequires:  pkgconfig(libva) >= 1.18
+BuildRequires:  pkgconfig(libva-drm) >= 1.18
+BuildRequires:  pkgconfig(libva-x11) >= 1.18
 BuildRequires:  pkgconfig(libwebp) >= 0.2.1
-BuildRequires:  pkgconfig(libxml-2.0) >= 2.8
+BuildRequires:  pkgconfig(libwebpmux) >= 0.2.1
+BuildRequires:  pkgconfig(libxml-2.0) >= 2.9.2
 BuildRequires:  pkgconfig(lilv-0) >= 0.22
 BuildRequires:  pkgconfig(mjpegtools) >= 2.0.0
 BuildRequires:  pkgconfig(nice) >= 0.1.20
@@ -157,16 +157,11 @@ BuildRequires:  pkgconfig(OpenEXR)
 BuildRequires:  pkgconfig(openh264) >= 1.3.0
 BuildRequires:  pkgconfig(openssl) >= 1.0.1
 BuildRequires:  pkgconfig(opus) >= 0.9.4
+BuildRequires:  pkgconfig(orc-0.4)
 BuildRequires:  pkgconfig(pango)
 BuildRequires:  pkgconfig(pangocairo) >= 1.22.0
-BuildRequires:  pkgconfig(Qt5Core)
-BuildRequires:  pkgconfig(Qt5Gui)
-BuildRequires:  pkgconfig(Qt5Quick)
-BuildRequires:  pkgconfig(Qt5WaylandClient)
-BuildRequires:  pkgconfig(Qt5X11Extras)
 BuildRequires:  pkgconfig(sbc) >= 1.0
 BuildRequires:  pkgconfig(sndfile) >= 1.0.16
-#BuildRequires:  pkgconfig(soundtouch-1.4)
 BuildRequires:  pkgconfig(spandsp) >= 0.0.6
 BuildRequires:  pkgconfig(srt) >= 1.3.0
 BuildRequires:  pkgconfig(SvtAv1Enc) >= 1.1
@@ -179,18 +174,15 @@ BuildRequires:  pkgconfig(wayland-cursor) >= 1.15
 BuildRequires:  pkgconfig(wayland-egl) >= 1.15
 BuildRequires:  pkgconfig(wayland-protocols) >= 1.15
 BuildRequires:  pkgconfig(wayland-server) >= 1.15
-#BuildRequires:  pkgconfig(webrtc-audio-coding-1)
-BuildRequires:  pkgconfig(webrtc-audio-processing-1)
-#BuildRequires:  pkgconfig(wpe-webkit-1.1) >= 2.28
-#BuildRequires:  pkgconfig(wpebackend-fdo-1.0) >= 1.8
+BuildRequires:  pkgconfig(webrtc-audio-processing-1) >= 1.0
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  pkgconfig(x265)
 BuildRequires:  pkgconfig(xcb) >= 1.10
 BuildRequires:  pkgconfig(xkbcommon) >= 0.8
 BuildRequires:  pkgconfig(xkbcommon-x11)
-BuildRequires:  pkgconfig(zbar) >= 0.9
+BuildRequires:  pkgconfig(zbar) >= 0.23.1
 BuildRequires:  pkgconfig(zvbi-0.2)
-BuildRequires:  pkgconfig(zxing)
+BuildRequires:  pkgconfig(zxing) >= 1.4.0
 
 %ifarch x86_64
 BuildRequires:  pkgconfig(libmfx) >= 1.0
@@ -222,31 +214,16 @@ not of good enough quality.
 
 This package contains the fluidsynth plugin
 
-%package        opencv
-Summary:        GStreamer "bad" opencv plugin
-Requires:       %{name}%{?_isa} = %{?epoch}:%{version}-%{release}
-Obsoletes:      %{name}-free-opencv < %{?epoch}:%{version}-%{release}
-Provides:       %{name}-free-opencv = %{?epoch}:%{version}-%{release}
-Provides:       %{name}-free-opencv%{?_isa} = %{?epoch}:%{version}-%{release}
-
-%description    opencv
-GStreamer is a streaming media framework, based on graphs of elements which
-operate on media data.
-
-This package contains plug-ins that aren't tested well enough, or the code is
-not of good enough quality.
-
-This package contains the opencv plugin
-
 %package        devel
 Summary:        Development files for the GStreamer media framework "bad" plug-ins
 Requires:       %{name}%{?_isa} = %{?epoch}:%{version}-%{release}
-Requires:       %{name}-fluidsynth%{?_isa} = %{?epoch}:%{version}-%{release}
-Requires:       %{name}-opencv%{?_isa} = %{?epoch}:%{version}-%{release}
 Requires:       gstreamer1-plugins-base-devel
 Obsoletes:      %{name}-free-devel < %{?epoch}:%{version}-%{release}
 Provides:       %{name}-free-devel = %{?epoch}:%{version}-%{release}
 Provides:       %{name}-free-devel%{?_isa} = %{?epoch}:%{version}-%{release}
+# Drop after Fedora 36:
+Provides:       gst-transcoder-devel = 1.16.0-4
+Obsoletes:      gst-transcoder-devel < 1.16.0-4
 
 %description    devel
 GStreamer is a streaming media framework, based on graphs of elements which
@@ -256,7 +233,7 @@ This package contains the development files for the plug-ins that aren't tested
 well enough, or the code is not of good enough quality.
 
 %prep
-%autosetup -p3 -n gst-plugins-bad-%{version}
+%autosetup -p1 -n gst-plugins-bad-%{version}
 
 %build
 %meson \
@@ -268,12 +245,11 @@ well enough, or the code is not of good enough quality.
   -D aja=disabled \
   -D amfcodec=disabled \
   -D analyticsoverlay=enabled \
-  -D androidmedia=enabled \
+  -D androidmedia=disabled \
   -D aom=enabled \
   -D applemedia=enabled \
   -D asfmux=enabled \
   -D asio=enabled \
-  -D asio-sdk-path=enabled \
   -D assrender=enabled \
   -D audiobuffersplit=enabled \
   -D audiofxbad=enabled \
@@ -294,6 +270,7 @@ well enough, or the code is not of good enough quality.
   -D codectimestamper=enabled \
   -D coloreffects=enabled \
   -D colormanagement=enabled \
+  -D cuda-nvmm=disabled \
   -D curl=enabled \
   -D curl-ssh2=enabled \
   -D d3d11=disabled \
@@ -362,6 +339,8 @@ well enough, or the code is not of good enough quality.
   -D ladspa=enabled \
   -D ladspa-rdf=disabled \
   -D lc3=enabled \
+  -D lcevcdecoder=enabled \
+  -D lcevcencoder=disabled \
   -D ldac=enabled \
   -D libde265=enabled \
   -D librfb=enabled \
@@ -385,6 +364,8 @@ well enough, or the code is not of good enough quality.
   -D netsim=enabled \
   -D nls=enabled \
   -D nvcodec=enabled \
+  -D nvcomp=disabled \
+  -D nvdswrapper=disabled \
   -D onnx=disabled \
   -D onvif=enabled \
   -D openal=enabled \
@@ -430,6 +411,7 @@ well enough, or the code is not of good enough quality.
   -D srtp=enabled \
   -D subenc=enabled \
   -D svtav1=enabled \
+  -D svtjpegxs=disabled \
   -D svthevcenc=disabled \
   -D switchbin=enabled \
   -D teletext=enabled \
@@ -454,12 +436,14 @@ well enough, or the code is not of good enough quality.
   -D voamrwbenc=enabled \
   -D vulkan=enabled \
   -D vulkan-video=enabled \
+  -D vulkan-windowing=x11,wayland \
   -D wasapi=disabled \
   -D wasapi2=disabled \
   -D wayland=enabled \
   -D webp=enabled \
   -D webrtc=enabled \
   -D webrtcdsp=enabled \
+  -D webview2=enabled \
   -D wic=enabled \
   -D wildmidi=disabled \
   -D win32ipc=disabled \
@@ -523,6 +507,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/libgstisoff-%{majorminor}.so.*
 %{_libdir}/libgstmpegts-%{majorminor}.so.*
 %{_libdir}/libgstmse-%{majorminor}.so.*
+%{_libdir}/libgstopencv-%{majorminor}.so.*
 %{_libdir}/libgstphotography-%{majorminor}.so.*
 %{_libdir}/libgstplayer-%{majorminor}.so.*
 %{_libdir}/libgstplay-%{majorminor}.so.*
@@ -620,6 +605,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstkms.so
 %{_libdir}/gstreamer-%{majorminor}/libgstladspa.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlc3.so
+%{_libdir}/gstreamer-%{majorminor}/libgstlcevcdecoder.so
 %{_libdir}/gstreamer-%{majorminor}/libgstldac.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlegacyrawparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlv2.so
@@ -642,6 +628,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstnvcodec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenal.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenaptx.so
+%{_libdir}/gstreamer-%{majorminor}/libgstopencv.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenexr.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenh264.so
 %{_libdir}/gstreamer-%{majorminor}/libgstopenjpeg.so
@@ -682,6 +669,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstsubenc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstswitchbin.so
 %{_libdir}/gstreamer-%{majorminor}/libgstteletext.so
+%{_libdir}/gstreamer-%{majorminor}/libgsttensordecoders.so
 %{_libdir}/gstreamer-%{majorminor}/libgsttimecode.so
 %{_libdir}/gstreamer-%{majorminor}/libgsttranscode.so
 %{_libdir}/gstreamer-%{majorminor}/libgstttmlsubs.so
@@ -709,11 +697,6 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 
 %files fluidsynth
 %{_libdir}/gstreamer-%{majorminor}/libgstfluidsynthmidi.so
-%{_libdir}/gstreamer-%{majorminor}/libgstmidi.so
-
-%files opencv
-%{_libdir}/libgstopencv-%{majorminor}.so.*
-%{_libdir}/gstreamer-%{majorminor}/libgstopencv.so
 
 %files devel
 %{_datadir}/gir-%{majorminor}/CudaGst-%{majorminor}.gir
@@ -780,6 +763,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Thu Sep 17 2026 Simone Caronni <negativo17@gmail.com> - 1:1.26.7-1
+- Rebase to 1.26.7.
+
 * Wed Mar 11 2026 Simone Caronni <negativo17@gmail.com> - 1:1.24.11-4
 - Fix typo: https://github.com/negativo17/gstreamer1-plugins-bad/issues/8
 
