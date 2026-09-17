@@ -1,7 +1,7 @@
 %global         majorminor 1.0
 
 Name:           gstreamer1-plugins-bad
-Version:        1.28.6
+Version:        1.28.7
 Release:        1%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
@@ -558,7 +558,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/libgstcodecs-%{majorminor}.so.*
 %{_libdir}/libgstcuda-%{majorminor}.so.*
 %{_libdir}/libgstdxva-%{majorminor}.so.*
-%{_libdir}/libgsthip.so.*
+%{_libdir}/libgsthip-%{majorminor}.so.*
 %{_libdir}/libgstinsertbin-%{majorminor}.so.*
 %{_libdir}/libgstisoff-%{majorminor}.so.*
 %{_libdir}/libgstmpegts-%{majorminor}.so.*
@@ -795,7 +795,7 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/libgstcodecs-%{majorminor}.so
 %{_libdir}/libgstcuda-%{majorminor}.so
 %{_libdir}/libgstdxva-%{majorminor}.so
-%{_libdir}/libgsthip.so
+%{_libdir}/libgsthip-%{majorminor}.so
 %{_libdir}/libgstinsertbin-%{majorminor}.so
 %{_libdir}/libgstisoff-%{majorminor}.so
 %{_libdir}/libgstmpegts-%{majorminor}.so
@@ -836,6 +836,9 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/pkgconfig/gstreamer-webrtc-nice-%{majorminor}.pc
 
 %changelog
+* Thu Sep 17 2026 Simone Caronni <negativo17@gmail.com> - 1:1.28.7-1
+- Update to 1.28.7.
+
 * Sun Aug 09 2026 Simone Caronni <negativo17@gmail.com> - 1:1.28.6-1
 - Update to 1.28.6.
 
