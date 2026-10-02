@@ -4,7 +4,13 @@
   <id>gstreamer-bad</id>
   <metadata_license>CC0-1.0</metadata_license>
   <name>GStreamer Multimedia Codecs - Extra</name>
-  <summary>Multimedia playback for AIFF, DVB, GSM, MIDI, MXF and Opus</summary>
+  <summary>Multimedia playback and encoding for AAC, AV1, DTS, H.264, H.265 and more</summary>
+  <project_license>LGPL-2.0-or-later AND LGPL-2.0-only</project_license>
+  <developer id="org.freedesktop.gstreamer">
+    <name>GStreamer</name>
+  </developer>
+  <!-- appstream-builder drops <developer> from the repository catalog -->
+  <developer_name>GStreamer</developer_name>
   <description>
     <p>
       This addon includes several additional codecs that are missing
@@ -13,27 +19,38 @@
       However, they might be good enough to play your media files.
     </p>
     <p>
-      These codecs can be used to encode and decode media files where the
-      format is not patent encumbered.
+      This build includes all the plugins, including codecs for formats that
+      might be patent encumbered, such as AAC, DTS, H.264 and H.265, and
+      hardware accelerated encoding and decoding through VA-API, NVIDIA
+      NVCODEC, Intel Quick Sync Video and Vulkan.
     </p>
     <p>
-      A codec decodes audio and video for for playback or editing and is also
+      A codec decodes audio and video for playback or editing and is also
       used for transmission or storage.
       Different codecs are used in video-conferencing, streaming media and
       video editing applications.
     </p>
   </description>
   <keywords>
+    <keyword>AAC</keyword>
     <keyword>AIFF</keyword>
+    <keyword>AV1</keyword>
+    <keyword>DTS</keyword>
     <keyword>DVB</keyword>
     <keyword>GSM</keyword>
+    <keyword>H.264</keyword>
+    <keyword>H.265</keyword>
+    <keyword>HEVC</keyword>
     <keyword>MIDI</keyword>
+    <keyword>MPEG-TS</keyword>
     <keyword>MXF</keyword>
-    <keyword>Opus</keyword>
+    <keyword>NVENC</keyword>
+    <keyword>VA-API</keyword>
+    <keyword>Vulkan</keyword>
+    <keyword>WebRTC</keyword>
   </keywords>
-  <url type="homepage">http://gstreamer.freedesktop.org/</url>
-  <url type="bugtracker">https://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer</url>
-  <url type="help">http://gstreamer.freedesktop.org/documentation/</url>
-  <url type="donation">http://www.gnome.org/friends/</url>
-  <update_contact><!-- upstream-contact_at_email.com --></update_contact>
+  <url type="homepage">https://gstreamer.freedesktop.org/</url>
+  <url type="bugtracker">https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues</url>
+  <url type="help">https://gstreamer.freedesktop.org/documentation/</url>
+  <update_contact>negativo17@gmail.com</update_contact>
 </component>
