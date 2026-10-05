@@ -4,7 +4,7 @@
 
 Name:           gstreamer1-plugins-bad
 Version:        1.22.12
-Release:        3%{?dist}
+Release:        4%{?dist}
 Epoch:          1
 Summary:        GStreamer streaming media framework "bad" plugins
 License:        LGPLv2+ and LGPLv2
@@ -12,6 +12,8 @@ URL:            http://gstreamer.freedesktop.org/
 
 Source0:        https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Source1:        gstreamer-bad.metainfo.xml
+# https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/ee3802cf71b386194e2a6318765e0547b37f52c8
+Patch0:         gst-plugins-bad-x265-4.1.patch
 
 # Requires Provides with and without _isa defined due to package dependencies
 Obsoletes:      %{name}-free < %{?epoch}:%{version}-%{release}
@@ -722,6 +724,10 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_metainfodir}/gstreamer-bad.metain
 %{_libdir}/gstreamer-%{majorminor}/libgstopencv.so
 
 %changelog
+* Mon Oct 05 2026 Simone Caronni <negativo17@gmail.com> - 1:1.22.12-4
+- Rebuild for updated dependencies.
+- Fix build with x265 4.1.
+
 * Mon Jan  5 2026 Lars R. Damerow <lars@pixar.com> - 1:1.22.12-1
 - Split opencv plugin into separate subpackages to reduce size of main
   package's implicit dependencies.
